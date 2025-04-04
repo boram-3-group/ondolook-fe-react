@@ -1,0 +1,36 @@
+.app {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #e7e7e7;
+
+  .web-side__banner {
+    display: none;
+    width: calc(1024px - 428px);
+    height: 100%;
+    background-color: antiquewhite;
+
+    .web-side__banner__content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+  }
+
+  .mobile-content {
+    width: 100%;
+    max-width: 428px;
+    height: 100%;
+    background-color: white;
+  }
+
+  @media screen and (min-width: 1024px) {
+    .web-side__banner {
+      display: block;
+    }
+  }
+}
