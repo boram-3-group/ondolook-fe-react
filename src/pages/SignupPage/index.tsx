@@ -1,7 +1,7 @@
 const SignupPage = () => {
   return (
     <>
-      <h>회원가입</h>
+      <h1>회원가입</h1>
     </>
   );
 };
