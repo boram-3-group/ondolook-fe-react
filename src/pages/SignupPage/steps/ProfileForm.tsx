@@ -3,13 +3,17 @@ import { Input } from '../../../components/common/Input';
 import { useForm, Controller } from 'react-hook-form';
 import { moveNextProps, ProfileFormResponse } from '../type';
 import signUpStore from '../../../store/SignupStore';
-import { SelectBox } from '../../../components/common/SelectBox';
 import { useFetchSignup } from '../fetches/useFetchSignup';
+import GenderChip from '../_components/GenderChip';
 
 const ProfileForm = ({ onNext }: moveNextProps) => {
   const { register, handleSubmit, control } = useForm<ProfileFormResponse>();
   const { username, password, setSignupForm } = signUpStore(state => state);
   const { mutate: signUp } = useFetchSignup();
+  const genderList = [
+    { label: '여성', value: 'FEMALE' },
+    { label: '남성', value: 'MALE' },
+  ];
 
   const onSubmit = (data: ProfileFormResponse) => {
     const signUpData = {
@@ -37,19 +41,21 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
         <Controller
           name="gender"
           control={control}
+          defaultValue="MALE"
           render={({ field }) => (
-            <SelectBox
-              selectItems={[
-                { label: '여성', value: 'FEMALE' },
-                { label: '남성', value: 'MALE' },
-              ]}
-              placeholder="성별 선택"
-              value={field.value}
-              onChange={field.onChange}
-            />
+            <div>
+              {genderList.map(gender => (
+                <GenderChip
+                  key={gender.value}
+                  value={gender.value}
+                  label={gender.label}
+                  isActive={field.value === gender.value}
+                  onClick={() => field.onChange(gender.value)}
+                />
+              ))}
+            </div>
           )}
         />
-        <Input type="date" placeholder="생년월일" {...register('birthDate')} />
         <Button intent="primary" size="medium" type="submit">
           회원가입
         </Button>
