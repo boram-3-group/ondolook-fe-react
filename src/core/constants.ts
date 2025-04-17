@@ -8,3 +8,5 @@ export const Categories = [
   { label: '약속/데이트', value: 'date' },
   { label: '운동/액티비티', value: 'activity' },
 ];
+
+export const steps = ['인증', '계정입력', '프로필입력', '가입완료'];

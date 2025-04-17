@@ -9,4 +9,8 @@ export type ProfileFormResponse = {
   nickname: string;
 };
 
+export type moveNextProps = {
+  onNext: () => void;
+};
+
 export type SignUpResponse = AccountFormResponse & ProfileFormResponse;

@@ -1,18 +1,16 @@
-import { Button } from '../../components/common/Button';
-import { Input } from '../../components/common/Input';
+import { Button } from '../../../components/common/Button';
+import { Input } from '../../../components/common/Input';
 import { useForm } from 'react-hook-form';
-import { AccountFormResponse } from './type';
-import { useNavigate } from 'react-router-dom';
-import signUpStore from '../../store/SignupStore';
+import { AccountFormResponse, moveNextProps } from '../type';
+import signUpStore from '../../../store/SignupStore';
 
-const AccountForm = () => {
+const AccountForm = ({ onNext }: moveNextProps) => {
   const { register, handleSubmit } = useForm<AccountFormResponse>();
-  const navigate = useNavigate();
   const setSignupForm = signUpStore(state => state.setSignupForm);
 
   const onSubmit = (data: AccountFormResponse) => {
     setSignupForm(data);
-    navigate('/signup/profileform');
+    onNext();
   };
 
   return (

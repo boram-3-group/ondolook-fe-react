@@ -1,15 +1,13 @@
-import { Button } from '../../components/common/Button';
-import { Input } from '../../components/common/Input';
+import { Button } from '../../../components/common/Button';
+import { Input } from '../../../components/common/Input';
 import { useForm, Controller } from 'react-hook-form';
-import { ProfileFormResponse } from './type';
-import signUpStore from '../../store/SignupStore';
-import { useNavigate } from 'react-router-dom';
-import { SelectBox } from '../../components/common/SelectBox';
-import { useFetchSignup } from './fetches/useFetchSignup';
+import { moveNextProps, ProfileFormResponse } from '../type';
+import signUpStore from '../../../store/SignupStore';
+import { SelectBox } from '../../../components/common/SelectBox';
+import { useFetchSignup } from '../fetches/useFetchSignup';
 
-const ProfileForm = () => {
+const ProfileForm = ({ onNext }: moveNextProps) => {
   const { register, handleSubmit, control } = useForm<ProfileFormResponse>();
-  const navigate = useNavigate();
   const { username, password, setSignupForm } = signUpStore(state => state);
   const { mutate: signUp } = useFetchSignup();
 
@@ -20,10 +18,11 @@ const ProfileForm = () => {
       ...data,
     };
 
+    console.log('회원가입data', signUpData);
     signUp(signUpData, {
       onSuccess: () => {
         setSignupForm(data);
-        navigate('/signup/welcome');
+        onNext();
       },
       onError: error => {
         console.error('회원가입 실패:', error);
