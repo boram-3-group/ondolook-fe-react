@@ -26,6 +26,19 @@ function App() {
     });
   }
 
+  const checkNotificationPermission = async () => {
+    if (Notification.permission === 'granted') {
+      console.log('✅ 알림 권한 있음');
+      alert('알림 권한 있음');
+    } else if (Notification.permission === 'denied') {
+      console.log('❌ 알림 권한 거부됨');
+    } else {
+      console.log('ℹ️ 권한 미요청 상태, 요청 시도...');
+      const permission = await Notification.requestPermission();
+      console.log('사용자 선택 결과:', permission);
+    }
+  };
+
   async function initGeolocation() {
     try {
       const coords = (await requestGeolocationPermission()) as GeolocationCoordinates;
@@ -35,7 +48,7 @@ function App() {
     }
   }
 
-  initGeolocation();
+  checkNotificationPermission();
   return (
     <QueryClientProvider client={queryClient}>
       <div className="app">
