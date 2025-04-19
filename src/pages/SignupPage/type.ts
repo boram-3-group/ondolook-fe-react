@@ -1,12 +1,25 @@
 export type AccountFormResponse = {
   username: string;
   password: string;
+  confirmPassword: string;
 };
 
-export type ProfileFormResponse = {
+export type ProfileFormFields = {
   gender: 'MALE' | 'FEMALE' | '';
-  birthDate: Date | null;
+  birthYear: string;
+  birthMonth: string;
+  birthDay: string;
   nickname: string;
 };
 
-export type SignUpResponse = AccountFormResponse & ProfileFormResponse;
+export type ProfileFormResponse = {
+  nickname: string;
+  gender: 'MALE' | 'FEMALE' | '';
+  birthDate: Date;
+};
+
+export type moveNextProps = {
+  onNext: () => void;
+};
+
+export type SignUpData = Omit<AccountFormResponse, 'confirmPassword'> & ProfileFormResponse;
