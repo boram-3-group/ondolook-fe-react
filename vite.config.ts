@@ -8,9 +8,9 @@ export default defineConfig({
     VitePWA({
       registerType: 'prompt', // 서비스 워커 자동 갱신
       includeAssets: ['favicon.svg', 'robots.txt', 'apple-touch-icon.png'],
-      devOptions: {
-        enabled: true, // ✅ dev 서버에서도 PWA 작동하도록 설정
-      },
+      // devOptions: {
+      //   enabled: true, // ✅ dev 서버에서도 PWA 작동하도록 설정
+      // },
       manifest: {
         name: 'Ondolook',
         short_name: 'Ondolook',
