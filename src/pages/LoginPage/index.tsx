@@ -8,8 +8,8 @@ const LoginPage = () => {
 
   const { register, handleSubmit } = useForm();
 
-  const onSubmit = data => {
-    console.log('로그인', data);
+  const onSubmit = () => {
+    console.log('로그인');
   };
 
   return (
