@@ -7,6 +7,7 @@ import { useFetchSignup } from '../fetches/useFetchSignup';
 import GenderChip from '../_components/GenderChip';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { FormLayout } from '../_components/FormLayout';
 
 const ProfileForm = ({ onNext }: moveNextProps) => {
   const schema = z.object({
@@ -71,38 +72,40 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <Input type="text" placeholder="닉네임" {...register('nickname')} />
-          {errors.nickname && <p>{errors.nickname.message}</p>}
-        </div>
-        <Controller
-          name="gender"
-          control={control}
-          defaultValue="MALE"
-          render={({ field }) => (
-            <div>
-              {genderList.map(gender => (
-                <GenderChip
-                  key={gender.value}
-                  value={gender.value}
-                  label={gender.label}
-                  isActive={field.value === gender.value}
-                  onClick={() => field.onChange(gender.value)}
-                />
-              ))}
-            </div>
-          )}
-        />
-        <div>
-          <Input type="text" placeholder="YYYY" {...register('birthYear')}></Input>
-          <Input type="text" placeholder="MM" {...register('birthMonth')}></Input>
-          <Input type="text" placeholder="DD" {...register('birthDay')}></Input>
-        </div>
-        <Button intent="primary" size="medium" type="submit">
-          회원가입
-        </Button>
-      </form>
+      <FormLayout title={`나머지도 정보도 \n입력해주세요`}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div>
+            <Input type="text" placeholder="닉네임" {...register('nickname')} />
+            {errors.nickname && <p>{errors.nickname.message}</p>}
+          </div>
+          <Controller
+            name="gender"
+            control={control}
+            defaultValue="MALE"
+            render={({ field }) => (
+              <div>
+                {genderList.map(gender => (
+                  <GenderChip
+                    key={gender.value}
+                    value={gender.value}
+                    label={gender.label}
+                    isActive={field.value === gender.value}
+                    onClick={() => field.onChange(gender.value)}
+                  />
+                ))}
+              </div>
+            )}
+          />
+          <div>
+            <Input type="text" placeholder="YYYY" {...register('birthYear')}></Input>
+            <Input type="text" placeholder="MM" {...register('birthMonth')}></Input>
+            <Input type="text" placeholder="DD" {...register('birthDay')}></Input>
+          </div>
+          <Button intent="primary" size="medium" type="submit">
+            회원가입
+          </Button>
+        </form>
+      </FormLayout>
     </>
   );
 };

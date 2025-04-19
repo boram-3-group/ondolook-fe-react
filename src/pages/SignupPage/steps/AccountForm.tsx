@@ -5,6 +5,7 @@ import { AccountFormResponse, moveNextProps } from '../type';
 import signUpStore from '../../../store/SignupStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { FormLayout } from '../_components/FormLayout';
 
 const AccountForm = ({ onNext }: moveNextProps) => {
   const schema = z
@@ -49,23 +50,25 @@ const AccountForm = ({ onNext }: moveNextProps) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <Input type="text" placeholder="아이디" {...register('username')} />
-          {errors.username && <p>{errors.username.message}</p>}
-        </div>
-        <div>
-          <Input type="password" placeholder="비밀번호" {...register('password')} />
-          {errors.password && <p>{errors.password.message}</p>}
-        </div>
-        <div>
-          <Input type="password" placeholder="비밀번호 확인" {...register('confirmPassword')} />
-          {errors.confirmPassword && <p>{errors.confirmPassword.message}</p>}
-        </div>
-        <Button intent="primary" size="medium" type="submit">
-          다음
-        </Button>
-      </form>
+      <FormLayout title={`아이디와 비밀번호를 \n입력해주세요`}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div>
+            <Input type="text" placeholder="아이디" {...register('username')} />
+            {errors.username && <p>{errors.username.message}</p>}
+          </div>
+          <div>
+            <Input type="password" placeholder="비밀번호" {...register('password')} />
+            {errors.password && <p>{errors.password.message}</p>}
+          </div>
+          <div>
+            <Input type="password" placeholder="비밀번호 확인" {...register('confirmPassword')} />
+            {errors.confirmPassword && <p>{errors.confirmPassword.message}</p>}
+          </div>
+          <Button intent="primary" size="medium" type="submit">
+            다음
+          </Button>
+        </form>
+      </FormLayout>
     </>
   );
 };
