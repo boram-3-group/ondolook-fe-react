@@ -6,13 +6,13 @@ const button = cva(
   {
     variants: {
       intent: {
-        primary: 'bg-black text-white hover:bg-gray-900',
+        primary: 'bg-primary-40 text-white text-Body1',
         secondary: 'bg-gray-500 text-white hover:bg-gray-600',
         link: 'text-primary underline hover:text-primary/80 p-0 h-auto',
       },
       size: {
-        small: 'text-sm py-1 px-2',
-        medium: 'text-base py-2 px-4',
+        small: 'py-1 px-2',
+        medium: 'py-2 px-4',
       },
     },
     defaultVariants: {
