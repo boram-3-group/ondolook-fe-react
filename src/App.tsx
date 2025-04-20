@@ -2,7 +2,7 @@
 import './App.scss';
 import { Routes } from './pages/Routes';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { AppSplash } from './components/common/AppSplash';
+import { AppSplash } from './components/AppSplash';
 
 function App() {
   const queryClient = new QueryClient();
@@ -59,7 +59,9 @@ function App() {
           </div>
         </div>
         <div className="mobile-content">
-          <Routes />
+          <AppSplash duration={2000}>
+            <Routes />
+          </AppSplash>
         </div>
       </div>
     </QueryClientProvider>

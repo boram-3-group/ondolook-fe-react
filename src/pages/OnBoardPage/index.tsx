@@ -14,15 +14,21 @@ export const OnBoardPage = () => {
   }));
 
   return (
-    <div className="w-full max-w-xl mx-auto ">
+    <div className="w-full max-w-xl mx-auto py-14">
       <Carousel
         slides={images.map(item => (
-          <div className="relative w-full h-full">
-            {item.message}
+          <div className="relative w-full h-full justify-center flex flex-col items-center">
+            <p
+              className="text-[24px] font-bold leading-[150%] text-center
+                w-[159px]
+            "
+            >
+              {item.message}
+            </p>
             <img
               src={item.src}
               alt={item.alt}
-              className="w-full h-[310px] my-5"
+              className="w-full h-[310px] mt-5 pb-10 object-contain"
               draggable={false}
             />
           </div>
