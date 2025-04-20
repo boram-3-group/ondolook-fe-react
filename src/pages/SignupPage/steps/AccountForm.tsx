@@ -5,7 +5,7 @@ import { AccountFormResponse, moveNextProps } from '../type';
 import signUpStore from '../../../store/SignupStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { FormLayout } from '../_components/FormLayout';
+import { FormLayout } from '../../../components/common/FormLayout';
 
 const AccountForm = ({ onNext }: moveNextProps) => {
   const schema = z
@@ -36,9 +36,12 @@ const AccountForm = ({ onNext }: moveNextProps) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
+    watch,
   } = useForm<AccountFormResponse>({
     resolver: zodResolver(schema),
+    mode: 'onChange',
+    reValidateMode: 'onChange',
   });
   const setSignupForm = signUpStore(state => state.setSignupForm);
 
@@ -50,19 +53,54 @@ const AccountForm = ({ onNext }: moveNextProps) => {
 
   return (
     <>
-      <FormLayout title={`아이디와 비밀번호를 \n입력해주세요`}>
+      <FormLayout title={`아이디와 비밀번호를 \n 입력해주세요`}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div>
-            <Input type="text" placeholder="아이디" {...register('username')} />
-            {errors.username && <p>{errors.username.message}</p>}
+            <div className="">
+              <label className="text-Body2">아이디</label>
+            </div>
+            <Input
+              type="text"
+              placeholder="영문 대소문자와 숫자를 포함한 6~12자"
+              {...register('username')}
+            />
+            {errors.username ? (
+              <p className="text-Detail text-danger-50">{errors.username.message}</p>
+            ) : (
+              watch('username') && (
+                <p className="text-Detail text-primary-40">사용 가능한 아이디입니다.</p>
+              )
+            )}
           </div>
           <div>
-            <Input type="password" placeholder="비밀번호" {...register('password')} />
-            {errors.password && <p>{errors.password.message}</p>}
+            <div className="">
+              <label className="text-Body2">비밀번호</label>
+            </div>
+            <Input type="password" placeholder="영문, 숫자 포함 8~16자" {...register('password')} />
+            {errors.password ? (
+              <p className="text-Detail text-danger-50">{errors.password.message}</p>
+            ) : (
+              watch('password') && (
+                <p className="text-Detail text-primary-40">사용 가능한 비밀번호입니다.</p>
+              )
+            )}
           </div>
           <div>
-            <Input type="password" placeholder="비밀번호 확인" {...register('confirmPassword')} />
-            {errors.confirmPassword && <p>{errors.confirmPassword.message}</p>}
+            <div className="">
+              <label className="text-Body2">비밀번호 확인</label>
+            </div>
+            <Input
+              type="password"
+              placeholder="비밀번호를 한번 더 입력해 주세요"
+              {...register('confirmPassword')}
+            />
+            {errors.confirmPassword ? (
+              <p className="text-Detail text-danger-50">{errors.confirmPassword.message}</p>
+            ) : (
+              watch('confirmPassword') && (
+                <p className="text-Detail text-primary-40">비밀번호가 일치합니다.</p>
+              )
+            )}
           </div>
           <Button intent="primary" size="medium" type="submit">
             다음
