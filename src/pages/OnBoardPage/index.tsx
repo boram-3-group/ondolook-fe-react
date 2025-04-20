@@ -19,7 +19,7 @@ export const OnBoardPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full max-w-xl mx-auto py-14">
+    <div className="w-full max-w-xl mx-auto pt-14">
       <Carousel
         slides={images.map(item => (
           <div className="relative w-full h-full justify-center flex flex-col items-center mb-8">
