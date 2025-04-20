@@ -17,7 +17,7 @@ const messaging = getMessaging(app);
 export const requestPermissionAndGetToken = async () => {
   const status = await Notification.requestPermission();
   if (status !== 'granted') {
-    alert('푸시 권한이 거부됨');
+    // alert('푸시 권한이 거부됨');
     return;
   }
 

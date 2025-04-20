@@ -5,11 +5,10 @@ import { useForm } from 'react-hook-form';
 
 const LoginPage = () => {
   const navigate = useNavigate();
-
   const { register, handleSubmit } = useForm();
 
-  const onSubmit = () => {
-    console.log('로그인');
+  const onSubmit = (data: unknown) => {
+    console.log('로그인', data);
   };
 
   return (

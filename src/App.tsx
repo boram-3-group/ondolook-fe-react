@@ -2,6 +2,7 @@
 import './App.scss';
 import { Routes } from './pages/Routes';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { AppSplash } from './components/AppSplash';
 
 function App() {
   const queryClient = new QueryClient();
@@ -29,7 +30,7 @@ function App() {
   const checkNotificationPermission = async () => {
     if (Notification.permission === 'granted') {
       console.log('✅ 알림 권한 있음');
-      alert('알림 권한 있음');
+      // alert('알림 권한 있음');
     } else if (Notification.permission === 'denied') {
       console.log('❌ 알림 권한 거부됨');
     } else {
@@ -58,7 +59,9 @@ function App() {
           </div>
         </div>
         <div className="mobile-content">
-          <Routes />
+          <AppSplash duration={2000}>
+            <Routes />
+          </AppSplash>
         </div>
       </div>
     </QueryClientProvider>

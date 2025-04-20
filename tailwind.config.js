@@ -69,6 +69,9 @@ export default {
           50: '#0074E5',
           60: '#0056AA',
         },
+        fontFamily: {
+          sans: ['"Pretendard Variable"', 'sans-serif'],
+        },
       },
     },
   },
