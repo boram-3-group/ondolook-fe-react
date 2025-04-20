@@ -1,6 +1,8 @@
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 import { HomePage } from './HomePage';
 import { DefaultLayout } from './Layouts/DefaultLayout';
+import { EmptyLayout } from './Layouts/EmptyLayout';
+import { OnBoardPage } from './OnBoardPage';
 import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
 const router = createBrowserRouter([
@@ -11,8 +13,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/login',
-    element: <DefaultLayout />,
-    children: [{ path: '', element: <LoginPage /> }],
+    element: <EmptyLayout />,
+    children: [
+      { path: '', element: <OnBoardPage /> },
+      { path: 'form', element: <LoginPage /> },
+    ],
   },
   {
     path: '/signup',
@@ -21,7 +26,7 @@ const router = createBrowserRouter([
   },
   {
     path: '*',
-    element: <Navigate to="/home" replace={true} />,
+    element: <Navigate to="/login" replace={true} />,
   },
 ]);
 
