@@ -14,7 +14,7 @@ export const CheckBox = ({ checked, onChange, label, link }: CheckBoxProps) => {
         <input type="checkbox" checked={checked} onChange={onChange}></input>
         <p>{label}</p>
         {link ? (
-          <Button intent="link" size="medium" type="submit">
+          <Button className="text-grayScale-50" intent="link" size="medium">
             내용보기
           </Button>
         ) : (
