@@ -10,6 +10,7 @@ const button = cva(
         secondary: 'bg-gray-500 text-white hover:bg-gray-600',
         outline: 'bg-white text-gray-500 border border-gray-300 hover:bg-gray-100',
         link: 'text-primary underline hover:text-primary/80 p-0 h-auto',
+        navigation: 'text-Detail',
       },
       size: {
         large: 'px-4 text-sm',
