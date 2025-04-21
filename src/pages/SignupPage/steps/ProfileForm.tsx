@@ -72,50 +72,55 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
 
   return (
     <>
-      <FormLayout title={`나머지 정보도 \n입력해주세요`}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <div className="">
-              <label className="text-Body2">닉네임</label>
+      <FormLayout title={`나머지 정보도 \n입력해주세요.`}>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-[10px]">
+          <div className="flex flex-col gap-2">
+            <div>
+              <div className="">
+                <label className="text-Body2">닉네임</label>
+              </div>
+              <Input type="text" placeholder="닉네임" {...register('nickname')} />
+              {errors.nickname && (
+                <p className="text-Detail text-danger-50">{errors.nickname.message}</p>
+              )}
             </div>
-            <Input type="text" placeholder="닉네임" {...register('nickname')} />
-            {errors.nickname && (
-              <p className="text-Detail text-danger-50">{errors.nickname.message}</p>
-            )}
           </div>
-          <div>
-            <div className="">
+          <div className="flex flex-col gap-2">
+            <div className="mt-[46px]">
               <label className="text-Body2">생년월일</label>
             </div>
-            <div className="flex">
-              <Input type="text" placeholder="YYYY" {...register('birthYear')}></Input>
-              <Input type="text" placeholder="MM" {...register('birthMonth')}></Input>
-              <Input type="text" placeholder="DD" {...register('birthDay')}></Input>
+            <div className="flex gap-2">
+              <Input type="text" placeholder="YYYY" className="w-2/4" {...register('birthYear')} />
+              <Input type="text" placeholder="MM" className="w-1/4" {...register('birthMonth')} />
+              <Input type="text" placeholder="DD" className="w-1/4" {...register('birthDay')} />
             </div>
           </div>
-          <Controller
-            name="gender"
-            control={control}
-            defaultValue="MALE"
-            render={({ field }) => (
-              <div>
-                <div className="">
-                  <label className="text-Body2">성별</label>
-                </div>
+          <div className="flex flex-col gap-2">
+            <Controller
+              name="gender"
+              control={control}
+              defaultValue="MALE"
+              render={({ field }) => (
                 <div>
-                  {genderList.map(gender => (
-                    <GenderChip
-                      key={gender.value}
-                      value={gender.value}
-                      label={gender.label}
-                      isActive={field.value === gender.value}
-                      onClick={() => field.onChange(gender.value)}
-                    />
-                  ))}
+                  <div className="mt-[46px]">
+                    <label className="text-Body2">성별</label>
+                  </div>
+                  <div className="flex gap-2">
+                    {genderList.map(gender => (
+                      <GenderChip
+                        key={gender.value}
+                        value={gender.value}
+                        label={gender.label}
+                        isActive={field.value === gender.value}
+                        onClick={() => field.onChange(gender.value)}
+                        className="w-1/2"
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
-          />
+              )}
+            />
+          </div>
           <Button intent="primary" size="medium" type="submit">
             다음
           </Button>

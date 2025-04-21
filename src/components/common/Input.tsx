@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 
-const inputClassName = cva('rounded-md bg-grayScale-5 placeholder:text-Body2', {
+const inputClassName = cva('w-full rounded-md bg-grayScale-5 placeholder:text-Body2', {
   variants: {
     inputHeight: {
       small: 'h-[40px]',
