@@ -34,15 +34,15 @@ const LoginPage = () => {
         </form>
 
         <div className="mt-8 flex justify-center items-center text-grayScale-60">
-          <Button intent="link" onClick={() => navigate('/find-id')}>
+          <Button intent="navigation" onClick={() => navigate('/find-id')}>
             아이디 찾기
           </Button>
           <img src="/Rectangle.png" alt="" className="w-[1px] h-[10px] bg-grayScale-40" />
-          <Button intent="link" onClick={() => navigate('/find-password')}>
+          <Button intent="navigation" onClick={() => navigate('/find-password')}>
             비밀번호 찾기
           </Button>
           <img src="/Rectangle.png" alt="" className="w-[1px] h-[10px] bg-grayScale-40" />
-          <Button intent="link" onClick={() => navigate('/signup')}>
+          <Button intent="navigation" onClick={() => navigate('/signup')}>
             회원가입
           </Button>
         </div>
