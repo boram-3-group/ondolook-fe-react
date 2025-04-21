@@ -66,6 +66,7 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
       },
       onError: error => {
         console.error('회원가입 실패:', error);
+        onNext();
       },
     });
   };
