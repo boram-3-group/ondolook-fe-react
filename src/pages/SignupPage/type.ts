@@ -15,11 +15,11 @@ export type ProfileFormFields = {
 export type ProfileFormResponse = {
   nickname: string;
   gender: 'MALE' | 'FEMALE' | '';
-  birthDate: Date;
+  birthDate: Date | null;
 };
 
 export type moveNextProps = {
   onNext: () => void;
 };
 
-export type SignUpData = Omit<AccountFormResponse, 'confirmPassword'> & ProfileFormResponse;
+export type SignUpResponse = Omit<AccountFormResponse, 'confirmPassword'> & ProfileFormResponse;
