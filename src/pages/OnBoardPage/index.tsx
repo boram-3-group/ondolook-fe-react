@@ -1,8 +1,7 @@
 import React from 'react';
 import Carousel from '../../components/common/Carousel';
 import { Button } from '../../components/common/Button';
-import KakaoIcon from '../../assets/icons/icon-kakao-logo.svg';
-import GoogleIcon from '../../assets/icons/icon-google-logo.svg';
+import { Icon } from '../../components/common/Icon';
 import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '../../store/useUserStore';
 export const OnBoardPage = () => {
@@ -61,13 +60,13 @@ export const OnBoardPage = () => {
           onClick={() => oauthRedirect('kakao')}
           className="w-[52px] h-[52px] rounded-full flex items-center justify-center"
         >
-          <img src={KakaoIcon} alt="카카오 로그인" />
+          <Icon name="icon-kakao-logo" width={52} height={52} alt="카카오 로그인" />
         </button>
         <button
           onClick={() => oauthRedirect('google')}
           className="w-[52px] h-[52px] rounded-full flex items-center justify-center"
         >
-          <img src={GoogleIcon} alt="구글 로그인" />
+          <Icon name="icon-google-logo" width={52} height={52} alt="구글 로그인" />
         </button>
       </div>
       <div className="mt-5 text-center text-sm">

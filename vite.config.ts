@@ -1,10 +1,14 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
+import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
   plugins: [
     react(),
+    svgr({
+      include: '**/*.svg',
+    }),
     VitePWA({
       registerType: 'prompt', // 서비스 워커 자동 갱신
       includeAssets: ['favicon.svg', 'robots.txt', 'apple-touch-icon.png'],
