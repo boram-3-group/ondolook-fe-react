@@ -3,8 +3,11 @@ import { HomePage } from './HomePage';
 import { DefaultLayout } from './Layouts/DefaultLayout';
 import { EmptyLayout } from './Layouts/EmptyLayout';
 import { OnBoardPage } from './OnBoardPage';
+import { OauthCallbackPage } from './OnBoardPage/OauthCallbackPage';
+
 import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
+
 const router = createBrowserRouter([
   {
     path: '/home',
@@ -17,6 +20,7 @@ const router = createBrowserRouter([
     children: [
       { path: '', element: <OnBoardPage /> },
       { path: 'form', element: <LoginPage /> },
+      { path: 'oauth-callback', element: <OauthCallbackPage /> },
     ],
   },
   {

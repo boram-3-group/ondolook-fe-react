@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import CategoryChip from './_components/CategoryChip';
-import { useFetchWeather } from './fetches/useFetchWeather';
 import Nav from '../../components/Layout/Nav';
 import { Categories } from '../../core/constants';
 
 // interface HomePageProps {}
 
 export function HomePage() {
-  const { data, isLoading } = useFetchWeather({ format: 'j1' });
   const [selectCategory, setSelectCategory] = useState('daily');
 
   const onSelectChip = (Category: string) => {
@@ -30,8 +28,6 @@ export function HomePage() {
       <div>
         <Nav></Nav>
       </div>
-      <div>{JSON.stringify(isLoading)}</div>
-      <div> {JSON.stringify(data)}</div>
     </>
   );
 }

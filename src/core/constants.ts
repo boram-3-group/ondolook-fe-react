@@ -1,5 +1,5 @@
 export const serviceUrl = {
-  base_url: 'https://wttr.in',
+  base_url: import.meta.env.VITE_APP_API_BASE_URL,
 };
 
 export const Categories = [

@@ -35,7 +35,7 @@ export default defineConfig({
   ],
   server: {
     host: '0.0.0.0', // 외부 접속 허용
-    port: 5173,
+    port: 3000,
     allowedHosts: ['.trycloudflare.com', ''], // Cloudflare Tunnel을 통한 접속 허용
   },
 });

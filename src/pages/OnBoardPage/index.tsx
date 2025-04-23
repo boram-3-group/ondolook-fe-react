@@ -4,8 +4,9 @@ import { Button } from '../../components/common/Button';
 import KakaoIcon from '../../assets/icons/icon-kakao-logo.svg';
 import GoogleIcon from '../../assets/icons/icon-google-logo.svg';
 import { useNavigate } from 'react-router-dom';
-
+import { useUserStore } from '../../store/useUserStore';
 export const OnBoardPage = () => {
+  const { oauthRedirect } = useUserStore();
   const images = [
     '날씨에 맞는 코디를 추천해요!',
     '일정에 맞게 코디를 알려드려요!',
@@ -23,11 +24,7 @@ export const OnBoardPage = () => {
       <Carousel
         slides={images.map(item => (
           <div className="relative w-full h-full justify-center flex flex-col items-center mb-8">
-            <p
-              className="text-[24px] font-bold leading-[150%] text-center
-                w-[159px]
-            "
-            >
+            <p className="text-[24px] font-bold leading-[150%] text-center break-words w-[179px]">
               {item.message}
             </p>
             <img
@@ -60,10 +57,16 @@ export const OnBoardPage = () => {
         <div className="flex-grow h-px bg-gray-200" />
       </div>
       <div className="flex justify-center items-center gap-[28px]">
-        <button className="w-[52px] h-[52px] rounded-full flex items-center justify-center">
+        <button
+          onClick={() => oauthRedirect('kakao')}
+          className="w-[52px] h-[52px] rounded-full flex items-center justify-center"
+        >
           <img src={KakaoIcon} alt="카카오 로그인" />
         </button>
-        <button className="w-[52px] h-[52px] rounded-full flex items-center justify-center">
+        <button
+          onClick={() => oauthRedirect('google')}
+          className="w-[52px] h-[52px] rounded-full flex items-center justify-center"
+        >
           <img src={GoogleIcon} alt="구글 로그인" />
         </button>
       </div>
