@@ -1,9 +1,9 @@
 import { Button } from '../../../components/common/Button';
-import signUpStore from '../../../store/SignupStore';
 import { useNavigate } from 'react-router-dom';
+import { useUserStore } from '../../../store/useUserStore';
 
 const SignupSuccess = () => {
-  const { username } = signUpStore(state => state);
+  const username = useUserStore(state => state.user?.name);
 
   const navigate = useNavigate();
   const handlemovetoLogin = () => {

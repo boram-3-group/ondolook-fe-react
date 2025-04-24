@@ -21,3 +21,12 @@ export const signup = async ({
     throw new Error('회원가입에 실패했습니다.');
   }
 };
+
+export const checkDuplicateUsername = async (username: string | undefined) => {
+  try {
+    const res = await api.service.get(`/api/v1/user/username/${username}`);
+    return res && res.data;
+  } catch (error) {
+    throw new Error('username 중복조회 실패');
+  }
+};

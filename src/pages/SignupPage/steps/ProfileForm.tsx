@@ -2,12 +2,12 @@ import { Button } from '../../../components/common/Button';
 import { Input } from '../../../components/common/Input';
 import { useForm, Controller } from 'react-hook-form';
 import { moveNextProps, ProfileFormFields, ProfileFormResponse } from '../type';
-import signUpStore from '../../../store/SignupStore';
 import { useFetchSignup } from '../fetches/useFetchSignup';
 import GenderChip from '../_components/GenderChip';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { FormLayout } from '../../../components/common/FormLayout';
+import { useUserStore } from '../../../store/useUserStore';
 
 const ProfileForm = ({ onNext }: moveNextProps) => {
   const schema = z.object({
@@ -34,8 +34,13 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
   } = useForm<ProfileFormFields>({
     resolver: zodResolver(schema),
   });
-  const { username, password, setSignupForm } = signUpStore(state => state);
+
+  const username = useUserStore(state => state.user?.username);
+  const password = useUserStore(state => state.user?.password);
+  const setSignupForm = useUserStore(state => state.setSignupForm);
+
   const { mutate: signUp } = useFetchSignup();
+
   const genderList = [
     { label: '여성', value: 'FEMALE' },
     { label: '남성', value: 'MALE' },
@@ -53,12 +58,11 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
     };
 
     const signUpData = {
-      username,
-      password,
+      username: username || '',
+      password: password || '',
       ...profileData,
     };
 
-    console.log('회원가입data', signUpData);
     signUp(signUpData, {
       onSuccess: () => {
         setSignupForm(data);
