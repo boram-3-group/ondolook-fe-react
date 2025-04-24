@@ -12,6 +12,7 @@ import edit from '../../assets/icons/edit.svg';
 import icon_google_logo from '../../assets/icons/icon-google-logo.svg';
 import icon_kakao_logo from '../../assets/icons/icon-kakao-logo.svg';
 import settings from '../../assets/icons/settings.svg';
+import location from '../../assets/icons/location.svg';
 
 import bit_cloudy_lightning from '../../assets/icons/bit-cloudy-lightning.png';
 import bit_cloudy_moon from '../../assets/icons/bit-cloudy-moon.png';
@@ -46,6 +47,7 @@ type IconName =
   | 'icon-google-logo'
   | 'icon-kakao-logo'
   | 'settings'
+  | 'location'
   | 'bit-cloudy-lightning'
   | 'bit-cloudy-moon'
   | 'bit-cloudy-sun'
@@ -79,6 +81,7 @@ const iconMap: Record<IconName, any> = {
   'icon-google-logo': icon_google_logo,
   'icon-kakao-logo': icon_kakao_logo,
   settings: settings,
+  location: location,
   'bit-cloudy-lightning': bit_cloudy_lightning,
   'bit-cloudy-moon': bit_cloudy_moon,
   'bit-cloudy-sun': bit_cloudy_sun,
