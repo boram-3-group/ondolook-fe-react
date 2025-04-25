@@ -12,7 +12,7 @@ import SignupPage from './SignupPage';
 const router = createBrowserRouter([
   {
     path: '/home',
-    element: <DefaultLayout />,
+    element: <HomePage />,
     children: [{ path: '', element: <HomePage /> }],
   },
   {

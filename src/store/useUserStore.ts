@@ -2,12 +2,14 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { api } from '../core/axios';
 import { getUserDeviceId } from '../core/helper';
+import { SignUpResponse } from '../pages/SignupPage/type';
 
 interface User {
   userId: string;
-  name: string;
+  username: string;
+  password: string;
   gender: string;
-  birthYear: string;
+  birthDate: string;
   loginType: string;
 }
 
@@ -20,6 +22,7 @@ interface UserStore {
   logout: () => Promise<void>;
   oauthRedirect: (provider: 'kakao' | 'google') => void;
   loginWithSocial: (payload: { device: 'kakao' | 'google' }) => Promise<void>;
+  setSignupForm: (data: Partial<SignUpResponse>) => void;
 }
 
 export const useUserStore = create<UserStore>()(
@@ -41,6 +44,14 @@ export const useUserStore = create<UserStore>()(
           console.error('로그아웃 실패:', err);
         }
       },
+
+      setSignupForm: data =>
+        set(state => ({
+          user: {
+            ...state.user,
+            ...data,
+          } as User,
+        })),
 
       oauthRedirect: provider => {
         const deviceId = getUserDeviceId();

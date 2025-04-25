@@ -1,17 +1,25 @@
 import { api } from '../../core/axios';
+import {
+  RegionPayload,
+  RegionResponse,
+  OutfitPayload,
+  OutfitResponse,
+  CategoryResponse,
+} from './type';
 
-export interface WeatherPayload {
-  format: string;
-}
+export const getRegion = async ({ lat, lon }: RegionPayload) => {
+  const res = await api.service.get<RegionResponse>(`/api/v1/region?lat=${lat}&lon=${lon}`);
+  return res && res.data;
+};
 
-export interface WeatherResponse {
-  current_condition: unknown[];
-  nearest_area: unknown[];
-  request: unknown[];
-  weather: unknown[];
-}
+export const getOutfit = async ({ lat, lon, eventType, gender }: OutfitPayload) => {
+  const res = await api.service.get<OutfitResponse>(
+    `/api/v1/outfit?longitude=${lon}&latitude=${lat}&event-type-id=${eventType}&gender=${gender}`
+  );
+  return res && res.data;
+};
 
-export const getWeather = async ({ format }: WeatherPayload) => {
-  const res = await api.service.get<WeatherResponse>('/Seoul', { format });
+export const getCategory = async () => {
+  const res = await api.service.get<CategoryResponse>(`/api/v1/outfit-condition/event-types`);
   return res && res.data;
 };

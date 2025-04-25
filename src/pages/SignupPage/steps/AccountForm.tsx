@@ -2,10 +2,11 @@ import { Button } from '../../../components/common/Button';
 import { Input } from '../../../components/common/Input';
 import { useForm } from 'react-hook-form';
 import { AccountFormResponse, moveNextProps } from '../type';
-import signUpStore from '../../../store/SignupStore';
+import { useUserStore } from '../../../store/useUserStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { FormLayout } from '../../../components/common/FormLayout';
+import { useCheckDuplicateUsername } from '../fetches/useCheckDuplicateUsername';
 
 const AccountForm = ({ onNext }: moveNextProps) => {
   const schema = z
@@ -43,10 +44,19 @@ const AccountForm = ({ onNext }: moveNextProps) => {
     mode: 'onChange',
     reValidateMode: 'onChange',
   });
-  const setSignupForm = signUpStore(state => state.setSignupForm);
+  const setSignupForm = useUserStore(state => state.setSignupForm);
 
-  const onSubmit = (data: AccountFormResponse) => {
+  const username = watch('username');
+  const { data: isDuplicate, isLoading } = useCheckDuplicateUsername(username);
+
+  const onSubmit = async (data: AccountFormResponse) => {
+    if (isDuplicate) {
+      alert('이미 사용 중인 아이디입니다.');
+      return;
+    }
+
     const { confirmPassword, ...AccountFormdata } = data;
+    console.log('AccountFormdata', AccountFormdata);
     setSignupForm(AccountFormdata);
     onNext();
   };
