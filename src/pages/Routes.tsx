@@ -5,7 +5,6 @@ import { EmptyLayout } from './Layouts/EmptyLayout';
 import { OnBoardPage } from './OnBoardPage';
 import { MyPage } from './MyPage';
 import { OauthCallbackPage } from './OnBoardPage/OauthCallbackPage';
-
 import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
 
@@ -19,7 +18,10 @@ const router = createBrowserRouter([
     path: '/login',
     element: <EmptyLayout />,
     children: [
-      { path: '', element: <OnBoardPage /> },
+      {
+        path: '',
+        element: <OnBoardPage />,
+      },
       { path: 'form', element: <LoginPage /> },
       { path: 'oauth-callback', element: <OauthCallbackPage /> },
     ],
