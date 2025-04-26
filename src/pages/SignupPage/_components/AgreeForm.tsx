@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { CheckBox } from '../../../components/common/CheckBox';
 import { Button } from '../../../components/common/Button';
@@ -5,6 +6,8 @@ import ReactDOM from 'react-dom';
 
 export const AgreeForm = () => {
   const [AgreedList, setAgreedList] = useState<string[]>([]);
+  const navigate = useNavigate();
+
   const agreeList = [
     { id: 'agreedToTerms', prefix: '(필수)', label: '서비스 이용약관 동의', link: true },
     { id: 'agreedToPrivacy', prefix: '(필수)', label: '개인정보 수집 및 이용 동의', link: true },
@@ -57,6 +60,7 @@ export const AgreeForm = () => {
               onChange={() => onSingleCheck(agreeItem.id)}
               link={agreeItem.link}
               prefix={agreeItem.prefix}
+              onClick={() => navigate(`/signup/${agreeItem.id}`)}
             />
           ))}
         </div>

@@ -6,9 +6,10 @@ type CheckBoxProps = {
   prefix?: string;
   label?: string;
   link?: boolean;
+  onClick?: () => void;
 };
 
-export const CheckBox = ({ checked, onChange, label, prefix, link }: CheckBoxProps) => {
+export const CheckBox = ({ checked, onChange, label, prefix, link, onClick }: CheckBoxProps) => {
   return (
     <div className="flex items-center gap-2">
       <label className="relative flex items-center justify-center w-5 h-5">
@@ -26,7 +27,11 @@ export const CheckBox = ({ checked, onChange, label, prefix, link }: CheckBoxPro
         {prefix}
       </p>
       <p className="text-Body2 text-grayScale-70">{label}</p>
-      {link && <button className="text-grayScale-50 text-LabelLink underline">내용보기</button>}
+      {link && (
+        <button className="text-grayScale-50 text-LabelLink underline" onClick={onClick}>
+          내용보기
+        </button>
+      )}
     </div>
   );
 };

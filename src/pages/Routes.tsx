@@ -13,6 +13,8 @@ import FindIdSuccess from './FindIdPage/FindIdSuccess';
 import ResetPasswordPage from './ResetPasswordPage';
 import NewPassword from './ResetPasswordPage/NewPassword';
 import ResetSuccess from './ResetPasswordPage/ResetSuccess';
+import { AgreedToTerms } from './SignupPage/AgreedToTerms';
+import { AgreedToPrivacy } from './SignupPage/AgreedToPrivacy';
 
 const router = createBrowserRouter([
   {
@@ -32,7 +34,11 @@ const router = createBrowserRouter([
   {
     path: '/signup',
     element: <DefaultLayout />,
-    children: [{ path: '', element: <SignupPage /> }],
+    children: [
+      { path: '', element: <SignupPage /> },
+      { path: 'agreedToTerms', element: <AgreedToTerms /> },
+      { path: 'agreedToPrivacy', element: <AgreedToPrivacy /> },
+    ],
   },
   {
     path: '/find-id',
