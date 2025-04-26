@@ -6,7 +6,6 @@ export const MyPage = () => {
 
   return (
     <div className="flex flex-col px-4 mt-8">
-      {/* 프로필 섹션 */}
       <div className="flex flex-col gap-1 mb-8">
         <span className="font-['Pretendard'] leading-[150%] text-[#000] text-[20px] font-bold ">
           온도룩
@@ -14,7 +13,6 @@ export const MyPage = () => {
         <span className="text-gray-600">{user?.username || 'test'}</span>
       </div>
 
-      {/* 활동 및 소식 섹션 */}
       <div className="flex flex-col items-start gap-2 self-stretch rounded-xl bg-gray-50 p-4 mb-4">
         <div className="text-xs font-medium leading-[150%] text-[#8E8E8E] ">활동 및 소식</div>
         <button className="flex w-full items-center justify-between ">
@@ -37,7 +35,6 @@ export const MyPage = () => {
         </button>
       </div>
 
-      {/* 설정 섹션 */}
       <div className="flex flex-col items-start gap-2 self-stretch rounded-xl bg-gray-50 p-4 mb-4">
         <span className="text-xs font-medium leading-[150%] text-[#8E8E8E] ">설정</span>
         <button className="flex w-full items-center justify-between ">
@@ -71,7 +68,6 @@ export const MyPage = () => {
         </button>
       </div>
 
-      {/* 고객지원 섹션 */}
       <div className="flex flex-col items-start gap-2 self-stretch rounded-xl bg-gray-50 p-4">
         <span className="text-xs font-medium leading-[150%] text-[#8E8E8E] ">고객지원</span>
         <button className="flex w-full items-center justify-between ">

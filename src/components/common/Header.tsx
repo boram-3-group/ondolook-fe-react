@@ -1,16 +1,32 @@
 import React from 'react';
 import { Icon } from './Icon';
+import { useNavigate } from 'react-router-dom';
 
 type HeaderProps = {
   title?: string;
   align?: 'center' | 'left';
-  onForward?: () => void;
-  onBack?: () => void;
+  isShowBack?: boolean;
+  isShowForward?: boolean;
 };
 
-export const Header: React.FC<HeaderProps> = ({ title, align = 'center', onBack, onForward }) => {
+export const Header: React.FC<HeaderProps> = ({
+  title,
+  align = 'center',
+  isShowBack,
+  isShowForward,
+}) => {
   const justify = align === 'center' ? 'justify-center' : 'justify-end';
-  const isTitleCenter = !!onBack || !!onForward ? 'flex items-center justify-center' : '';
+  const isTitleCenter = isShowBack || !!isShowForward ? 'flex items-center justify-center' : '';
+  const navigate = useNavigate();
+
+  const onBack = () => {
+    navigate(-1);
+  };
+
+  const onForward = () => {
+    navigate(1);
+  };
+
   return (
     <header className={`h-[44px] px-4 flex items-center ${justify} relative border-b`}>
       {!!onBack && (

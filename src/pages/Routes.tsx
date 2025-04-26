@@ -7,10 +7,12 @@ import { MyPage } from './MyPage';
 import { OauthCallbackPage } from './OnBoardPage/OauthCallbackPage';
 import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
-
+import Bookmark from './MyPage/pages/Bookmark';
 type RouteWithMeta = RouteObject & {
   meta?: {
     title: string;
+    isShowBack?: boolean;
+    isShowForward?: boolean;
   };
 };
 
@@ -40,16 +42,30 @@ export const router = createBrowserRouter([
   {
     path: '/my',
     element: <DefaultLayout />,
-    children: [{ path: '', element: <MyPage /> }],
-    meta: {
-      title: '마이페이지',
-    },
-  } as RouteWithMeta,
+    children: [
+      {
+        path: '',
+        element: <MyPage />,
+        meta: {
+          title: '마이페이지',
+        },
+      } as RouteWithMeta,
+      {
+        path: 'bookmark',
+        element: <Bookmark />,
+        meta: {
+          title: '북마크',
+          isShowBack: true,
+          isShowForward: true,
+        },
+      } as RouteWithMeta,
+    ],
+  },
   {
     path: '*',
     element: <Navigate to="/login" replace={true} />,
   } as RouteWithMeta,
-]);
+] as RouteWithMeta[]);
 
 export const Routes = () => {
   return <RouterProvider router={router} />;

@@ -6,10 +6,30 @@ interface RouteWithMeta {
   meta?: {
     title: string;
   };
+  children?: RouteWithMeta[];
 }
+
+const findRouteWithPath = (
+  routes: RouteWithMeta[],
+  pathname: string
+): RouteWithMeta | undefined => {
+  for (const route of routes) {
+    if (route.path === pathname) {
+      return route;
+    }
+    if (route.children) {
+      const found = findRouteWithPath(route.children, pathname);
+      if (found) {
+        return found;
+      }
+    }
+  }
+  return undefined;
+};
 
 export const useRouteMeta = () => {
   const location = useLocation();
-  const route = router.routes.find(route => route.path === location.pathname) as RouteWithMeta;
+  const route = findRouteWithPath(router.routes, location.pathname);
+
   return { meta: route?.meta };
 };
