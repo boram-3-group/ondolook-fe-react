@@ -8,6 +8,11 @@ import { OauthCallbackPage } from './OnBoardPage/OauthCallbackPage';
 
 import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
+import FindIdPage from './FindIdPage';
+import FindIdSuccess from './FindIdPage/FindIdSuccess';
+import ResetPasswordPage from './ResetPasswordPage';
+import NewPassword from './ResetPasswordPage/NewPassword';
+import ResetSuccess from './ResetPasswordPage/ResetSuccess';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +33,23 @@ const router = createBrowserRouter([
     path: '/signup',
     element: <DefaultLayout />,
     children: [{ path: '', element: <SignupPage /> }],
+  },
+  {
+    path: '/find-id',
+    element: <DefaultLayout />,
+    children: [
+      { path: '', element: <FindIdPage /> },
+      { path: 'success', element: <FindIdSuccess /> },
+    ],
+  },
+  {
+    path: '/reset-password',
+    element: <DefaultLayout />,
+    children: [
+      { path: '', element: <ResetPasswordPage /> },
+      { path: 'newpassword', element: <NewPassword /> },
+      { path: 'success', element: <ResetSuccess /> },
+    ],
   },
   {
     path: '/my',

@@ -42,7 +42,7 @@ const LoginPage = () => {
             아이디 찾기
           </Button>
           <img src="/Rectangle.png" alt="" className="w-[1px] h-[10px] bg-grayScale-40" />
-          <Button intent="navigation" onClick={() => navigate('/find-password')}>
+          <Button intent="navigation" onClick={() => navigate('/reset-password')}>
             비밀번호 찾기
           </Button>
           <img src="/Rectangle.png" alt="" className="w-[1px] h-[10px] bg-grayScale-40" />
