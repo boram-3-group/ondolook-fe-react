@@ -8,17 +8,24 @@ type AppSplashProps = {
 
 export function AppSplash({ duration = 2000, fadeDuration = 700, children }: AppSplashProps) {
   const [fadeOut, setFadeOut] = useState(false);
-  const [hidden, setHidden] = useState(false); // splash 제거 여부
+  const [hidden, setHidden] = useState(true); // 기본값을 true로 변경
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setFadeOut(true); // 페이드아웃 시작
-      setTimeout(() => {
-        setHidden(true); // 완전 제거
-      }, fadeDuration);
-    }, duration);
+    // localStorage에서 스플래시 표시 여부 확인
+    const hasSeenSplash = localStorage.getItem('hasSeenSplash');
 
-    return () => clearTimeout(timer);
+    if (!hasSeenSplash) {
+      setHidden(false);
+      const timer = setTimeout(() => {
+        setFadeOut(true);
+        setTimeout(() => {
+          setHidden(true);
+          localStorage.setItem('hasSeenSplash', 'true');
+        }, fadeDuration);
+      }, duration);
+
+      return () => clearTimeout(timer);
+    }
   }, [duration, fadeDuration]);
 
   return (

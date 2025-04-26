@@ -1,35 +1,15 @@
-import { useLocation } from 'react-router-dom';
-import { router } from '../pages/Routes';
+import { useMatches } from 'react-router-dom';
 
-interface RouteWithMeta {
-  path?: string;
-  meta?: {
-    title: string;
-  };
-  children?: RouteWithMeta[];
+interface RouteHandle {
+  title: string;
+  isShowBack?: boolean;
+  isShowForward?: boolean;
 }
 
-const findRouteWithPath = (
-  routes: RouteWithMeta[],
-  pathname: string
-): RouteWithMeta | undefined => {
-  for (const route of routes) {
-    if (route.path === pathname) {
-      return route;
-    }
-    if (route.children) {
-      const found = findRouteWithPath(route.children, pathname);
-      if (found) {
-        return found;
-      }
-    }
-  }
-  return undefined;
-};
-
 export const useRouteMeta = () => {
-  const location = useLocation();
-  const route = findRouteWithPath(router.routes, location.pathname);
+  const matches = useMatches();
+  const currentRoute = matches[matches.length - 1];
+  const handle = currentRoute?.handle as RouteHandle | undefined;
 
-  return { meta: route?.meta };
+  return { meta: handle };
 };
