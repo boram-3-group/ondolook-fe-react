@@ -20,7 +20,11 @@ export const Header: React.FC<HeaderProps> = ({ title, align = 'center', onBack,
       )}
       {title && (
         <div className={`flex-1 ${isTitleCenter}`}>
-          <span className={`font-semibold text-base flex-grow-0 ${isTitleCenter}`}>{title}</span>
+          <span
+            className={`font-semibold text-base flex-grow-0 text-[20px] font-bold ${isTitleCenter}`}
+          >
+            {title}
+          </span>
         </div>
       )}
       {!!onForward && (
