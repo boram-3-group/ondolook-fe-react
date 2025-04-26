@@ -22,4 +22,13 @@ export type moveNextProps = {
   onNext: () => void;
 };
 
+export type SendEmailValue = {
+  email: string;
+};
+
+export type VerifyEmailValue = {
+  email: string;
+  code: string;
+};
+
 export type SignUpResponse = Omit<AccountFormResponse, 'confirmPassword'> & ProfileFormResponse;

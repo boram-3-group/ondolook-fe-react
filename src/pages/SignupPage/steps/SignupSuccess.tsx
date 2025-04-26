@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '../../../store/useUserStore';
 
 const SignupSuccess = () => {
-  const username = useUserStore(state => state.user?.name);
+  const username = useUserStore(state => state.user?.username);
 
   const navigate = useNavigate();
   const handlemovetoLogin = () => {

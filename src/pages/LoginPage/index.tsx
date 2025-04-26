@@ -3,13 +3,17 @@ import { Button } from '../../components/common/Button';
 import { Input } from '../../components/common/Input';
 import { useForm } from 'react-hook-form';
 import { FormLayout } from '../../components/common/FormLayout';
+import { useFetchLogin } from './fetches/useLogin';
+import { LoginFormValues } from './type';
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm<LoginFormValues>();
 
-  const onSubmit = (data: unknown) => {
-    console.log('로그인', data);
+  const { mutate: login } = useFetchLogin();
+
+  const onSubmit = ({ username, password }: LoginFormValues) => {
+    login({ username, password });
   };
 
   return (

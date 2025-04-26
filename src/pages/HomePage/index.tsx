@@ -32,6 +32,7 @@ export function HomePage() {
         <div className="mb-[20px] mt-[38px]">
           <RegionTab></RegionTab>
         </div>
+        <div> {JSON.stringify(data)}</div>
         <div className="mb-[20px]">
           <WeatherBox></WeatherBox>
         </div>
