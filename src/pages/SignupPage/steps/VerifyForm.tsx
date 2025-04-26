@@ -5,6 +5,7 @@ import { moveNextProps, SendEmailValue } from '../type';
 import { useSendEmailCode, useVerifyEmailCode } from '../fetches/useFetchEmail';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
+import { AgreeForm } from '../_components/AgreeForm';
 
 const VerifyForm = ({ onNext }: moveNextProps) => {
   const {
@@ -17,18 +18,20 @@ const VerifyForm = ({ onNext }: moveNextProps) => {
   const { mutate: sendEmailCode } = useSendEmailCode();
   const { mutate: verifyEmailCode } = useVerifyEmailCode();
   const [isCodeSent, setIsCodeSent] = useState(false);
+  const [isAgreeFormOpen, setIsAgreeFormOpen] = useState(false);
   const email = watch('email');
   const code = watch('code');
 
   const onSubmit = () => {
     if (!isCodeSent) {
-      sendEmailCode(email, {
-        onSuccess: () => setIsCodeSent(true),
-      });
+      // sendEmailCode(email, {
+      //   onSuccess: () => setIsCodeSent(true),
+      // });
       setIsCodeSent(true);
     } else {
-      verifyEmailCode({ email, code });
-      onNext();
+      // verifyEmailCode({ email, code });
+      // onNext();
+      setIsAgreeFormOpen(true);
     }
   };
 
@@ -50,6 +53,7 @@ const VerifyForm = ({ onNext }: moveNextProps) => {
           </div>
         </form>
       </FormLayout>
+      {isAgreeFormOpen && <AgreeForm />}
     </>
   );
 };

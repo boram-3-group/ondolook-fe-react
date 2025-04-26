@@ -16,6 +16,7 @@ import location from '../../assets/icons/location.svg';
 import home from '../../assets/icons/home.svg';
 import mypage from '../../assets/icons/mypage.svg';
 import blue_check from '../../assets/icons/blue-check.svg';
+import white_check from '../../assets/icons/white-check.svg';
 
 import bit_cloudy_lightning from '../../assets/icons/bit-cloudy-lightning.png';
 import bit_cloudy_moon from '../../assets/icons/bit-cloudy-moon.png';
@@ -54,6 +55,7 @@ type IconName =
   | 'home'
   | 'mypage'
   | 'blue-check'
+  | 'white-check'
   | 'bit-cloudy-lightning'
   | 'bit-cloudy-moon'
   | 'bit-cloudy-sun'
@@ -91,6 +93,7 @@ const iconMap: Record<IconName, any> = {
   home: home,
   mypage: mypage,
   'blue-check': blue_check,
+  'white-check': white_check,
   'bit-cloudy-lightning': bit_cloudy_lightning,
   'bit-cloudy-moon': bit_cloudy_moon,
   'bit-cloudy-sun': bit_cloudy_sun,
