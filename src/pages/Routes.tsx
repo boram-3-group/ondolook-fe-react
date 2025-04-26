@@ -8,6 +8,13 @@ import { OauthCallbackPage } from './OnBoardPage/OauthCallbackPage';
 import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
 import Bookmark from './MyPage/pages/Bookmark';
+import FindIdPage from './FindIdPage';
+import FindIdSuccess from './FindIdPage/FindIdSuccess';
+import ResetPasswordPage from './ResetPasswordPage';
+import NewPassword from './ResetPasswordPage/NewPassword';
+import ResetSuccess from './ResetPasswordPage/ResetSuccess';
+import { AgreedToTerms } from './SignupPage/AgreedToTerms';
+import { AgreedToPrivacy } from './SignupPage/AgreedToPrivacy';
 
 type RouteWithHandle = RouteObject & {
   handle?: {
@@ -38,7 +45,28 @@ export const router = createBrowserRouter([
   {
     path: '/signup',
     element: <DefaultLayout />,
-    children: [{ path: '', element: <SignupPage /> }],
+    children: [
+      { path: '', element: <SignupPage /> },
+      { path: 'agreedToTerms', element: <AgreedToTerms /> },
+      { path: 'agreedToPrivacy', element: <AgreedToPrivacy /> },
+    ],
+  } as RouteWithHandle,
+  {
+    path: '/find-id',
+    element: <DefaultLayout />,
+    children: [
+      { path: '', element: <FindIdPage /> },
+      { path: 'success', element: <FindIdSuccess /> },
+    ],
+  } as RouteWithHandle,
+  {
+    path: '/reset-password',
+    element: <DefaultLayout />,
+    children: [
+      { path: '', element: <ResetPasswordPage /> },
+      { path: 'newpassword', element: <NewPassword /> },
+      { path: 'success', element: <ResetSuccess /> },
+    ],
   } as RouteWithHandle,
   {
     path: '/my',

@@ -1,13 +1,12 @@
-import { Button } from '../../../components/common/Button';
-import { Input } from '../../../components/common/Input';
-import { FormLayout } from '../../../components/common/FormLayout';
-import { moveNextProps, SendEmailValue } from '../type';
-import { useSendEmailCode, useVerifyEmailCode } from '../fetches/useFetchEmail';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import { AgreeForm } from '../_components/AgreeForm';
+import { FormLayout } from '../../components/common/FormLayout';
+import { Input } from '../../components/common/Input';
+import { Button } from '../../components/common/Button';
+import { useNavigate } from 'react-router-dom';
+import { useSendEmailCode, useVerifyEmailCode } from '../SignupPage/fetches/useFetchEmail';
 
-const VerifyForm = ({ onNext }: moveNextProps) => {
+const FindIdPage = () => {
   const {
     register,
     handleSubmit,
@@ -15,29 +14,34 @@ const VerifyForm = ({ onNext }: moveNextProps) => {
     formState: { errors },
   } = useForm();
 
+  const navigate = useNavigate();
   const { mutate: sendEmailCode } = useSendEmailCode();
   const { mutate: verifyEmailCode } = useVerifyEmailCode();
   const [isCodeSent, setIsCodeSent] = useState(false);
-  const [isAgreeFormOpen, setIsAgreeFormOpen] = useState(false);
+
   const email = watch('email');
   const code = watch('code');
 
   const onSubmit = () => {
     if (!isCodeSent) {
-      // sendEmailCode(email, {
-      //   onSuccess: () => setIsCodeSent(true),
-      // });
+      //   sendEmailCode(email, {
+      //     onSuccess: () => setIsCodeSent(true),
+      //   });
       setIsCodeSent(true);
     } else {
-      // verifyEmailCode({ email, code });
-      // onNext();
-      setIsAgreeFormOpen(true);
+      //   verifyEmailCode(
+      //     { email, code },
+      //     {
+      //       onSuccess: () => navigate('/find-id/success'),
+      //     }
+      //   );
+      navigate('/find-id/success');
     }
   };
 
   return (
     <>
-      <FormLayout title={`이메일 인증을 완료해주세요.`}>
+      <FormLayout title={`이메일 확인 후\n 인증번호를 입력해주세요.`}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col gap-[16px]">
             <Input type="text" placeholder="이메일을 입력해주세요" {...register('email')}></Input>
@@ -53,9 +57,8 @@ const VerifyForm = ({ onNext }: moveNextProps) => {
           </div>
         </form>
       </FormLayout>
-      {isAgreeFormOpen && <AgreeForm />}
     </>
   );
 };
 
-export default VerifyForm;
+export default FindIdPage;
