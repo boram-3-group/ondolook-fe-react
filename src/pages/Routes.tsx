@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Navigate, RouterProvider, RouteObject } from 'react-router-dom';
 import { HomePage } from './HomePage';
 import { DefaultLayout } from './Layouts/DefaultLayout';
 import { EmptyLayout } from './Layouts/EmptyLayout';
@@ -8,12 +8,18 @@ import { OauthCallbackPage } from './OnBoardPage/OauthCallbackPage';
 import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
 
-const router = createBrowserRouter([
+type RouteWithMeta = RouteObject & {
+  meta?: {
+    title: string;
+  };
+};
+
+export const router = createBrowserRouter([
   {
     path: '/home',
     element: <HomePage />,
     children: [{ path: '', element: <HomePage /> }],
-  },
+  } as RouteWithMeta,
   {
     path: '/login',
     element: <EmptyLayout />,
@@ -25,21 +31,24 @@ const router = createBrowserRouter([
       { path: 'form', element: <LoginPage /> },
       { path: 'oauth-callback', element: <OauthCallbackPage /> },
     ],
-  },
+  } as RouteWithMeta,
   {
     path: '/signup',
     element: <DefaultLayout />,
     children: [{ path: '', element: <SignupPage /> }],
-  },
+  } as RouteWithMeta,
   {
     path: '/my',
     element: <DefaultLayout />,
     children: [{ path: '', element: <MyPage /> }],
-  },
+    meta: {
+      title: '마이페이지',
+    },
+  } as RouteWithMeta,
   {
     path: '*',
     element: <Navigate to="/login" replace={true} />,
-  },
+  } as RouteWithMeta,
 ]);
 
 export const Routes = () => {

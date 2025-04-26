@@ -2,18 +2,13 @@ import React from 'react';
 import { Icon } from './Icon';
 
 type HeaderProps = {
-  title: string;
+  title?: string;
   align?: 'center' | 'left';
   onForward?: () => void;
   onBack?: () => void;
 };
 
-export const Header: React.FC<HeaderProps> = ({
-  title = 'test',
-  align = 'center',
-  onBack,
-  onForward,
-}) => {
+export const Header: React.FC<HeaderProps> = ({ title, align = 'center', onBack, onForward }) => {
   const justify = align === 'center' ? 'justify-center' : 'justify-end';
   const isTitleCenter = !!onBack || !!onForward ? 'flex items-center justify-center' : '';
   return (
