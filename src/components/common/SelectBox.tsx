@@ -43,14 +43,33 @@ const SelectBox: React.FC<SelectBoxProps> = ({ value, onChange, options }) => {
 
       {isOpen && (
         <div className="absolute w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
-          {options.map(option => (
-            <button
-              key={option}
-              onClick={() => handleSelect(option)}
-              className="w-full h-[48px] px-[16px] py-[12px] text-left hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg font-['Pretendard Variable'] text-[#1D1D1D] text-base font-medium leading-[150%] [font-feature-settings:'liga'_off,'clig'_off]"
-            >
-              {option}
-            </button>
+          {options.map((option, index) => (
+            <React.Fragment key={option}>
+              <button
+                onClick={() => handleSelect(option)}
+                className="w-full h-[48px] px-[16px] py-[12px] text-left hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg font-['Pretendard Variable'] text-[#1D1D1D] text-base font-medium leading-[150%] [font-feature-settings:'liga'_off,'clig'_off] flex justify-between items-center"
+              >
+                {option}
+                {value === option && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                  >
+                    <path
+                      d="M13.3333 4L5.99996 11.3333L2.66663 8"
+                      stroke="#1E90FF"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                )}
+              </button>
+              {index < options.length - 1 && <div className="mx-[16px] h-[1px] bg-gray-200" />}
+            </React.Fragment>
           ))}
         </div>
       )}

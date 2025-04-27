@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SelectBox from '../../../components/common/SelectBox';
 
 const UserInfoSettings: React.FC = () => {
@@ -7,14 +7,53 @@ const UserInfoSettings: React.FC = () => {
   const [birthMonth, setBirthMonth] = useState('');
   const [birthDay, setBirthDay] = useState('');
 
+  const [initialValues, setInitialValues] = useState({
+    gender: '남자',
+    year: '',
+    month: '',
+    day: '',
+  });
+
+  // 변경 여부 확인
+  const isChanged = () => {
+    return (
+      selectedGender !== initialValues.gender ||
+      birthYear !== initialValues.year ||
+      birthMonth !== initialValues.month ||
+      birthDay !== initialValues.day
+    );
+  };
+
+  useEffect(() => {
+    setInitialValues({
+      gender: selectedGender,
+      year: birthYear,
+      month: birthMonth,
+      day: birthDay,
+    });
+  }, []);
+
   const genderOptions = ['남자', '여자'];
 
   const handleSubmit = () => {
     console.log({ selectedGender, birthYear, birthMonth, birthDay });
+    setInitialValues({
+      gender: selectedGender,
+      year: birthYear,
+      month: birthMonth,
+      day: birthDay,
+    });
   };
 
-  const labelStyle =
-    "font-['Pretendard'] text-[18px] font-semibold leading-[150%] text-[#2D2D2D] [font-feature-settings:'liga'_off,'clig'_off] mb-2";
+  const labelStyle = 'text-[18px] font-semibold leading-[150%] text-[#2D2D2D]  mb-2';
+
+  const inputStyle =
+    'w-full h-[45px] px-4 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-left bg-[#F8F8F8] text-[14px] font-medium';
+
+  // 버튼 스타일 동적 설정
+  const buttonStyle = `absolute left-1/2 bottom-5 -translate-x-1/2 w-[calc(100%-40px)] h-14 rounded-lg ${
+    isChanged() ? 'bg-[#4D97FF]' : 'bg-[#D9D9D9]'
+  } text-white text-base font-medium`;
 
   return (
     <div className="flex flex-col px-5 bg-white min-h-screen">
@@ -35,7 +74,7 @@ const UserInfoSettings: React.FC = () => {
                 if (value.length <= 4) setBirthYear(value);
               }}
               placeholder="2000"
-              className="w-full h-[48px] px-4 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-center bg-[#F8F8F8]"
+              className={inputStyle}
               maxLength={4}
             />
           </div>
@@ -48,7 +87,7 @@ const UserInfoSettings: React.FC = () => {
                 if (value.length <= 2) setBirthMonth(value);
               }}
               placeholder="01"
-              className="w-full h-[48px] px-4 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-center bg-[#F8F8F8]"
+              className={inputStyle}
               maxLength={2}
             />
           </div>
@@ -61,17 +100,14 @@ const UserInfoSettings: React.FC = () => {
                 if (value.length <= 2) setBirthDay(value);
               }}
               placeholder="01"
-              className="w-full h-[48px] px-4 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-center bg-[#F8F8F8]"
+              className={inputStyle}
               maxLength={2}
             />
           </div>
         </div>
       </div>
 
-      <button
-        onClick={handleSubmit}
-        className="absolute left-1/2 bottom-5 -translate-x-1/2 w-[calc(100%-40px)] h-14 rounded-lg bg-[#4D97FF] text-white text-base font-medium"
-      >
+      <button onClick={handleSubmit} className={buttonStyle} disabled={!isChanged()}>
         변경하기
       </button>
     </div>
