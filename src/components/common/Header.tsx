@@ -15,8 +15,13 @@ export const Header: React.FC<HeaderProps> = ({
   isShowBack,
   isShowForward,
 }) => {
-  const justify = align === 'center' ? 'justify-center' : 'justify-end';
-  const isTitleCenter = isShowBack || !!isShowForward ? 'flex items-center justify-center' : '';
+  const hasButtons = isShowBack || isShowForward;
+  const justify = hasButtons
+    ? 'justify-between'
+    : align === 'center'
+      ? 'justify-center'
+      : 'justify-start';
+  const titleAlign = hasButtons ? 'text-center' : align === 'center' ? 'text-center' : 'text-left';
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -32,19 +37,15 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className={`h-[44px] px-4 flex items-center ${justify} relative `}>
+    <header className={`h-[44px] px-4 flex items-center ${justify} relative`}>
       <div className="flex-1 grid" onClick={onBack}>
         {isShowBack && canGoBack && (
           <Icon className="flex-grow-" name="chevron-left" width={24} height={24} />
         )}
       </div>
       {title && (
-        <div className={`flex-1 ${isTitleCenter}`}>
-          <span
-            className={`font-semibold text-base flex-grow-0 text-[20px] font-bold ${isTitleCenter}`}
-          >
-            {title}
-          </span>
+        <div className={`flex-1 ${titleAlign}`}>
+          <span className={`font-semibold text-base text-[20px] font-bold`}>{title}</span>
         </div>
       )}
       <div className="flex-1 grid justify-items-end" onClick={onForward}>

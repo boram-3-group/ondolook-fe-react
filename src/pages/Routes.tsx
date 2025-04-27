@@ -15,6 +15,9 @@ import NewPassword from './ResetPasswordPage/NewPassword';
 import ResetSuccess from './ResetPasswordPage/ResetSuccess';
 import { AgreedToTerms } from './SignupPage/AgreedToTerms';
 import { AgreedToPrivacy } from './SignupPage/AgreedToPrivacy';
+import NoticeBoard from './MyPage/pages/NoticeBoard';
+import NoticeBoardDetails from './MyPage/pages/NoticeBoardDetails';
+import UserInfoSettings from './MyPage/pages/UserInfoSettings';
 
 type RouteWithHandle = RouteObject & {
   handle?: {
@@ -84,6 +87,29 @@ export const router = createBrowserRouter([
         element: <Bookmark />,
         handle: {
           title: '북마크',
+          isShowBack: true,
+        },
+      } as RouteWithHandle,
+      {
+        path: 'notice',
+        element: <NoticeBoard />,
+        handle: {
+          title: '공지사항',
+          isShowBack: true,
+        },
+      } as RouteWithHandle,
+      {
+        path: 'notice/:id',
+        element: <NoticeBoardDetails />,
+        handle: {
+          isShowBack: true,
+        },
+      } as RouteWithHandle,
+      {
+        path: 'user-info',
+        element: <UserInfoSettings />,
+        handle: {
+          title: '회원 정보 설정',
           isShowBack: true,
         },
       } as RouteWithHandle,
