@@ -23,7 +23,10 @@ export const OnBoardPage = () => {
       <Carousel
         slides={images.map(item => (
           <div className="relative w-full h-full justify-center flex flex-col items-center mb-8">
-            <p className="text-[24px] font-bold leading-[150%] text-center break-words w-[179px]">
+            <p
+              className="text-[24px] font-bold leading-[150%] text-center break-words w-[176px] break-keep
+            "
+            >
               {item.message}
             </p>
             <img
