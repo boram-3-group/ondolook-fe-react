@@ -1,14 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import SelectBox from '../../../components/common/SelectBox';
 
+interface Option {
+  value: string;
+  label: string;
+}
+
+const genderOptions: Option[] = [
+  { value: 'male', label: '남자' },
+  { value: 'female', label: '여자' },
+];
+
 const UserInfoSettings: React.FC = () => {
-  const [selectedGender, setSelectedGender] = useState('남자');
+  const [selectedGender, setSelectedGender] = useState('male');
   const [birthYear, setBirthYear] = useState('');
   const [birthMonth, setBirthMonth] = useState('');
   const [birthDay, setBirthDay] = useState('');
 
   const [initialValues, setInitialValues] = useState({
-    gender: '남자',
+    gender: 'male',
     year: '',
     month: '',
     day: '',
@@ -33,8 +43,6 @@ const UserInfoSettings: React.FC = () => {
     });
   }, []);
 
-  const genderOptions = ['남자', '여자'];
-
   const handleSubmit = () => {
     console.log({ selectedGender, birthYear, birthMonth, birthDay });
     setInitialValues({
@@ -45,7 +53,7 @@ const UserInfoSettings: React.FC = () => {
     });
   };
 
-  const labelStyle = 'text-[18px] font-semibold leading-[150%] text-[#2D2D2D]  mb-2';
+  const labelStyle = 'text-[18px] font-semibold leading-[150%] text-[#2D2D2D] mb-2';
 
   const inputStyle =
     'w-full h-[45px] px-4 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-left bg-[#F8F8F8] text-[14px] font-medium';

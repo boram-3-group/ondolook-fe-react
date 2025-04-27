@@ -18,6 +18,7 @@ import { AgreedToPrivacy } from './SignupPage/AgreedToPrivacy';
 import NoticeBoard from './MyPage/pages/NoticeBoard';
 import NoticeBoardDetails from './MyPage/pages/NoticeBoardDetails';
 import UserInfoSettings from './MyPage/pages/UserInfoSettings';
+import AlramSettings from './MyPage/pages/AlramSettings';
 
 type RouteWithHandle = RouteObject & {
   handle?: {
@@ -110,6 +111,14 @@ export const router = createBrowserRouter([
         element: <UserInfoSettings />,
         handle: {
           title: '회원 정보 설정',
+          isShowBack: true,
+        },
+      } as RouteWithHandle,
+      {
+        path: 'alarm',
+        element: <AlramSettings />,
+        handle: {
+          title: '알림 설정',
           isShowBack: true,
         },
       } as RouteWithHandle,
