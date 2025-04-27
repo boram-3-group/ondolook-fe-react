@@ -8,8 +8,8 @@ type StepProps = {
 
 type FunnelProps = string[];
 
-export const useFunnel = (steps: FunnelProps) => {
-  const [currentStep, setCurrentStep] = useState(steps[0]);
+export const useFunnel = (steps: FunnelProps, stepAt: number = 0) => {
+  const [currentStep, setCurrentStep] = useState(steps[stepAt]);
 
   const moveNext = () => {
     const currentIdx = steps.indexOf(currentStep);

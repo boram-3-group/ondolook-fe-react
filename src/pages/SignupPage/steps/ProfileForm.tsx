@@ -8,8 +8,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { FormLayout } from '../../../components/common/FormLayout';
 import { useUserStore } from '../../../store/useUserStore';
-
+import { useSearchParams } from 'react-router-dom';
 const ProfileForm = ({ onNext }: moveNextProps) => {
+  const [params] = useSearchParams();
+  const socialType = params.get('socialType');
+
   const schema = z.object({
     nickname: z
       .string()
@@ -63,16 +66,21 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
       ...profileData,
     };
 
-    signUp(signUpData, {
-      onSuccess: () => {
-        setSignupForm(data);
-        onNext();
-      },
-      onError: error => {
-        console.error('회원가입 실패:', error);
-        onNext();
-      },
-    });
+    if (socialType) {
+      // 소셜 로그인 회원가입
+      onNext();
+    } else {
+      signUp(signUpData, {
+        onSuccess: () => {
+          setSignupForm(data);
+          onNext();
+        },
+        onError: error => {
+          console.error('회원가입 실패:', error);
+          onNext();
+        },
+      });
+    }
   };
 
   return (

@@ -32,7 +32,7 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className={`h-[44px] px-4 flex items-center ${justify} relative border-b`}>
+    <header className={`h-[44px] px-4 flex items-center ${justify} relative `}>
       <div className="flex-1 grid" onClick={onBack}>
         {isShowBack && canGoBack && (
           <Icon className="flex-grow-" name="chevron-left" width={24} height={24} />

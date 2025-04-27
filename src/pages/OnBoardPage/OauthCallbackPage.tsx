@@ -14,10 +14,10 @@ export const OauthCallbackPage = () => {
     (async () => {
       try {
         await loginWithSocial({ device });
-        navigate('/');
+        navigate('/signup?step=2&socialType=' + device);
       } catch (err) {
         console.error('소셜 로그인 실패', err);
-        navigate('/login');
+        navigate('/');
       }
     })();
   }, []);

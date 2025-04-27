@@ -1,13 +1,20 @@
 import { Button } from '../../../components/common/Button';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useUserStore } from '../../../store/useUserStore';
 
 const SignupSuccess = () => {
+  const [params] = useSearchParams();
+  const socialType = params.get('socialType');
+
   const username = useUserStore(state => state.user?.username);
 
   const navigate = useNavigate();
   const handlemovetoLogin = () => {
-    navigate('/login/form');
+    if (socialType) {
+      navigate('/home');
+    } else {
+      navigate('/login/form');
+    }
   };
 
   return (
@@ -23,7 +30,7 @@ const SignupSuccess = () => {
           type="submit"
           onClick={handlemovetoLogin}
         >
-          로그인하러 가기
+          {socialType ? '온도룩 시작하기' : '로그인하러 가기'}
         </Button>
       </div>
     </>

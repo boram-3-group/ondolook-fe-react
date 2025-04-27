@@ -4,9 +4,12 @@ import ProfileForm from './steps/ProfileForm';
 import VerifyForm from './steps/VerifyForm';
 import SignupSuccess from './steps/SignupSuccess';
 import { steps } from '../../core/constants';
+import { useSearchParams } from 'react-router-dom';
 
 const SignupPage = () => {
-  const { Funnel, moveNext } = useFunnel(steps);
+  const [params] = useSearchParams();
+  const step = params.get('step');
+  const { Funnel, moveNext } = useFunnel(steps, Number(step));
 
   return (
     <>
