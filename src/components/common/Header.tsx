@@ -1,6 +1,6 @@
 import React from 'react';
 import { Icon } from './Icon';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 type HeaderProps = {
   title?: string;
@@ -18,6 +18,10 @@ export const Header: React.FC<HeaderProps> = ({
   const justify = align === 'center' ? 'justify-center' : 'justify-end';
   const isTitleCenter = isShowBack || !!isShowForward ? 'flex items-center justify-center' : '';
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const canGoBack = window.history.length > 1 && location.key !== 'default';
+  const canGoForward = window.history.length > 1 && location.key !== 'default';
 
   const onBack = () => {
     navigate(-1);
@@ -29,11 +33,11 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header className={`h-[44px] px-4 flex items-center ${justify} relative border-b`}>
-      {!!isShowBack && (
-        <div className="flex-1 grid" onClick={onBack}>
-          <Icon className=" flex-grow-" name="chevron-left" width={24} height={24} />
-        </div>
-      )}
+      <div className="flex-1 grid" onClick={onBack}>
+        {isShowBack && canGoBack && (
+          <Icon className="flex-grow-" name="chevron-left" width={24} height={24} />
+        )}
+      </div>
       {title && (
         <div className={`flex-1 ${isTitleCenter}`}>
           <span
@@ -43,11 +47,11 @@ export const Header: React.FC<HeaderProps> = ({
           </span>
         </div>
       )}
-      {!!isShowForward && (
-        <div className="flex-1 grid justify-items-end" onClick={onForward}>
+      <div className="flex-1 grid justify-items-end" onClick={onForward}>
+        {isShowForward && canGoForward && (
           <Icon className="self-end" name="chevron-right" width={24} height={24} />
-        </div>
-      )}
+        )}
+      </div>
     </header>
   );
 };

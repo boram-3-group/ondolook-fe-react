@@ -1,8 +1,10 @@
 import { Icon } from '../../components/common/Icon';
 import { useUserStore } from '../../store/useUserStore';
+import { useNavigate } from 'react-router-dom';
 
 export const MyPage = () => {
   const { user } = useUserStore();
+  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col px-4 mt-8">
@@ -15,7 +17,10 @@ export const MyPage = () => {
 
       <div className="flex flex-col items-start gap-2 self-stretch rounded-xl bg-gray-50 p-4 mb-4">
         <div className="text-xs font-medium leading-[150%] text-[#8E8E8E] ">활동 및 소식</div>
-        <button className="flex w-full items-center justify-between ">
+        <button
+          className="flex w-full items-center justify-between "
+          onClick={() => navigate('/my/bookmark')}
+        >
           <div className="flex items-center">
             <Icon name="bookmark" width={16} height={16} className="mr-2" />
             <div className="text-base font-medium leading-[150%] text-[#2D2D2D]">나의 북마크</div>

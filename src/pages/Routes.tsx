@@ -85,7 +85,6 @@ export const router = createBrowserRouter([
         handle: {
           title: '북마크',
           isShowBack: true,
-          isShowForward: true,
         },
       } as RouteWithHandle,
     ],
