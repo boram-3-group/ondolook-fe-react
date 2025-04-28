@@ -8,9 +8,10 @@ interface Option {
 }
 
 const scheduleOptions: Option[] = [
-  { value: 'daily', label: '대일리' },
-  { value: 'weekly', label: '위클리' },
-  { value: 'monthly', label: '먼슬리' },
+  { value: 'daily', label: '데일리' },
+  { value: 'business', label: '비즈니스' },
+  { value: 'date', label: '데이트' },
+  { value: 'activity', label: '엑티비티' },
 ];
 
 const AlramSettings = () => {
@@ -18,11 +19,13 @@ const AlramSettings = () => {
   const [hours, setHours] = useState<string>('23');
   const [minutes, setMinutes] = useState<string>('59');
   const [selectedSchedule, setSelectedSchedule] = useState<string>('daily');
+  const [hasChanges, setHasChanges] = useState<boolean>(false);
 
   const handleHoursChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/[^0-9]/g, '');
     if (value === '' || (parseInt(value) >= 0 && parseInt(value) <= 23)) {
       setHours(value);
+      setHasChanges(true);
     }
   };
 
@@ -30,7 +33,23 @@ const AlramSettings = () => {
     const value = e.target.value.replace(/[^0-9]/g, '');
     if (value === '' || (parseInt(value) >= 0 && parseInt(value) <= 59)) {
       setMinutes(value);
+      setHasChanges(true);
     }
+  };
+
+  const handleScheduleChange = (value: string) => {
+    setSelectedSchedule(value);
+    setHasChanges(true);
+  };
+
+  const handleAlarmToggle = (checked: boolean) => {
+    setIsAlarmEnabled(checked);
+    setHasChanges(true);
+  };
+
+  const handleSave = () => {
+    // TODO: Implement save logic
+    setHasChanges(false);
   };
 
   return (
@@ -40,10 +59,7 @@ const AlramSettings = () => {
           <span className="text-[18px] font-semibold text-[#000] leading-[150%] font-['Pretendard']">
             알림 사용
           </span>
-          <Switch
-            checked={isAlarmEnabled}
-            onChange={(checked: boolean) => setIsAlarmEnabled(checked)}
-          />
+          <Switch checked={isAlarmEnabled} onChange={handleAlarmToggle} />
         </div>
         <div className="h-[1px] bg-[#F0F0F0] my-5"></div>
 
@@ -98,7 +114,7 @@ const AlramSettings = () => {
               <div className="w-full">
                 <SelectBox
                   value={selectedSchedule}
-                  onChange={(value: string) => setSelectedSchedule(value)}
+                  onChange={handleScheduleChange}
                   options={scheduleOptions}
                 />
               </div>
@@ -138,10 +154,15 @@ const AlramSettings = () => {
         )}
       </div>
 
-      <div className="px-5 pb-4">
-        <button className="w-full h-14 bg-[#4D97FF] text-white text-base font-medium rounded-lg">
-          변경하기
-        </button>
+      <div className="px-5 pb-4 absolute bottom-0 left-0 right-0">
+        {hasChanges && (
+          <button
+            onClick={handleSave}
+            className="w-full h-14 bg-[#4D97FF] text-white text-base font-medium rounded-lg"
+          >
+            변경하기
+          </button>
+        )}
       </div>
     </div>
   );
