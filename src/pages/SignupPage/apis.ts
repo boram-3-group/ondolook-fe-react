@@ -7,6 +7,10 @@ export const signup = async ({
   nickname,
   gender,
   birthDate,
+  email,
+  agreedToTerms,
+  agreedToPrivacy,
+  agreedToMarketing,
 }: SignUpResponse) => {
   try {
     const res = await api.service.post<SignUpResponse>('/api/v1/user', {
@@ -15,6 +19,10 @@ export const signup = async ({
       nickname,
       gender,
       birthDate,
+      email,
+      agreedToTerms,
+      agreedToPrivacy,
+      agreedToMarketing,
     });
     return res && res.data;
   } catch (error) {

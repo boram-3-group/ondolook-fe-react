@@ -40,6 +40,10 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
 
   const username = useUserStore(state => state.user?.username);
   const password = useUserStore(state => state.user?.password);
+  const agreedToTerms = useUserStore(state => state.user?.agreedToTerms);
+  const agreedToPrivacy = useUserStore(state => state.user?.agreedToPrivacy);
+  const agreedToMarketing = useUserStore(state => state.user?.agreedToMarketing);
+  const email = useUserStore(state => state.user?.email);
   const setSignupForm = useUserStore(state => state.setSignupForm);
 
   const { mutate: signUp } = useFetchSignup();
@@ -53,7 +57,7 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
     const { birthYear, birthMonth, birthDay, ...rest } = data;
 
     const birthDateStr = `${birthYear}-${birthMonth.padStart(2, '0')}-${birthDay.padStart(2, '0')}`;
-    const birthDate = new Date(birthDateStr);
+    const birthDate = new Date(birthDateStr).toISOString().split('T')[0];
 
     const profileData: ProfileFormResponse = {
       ...rest,
@@ -63,6 +67,10 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
     const signUpData = {
       username: username || '',
       password: password || '',
+      email: email || '',
+      agreedToTerms: agreedToTerms ?? false,
+      agreedToPrivacy: agreedToPrivacy ?? false,
+      agreedToMarketing: agreedToMarketing ?? false,
       ...profileData,
     };
 

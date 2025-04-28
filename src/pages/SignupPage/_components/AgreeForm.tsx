@@ -3,10 +3,13 @@ import { useState } from 'react';
 import { CheckBox } from '../../../components/common/CheckBox';
 import { Button } from '../../../components/common/Button';
 import ReactDOM from 'react-dom';
+import { useUserStore } from '../../../store/useUserStore';
+import { moveNextProps } from '../type';
 
-export const AgreeForm = () => {
+export const AgreeForm = ({ onNext }: moveNextProps) => {
   const [AgreedList, setAgreedList] = useState<string[]>([]);
   const navigate = useNavigate();
+  const setSignupForm = useUserStore(state => state.setSignupForm);
 
   const agreeList = [
     { id: 'agreedToTerms', prefix: '(필수)', label: '서비스 이용약관 동의', link: true },
@@ -37,7 +40,12 @@ export const AgreeForm = () => {
   };
 
   const handleSubmitAgree = () => {
-    console.log('AgreedList', AgreedList);
+    setSignupForm({
+      agreedToTerms: AgreedList.includes('agreedToTerms'),
+      agreedToPrivacy: AgreedList.includes('agreedToPrivacy'),
+      agreedToMarketing: AgreedList.includes('agreedToMarketing'),
+    });
+    onNext();
   };
 
   return ReactDOM.createPortal(
