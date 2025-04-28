@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import { Button } from '../../components/common/Button';
-import { Input } from '../../components/common/Input';
 import { useForm } from 'react-hook-form';
-import { FormLayout } from '../../components/common/FormLayout';
+import { FormLayout } from '../../../components/common/FormLayout';
+import { Input } from '../../../components/common/Input';
+import { Button } from '../../../components/common/Button';
 
 const NewPassword = () => {
   const navigate = useNavigate();
