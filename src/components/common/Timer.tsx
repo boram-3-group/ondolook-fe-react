@@ -1,0 +1,31 @@
+import { useEffect, useState } from 'react';
+
+export const Timer = () => {
+  const [time, setTime] = useState(180);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTime(prev => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  };
+
+  return (
+    <>
+      <div className="text-primary-40 text-Body2">{formatTime(time)}</div>
+    </>
+  );
+};

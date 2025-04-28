@@ -1,5 +1,5 @@
-import { FormLayout } from '../../components/common/FormLayout';
-import { Button } from '../../components/common/Button';
+import { FormLayout } from '../../../components/common/FormLayout';
+import { Button } from '../../../components/common/Button';
 import { useNavigate } from 'react-router-dom';
 
 const FindIdSuccess = () => {

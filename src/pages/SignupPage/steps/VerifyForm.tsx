@@ -6,6 +6,7 @@ import { useSendEmailCode, useVerifyEmailCode } from '../fetches/useFetchEmail';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { AgreeForm } from '../_components/AgreeForm';
+import { useUserStore } from '../../../store/useUserStore';
 
 const VerifyForm = ({ onNext }: moveNextProps) => {
   const {
@@ -21,6 +22,7 @@ const VerifyForm = ({ onNext }: moveNextProps) => {
   const [isAgreeFormOpen, setIsAgreeFormOpen] = useState(false);
   const email = watch('email');
   const code = watch('code');
+  const setSignupForm = useUserStore(state => state.setSignupForm);
 
   const onSubmit = () => {
     if (!isCodeSent) {
@@ -31,6 +33,7 @@ const VerifyForm = ({ onNext }: moveNextProps) => {
     } else {
       // verifyEmailCode({ email, code });
       // onNext();
+      setSignupForm({ email });
       setIsAgreeFormOpen(true);
     }
   };
@@ -53,7 +56,7 @@ const VerifyForm = ({ onNext }: moveNextProps) => {
           </div>
         </form>
       </FormLayout>
-      {isAgreeFormOpen && <AgreeForm />}
+      {isAgreeFormOpen && <AgreeForm onNext={onNext} />}
     </>
   );
 };

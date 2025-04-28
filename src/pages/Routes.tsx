@@ -9,16 +9,16 @@ import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
 import Bookmark from './MyPage/pages/Bookmark';
 import FindIdPage from './FindIdPage';
-import FindIdSuccess from './FindIdPage/FindIdSuccess';
+import FindIdSuccess from './FindIdPage/pages/FindIdSuccess';
 import ResetPasswordPage from './ResetPasswordPage';
-import NewPassword from './ResetPasswordPage/NewPassword';
-import ResetSuccess from './ResetPasswordPage/ResetSuccess';
-import { AgreedToTerms } from './SignupPage/AgreedToTerms';
-import { AgreedToPrivacy } from './SignupPage/AgreedToPrivacy';
+import { AgreedToTerms } from './SignupPage/pages/AgreedToTerms';
+import { AgreedToPrivacy } from './SignupPage/pages/AgreedToPrivacy';
 import NoticeBoard from './MyPage/pages/NoticeBoard';
 import NoticeBoardDetails from './MyPage/pages/NoticeBoardDetails';
 import UserInfoSettings from './MyPage/pages/UserInfoSettings';
 import AlramSettings from './MyPage/pages/AlramSettings';
+import NewPassword from './ResetPasswordPage/pages/NewPassword';
+import ResetSuccess from './ResetPasswordPage/pages/ResetSuccess';
 
 type RouteWithHandle = RouteObject & {
   handle?: {
@@ -42,34 +42,99 @@ export const router = createBrowserRouter([
         path: '',
         element: <OnBoardPage />,
       },
-      { path: 'form', element: <LoginPage /> },
       { path: 'oauth-callback', element: <OauthCallbackPage /> },
+    ],
+  } as RouteWithHandle,
+  {
+    path: '/login/form',
+    element: <DefaultLayout />,
+    children: [
+      {
+        path: '',
+        element: <LoginPage />,
+        handle: {
+          isShowBack: true,
+        },
+      },
     ],
   } as RouteWithHandle,
   {
     path: '/signup',
     element: <DefaultLayout />,
     children: [
-      { path: '', element: <SignupPage /> },
-      { path: 'agreedToTerms', element: <AgreedToTerms /> },
-      { path: 'agreedToPrivacy', element: <AgreedToPrivacy /> },
+      {
+        path: '',
+        element: <SignupPage />,
+        handle: {
+          isShowBack: true,
+        },
+      },
+      {
+        path: 'agreedToTerms',
+        element: <AgreedToTerms />,
+        handle: {
+          isShowBack: true,
+          title: '이용약관',
+        },
+      },
+      {
+        path: 'agreedToPrivacy',
+        element: <AgreedToPrivacy />,
+        handle: {
+          isShowBack: true,
+          title: '개인정보 처리 방침',
+        },
+      },
     ],
   } as RouteWithHandle,
   {
     path: '/find-id',
     element: <DefaultLayout />,
     children: [
-      { path: '', element: <FindIdPage /> },
-      { path: 'success', element: <FindIdSuccess /> },
+      {
+        path: '',
+        element: <FindIdPage />,
+        handle: {
+          isShowBack: true,
+          title: '아이디 찾기',
+        },
+      },
+      {
+        path: 'success',
+        element: <FindIdSuccess />,
+        handle: {
+          isShowBack: true,
+        },
+      },
     ],
   } as RouteWithHandle,
   {
     path: '/reset-password',
     element: <DefaultLayout />,
     children: [
-      { path: '', element: <ResetPasswordPage /> },
-      { path: 'newpassword', element: <NewPassword /> },
-      { path: 'success', element: <ResetSuccess /> },
+      {
+        path: '',
+        element: <ResetPasswordPage />,
+        handle: {
+          isShowBack: true,
+          title: '비밀번호 찾기',
+        },
+      },
+      {
+        path: 'newpassword',
+        element: <NewPassword />,
+        handle: {
+          isShowBack: true,
+          title: '비밀번호 찾기',
+        },
+      },
+      {
+        path: 'success',
+        element: <ResetSuccess />,
+        handle: {
+          isShowBack: true,
+        },
+      },
     ],
   } as RouteWithHandle,
   {

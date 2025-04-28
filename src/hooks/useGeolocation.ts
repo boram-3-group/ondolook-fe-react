@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import LocationStore from '../store/LocationStore';
+import useLocationStore from '../store/useLocationStore';
 
 export const useGeolocation = () => {
-  const lat = LocationStore(state => state.lat);
-  const lon = LocationStore(state => state.lon);
-  const setLocation = LocationStore(state => state.setLocation);
+  const lat = useLocationStore(state => state.lat);
+  const lon = useLocationStore(state => state.lon);
+  const setLocation = useLocationStore(state => state.setLocation);
 
   useEffect(() => {
     if (navigator.geolocation) {

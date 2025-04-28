@@ -19,9 +19,9 @@ const SignupSuccess = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center mt-[180px] mx-4">
+      <div className="flex flex-col items-center justify-center mt-[180px] mx-4 relative">
         <img src="/signupSuccess.svg" className="width-[228px] height-[239px]" />
-        <p className="text-Body2 text-primary-40">가입 완료!</p>
+        <p className="text-Body2 text-primary-40 absolute bottom-[90px]">가입 완료!</p>
         <div className="text-Display mt-1">{username}님, 환영해요</div>
         <Button
           className="w-full"

@@ -11,6 +11,10 @@ interface User {
   gender: string;
   birthDate: string;
   loginType: string;
+  email: string;
+  agreedToTerms: boolean;
+  agreedToPrivacy: boolean;
+  agreedToMarketing: boolean;
 }
 
 interface UserStore {

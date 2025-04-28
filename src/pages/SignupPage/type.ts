@@ -1,3 +1,13 @@
+export type VerifyFormResponse = {
+  email: string;
+};
+
+export type AgreeFormResponse = {
+  agreedToTerms: boolean;
+  agreedToPrivacy: boolean;
+  agreedToMarketing: boolean;
+};
+
 export type AccountFormResponse = {
   username: string;
   password: string;
@@ -15,7 +25,7 @@ export type ProfileFormFields = {
 export type ProfileFormResponse = {
   nickname: string;
   gender: 'MALE' | 'FEMALE' | '';
-  birthDate: Date | null;
+  birthDate: string;
 };
 
 export type moveNextProps = {
@@ -31,4 +41,7 @@ export type VerifyEmailValue = {
   code: string;
 };
 
-export type SignUpResponse = Omit<AccountFormResponse, 'confirmPassword'> & ProfileFormResponse;
+export type SignUpResponse = Omit<AccountFormResponse, 'confirmPassword'> &
+  ProfileFormResponse &
+  AgreeFormResponse &
+  VerifyFormResponse;
