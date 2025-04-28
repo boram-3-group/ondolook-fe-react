@@ -1,11 +1,11 @@
 import { Icon } from '../../../components/common/Icon';
 import { useGeolocation } from '../../../hooks/useGeolocation';
-import LocationStore from '../../../store/LocationStore';
+import useLocationStore from '../../../store/useLocationStore';
 import { useFetchRegion } from '../fetches/useFetchRegion';
 
 export const RegionTab = () => {
   useGeolocation();
-  const { lat, lon } = LocationStore();
+  const { lat, lon } = useLocationStore();
 
   const shouldFetch = lat !== 0 && lon !== 0;
   console.log('render!');
