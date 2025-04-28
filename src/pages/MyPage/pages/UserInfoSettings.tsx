@@ -54,11 +54,8 @@ const UserInfoSettings: React.FC = () => {
   };
 
   const labelStyle = 'text-[18px] font-semibold leading-[150%] text-[#2D2D2D] mb-2';
-
   const inputStyle =
     'w-full h-[45px] px-4 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-left bg-[#F8F8F8] text-[14px] font-medium';
-
-  // 버튼 스타일 동적 설정
   const buttonStyle = `absolute left-1/2 bottom-5 -translate-x-1/2 w-[calc(100%-40px)] h-14 rounded-lg ${
     isChanged() ? 'bg-[#4D97FF]' : 'bg-[#D9D9D9]'
   } text-white text-base font-medium`;

@@ -38,6 +38,7 @@ import rain_cloudy_sun from '../../assets/icons/rain-cloudy-sun.png';
 import rain_snow from '../../assets/icons/rain-snow.png';
 import rain from '../../assets/icons/rain.png';
 import snow from '../../assets/icons/snow.png';
+import ondo_logo_small from '../../assets/icons/ondo-logo-small.png';
 
 type IconName =
   | 'alert-circle'
@@ -75,7 +76,8 @@ type IconName =
   | 'rain-cloudy-sun'
   | 'rain-snow'
   | 'rain'
-  | 'snow';
+  | 'snow'
+  | 'ondo-logo-small';
 
 const iconMap: Record<IconName, any> = {
   'alert-circle': alert_circle,
@@ -114,6 +116,7 @@ const iconMap: Record<IconName, any> = {
   'rain-snow': rain_snow,
   rain: rain,
   snow: snow,
+  'ondo-logo-small': ondo_logo_small,
 };
 
 interface IconProps {
@@ -122,6 +125,7 @@ interface IconProps {
   height?: number | string;
   className?: string;
   alt?: string;
+  stroke?: string;
 }
 
 export const Icon: React.FC<IconProps> = ({
@@ -130,11 +134,19 @@ export const Icon: React.FC<IconProps> = ({
   height = 24,
   className = '',
   alt = '',
+  stroke,
 }) => {
   const IconComponent = iconMap[name];
 
   if (typeof IconComponent === 'function') {
-    return <IconComponent width={width} height={height} className={className} />;
+    return (
+      <IconComponent
+        width={width}
+        height={height}
+        className={className}
+        style={stroke ? { stroke: stroke } : undefined}
+      />
+    );
   }
 
   return (
@@ -144,6 +156,7 @@ export const Icon: React.FC<IconProps> = ({
       height={height}
       className={className}
       alt={alt || name}
+      style={stroke ? { stroke: stroke } : undefined}
     />
   );
 };

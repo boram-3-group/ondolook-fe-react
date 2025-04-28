@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent } from 'react';
 import { Switch } from '../../../components/common/Switch';
 import SelectBox from '../../../components/common/SelectBox';
-
+import { Icon } from '../../../components/common/Icon';
 interface Option {
   value: string;
   label: string;
@@ -19,50 +19,83 @@ const AlramSettings = () => {
   const [minutes, setMinutes] = useState<string>('59');
   const [selectedSchedule, setSelectedSchedule] = useState<string>('daily');
 
+  const handleHoursChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/[^0-9]/g, '');
+    if (value === '' || (parseInt(value) >= 0 && parseInt(value) <= 23)) {
+      setHours(value);
+    }
+  };
+
+  const handleMinutesChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/[^0-9]/g, '');
+    if (value === '' || (parseInt(value) >= 0 && parseInt(value) <= 59)) {
+      setMinutes(value);
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <div className="flex-1 px-5 py-8">
         <div className="flex justify-between items-center mb-8">
-          <span className="text-base font-medium text-[#2D2D2D]">알림 사용</span>
+          <span className="text-[18px] font-semibold text-[#000] leading-[150%] font-['Pretendard']">
+            알림 사용
+          </span>
           <Switch
             checked={isAlarmEnabled}
             onChange={(checked: boolean) => setIsAlarmEnabled(checked)}
           />
         </div>
+        <div className="h-[1px] bg-[#F0F0F0] my-5"></div>
 
         {isAlarmEnabled && (
           <>
-            <div className="flex justify-between items-center mb-8">
-              <span className="text-base font-medium text-[#2D2D2D]">알림 받는 시간</span>
-              <div className="flex items-center gap-2">
-                <input
-                  type="number"
-                  value={hours}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) => setHours(e.target.value)}
-                  min="0"
-                  max="23"
-                  className="w-[60px] h-10 text-center border border-gray-200 rounded-lg text-base bg-[#F8F8F8]"
-                />
-                <span className="text-base text-[#2D2D2D]">시</span>
-                <input
-                  type="number"
-                  value={minutes}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) => setMinutes(e.target.value)}
-                  min="0"
-                  max="59"
-                  className="w-[60px] h-10 text-center border border-gray-200 rounded-lg text-base bg-[#F8F8F8]"
-                />
-                <span className="text-base text-[#2D2D2D]">분</span>
+            <div>
+              <span className="text-[18px] font-semibold text-[#000] leading-[150%] font-['Pretendard'] block mb-2">
+                알림 받는 시간
+              </span>
+
+              <div className="flex justify-between items-center gap-2">
+                <div className="flex justify-between items-center flex-1 ">
+                  <div className="bg-[#F8F8F8] rounded-lg px-4 h-[45px] relative flex-1 flex items-center border border-transparent focus-within:border-[#4D97FF]">
+                    <input
+                      type="text"
+                      value={hours}
+                      onChange={handleHoursChange}
+                      placeholder="23"
+                      className="w-full text-right border-none bg-transparent text-base focus:outline-none placeholder:text-[#8E8E8E] placeholder:text-[14px] placeholder:font-medium placeholder:leading-[150%] placeholder:font-['Pretendard_Variable'] placeholder:text-right"
+                    />
+                  </div>
+                  <span className="ml-1 right-4 text-base text-[#2D2D2D]">시</span>
+                </div>
+                <div className="flex justify-between items-center flex-1 ">
+                  <div className="bg-[#F8F8F8] rounded-lg px-4 h-[45px] relative flex-1 flex items-center border border-transparent focus-within:border-[#4D97FF]">
+                    <input
+                      type="text"
+                      value={minutes}
+                      onChange={handleMinutesChange}
+                      placeholder="59"
+                      className="w-full text-right border-none bg-transparent text-base focus:outline-none placeholder:text-[#8E8E8E] placeholder:text-[14px] placeholder:font-medium placeholder:leading-[150%] placeholder:font-['Pretendard_Variable'] placeholder:text-right"
+                    />
+                  </div>
+                  <span className="ml-1 right-4 text-base text-[#2D2D2D]">분</span>
+                </div>
               </div>
             </div>
 
-            <p className="text-sm text-[#8E8E8E] mb-8">
-              오늘/오후 대신 소지품 잃어버리지 마세요 (오후 2시 → 14:00)
-            </p>
+            <div className="flex items-center gap-2 mt-[10px]">
+              <Icon name="alert-circle" stroke="#8E8E8E" width={16} height={16}></Icon>
+              <p className="text-[12px] font-normal text-[#8E8E8E] leading-[150%] ">
+                오전/오후 대신 숫자로 입력해 주세요 (오후 2시 → 14:00)
+              </p>
+            </div>
 
-            <div className="flex justify-between items-center mb-8">
-              <span className="text-base font-medium text-[#2D2D2D]">일정</span>
-              <div className="w-[200px]">
+            <div className="h-[1px] bg-[#F0F0F0] my-5"></div>
+
+            <div className="flex justify-between w-full flex-col">
+              <div className="text-[18px] font-semibold text-[#000] leading-[150%] font-['Pretendard'] mb-[10px]">
+                일정
+              </div>
+              <div className="w-full">
                 <SelectBox
                   value={selectedSchedule}
                   onChange={(value: string) => setSelectedSchedule(value)}
@@ -71,19 +104,35 @@ const AlramSettings = () => {
               </div>
             </div>
 
-            <h2 className="text-base font-medium text-[#2D2D2D] mb-4">이렇게 알림이 도착해요!</h2>
-            <div className="bg-[#F8F8F8] rounded-xl p-4">
-              <div className="flex justify-between items-center mb-2">
-                <span className="font-semibold text-[#2D2D2D]">Ondo</span>
-                <span className="text-sm text-[#8E8E8E]">9:41 AM</span>
+            <div className="h-[1px] bg-[#F0F0F0] my-5"></div>
+
+            <h2 className="text-[18px] font-semibold text-[#000] mb-4">이렇게 알림이 도착해요!</h2>
+            <div className="flex flex-row px-[14px] pt-[14px] pb-[12px] gap-[10px] self-stretch rounded-[24px] bg-[#A6A6A6]/30">
+              <div className="flex justify-between items-center">
+                <div className="flex justify-center items-center font-semibold text-black rounded-[10px] bg-white w-[38px] h-[38px]">
+                  <Icon
+                    name="ondo-logo-small"
+                    stroke="#000"
+                    width={32}
+                    className="text-center"
+                  ></Icon>
+                </div>
               </div>
-              <p className="text-sm leading-relaxed text-[#2D2D2D]">
-                오늘은 오후 2시에 데이트가 있는 날이에요!
-                <br />
-                오늘 날씨와 일정에 어울리는 코디가 준비되어 있어요.
-                <br />
-                확인해 보세요?
-              </p>
+              <div className="w-full">
+                <span className="flex flex-row gap-[10px] items-center justify-between">
+                  <p className="text-[#000] font-['Pretendard_Variable'] text-[14px] font-medium leading-[150%] font-feature-settings: 'liga' off, 'clig' off">
+                    😎 오늘의 코디: 하늘색 원피스
+                  </p>
+                  <span className="text-sm text-[#8E8E8E]">9:41 AM</span>
+                </span>
+                <p className="text-sm leading-relaxed">
+                  오늘은 오후 2시에 데이트가 있는 날이에요!
+                  <br />
+                  오늘 날씨와 일정에 어울리는 코디가 준비되어 있어요.
+                  <br />
+                  확인해 보세요?
+                </p>
+              </div>
             </div>
           </>
         )}
