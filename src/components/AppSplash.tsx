@@ -8,11 +8,11 @@ type AppSplashProps = {
 
 export function AppSplash({ duration = 2000, fadeDuration = 700, children }: AppSplashProps) {
   const [fadeOut, setFadeOut] = useState(false);
-  const [hidden, setHidden] = useState(true); // 기본값을 true로 변경
+  const [hidden, setHidden] = useState(true);
 
   useEffect(() => {
-    // localStorage에서 스플래시 표시 여부 확인
-    const hasSeenSplash = localStorage.getItem('hasSeenSplash');
+    // 세션 스토리지를 사용하여 현재 탭에서만 스플래시 표시 여부 확인
+    const hasSeenSplash = sessionStorage.getItem('hasSeenSplash');
 
     if (!hasSeenSplash) {
       setHidden(false);
@@ -20,7 +20,7 @@ export function AppSplash({ duration = 2000, fadeDuration = 700, children }: App
         setFadeOut(true);
         setTimeout(() => {
           setHidden(true);
-          localStorage.setItem('hasSeenSplash', 'true');
+          sessionStorage.setItem('hasSeenSplash', 'true');
         }, fadeDuration);
       }, duration);
 
@@ -34,7 +34,7 @@ export function AppSplash({ duration = 2000, fadeDuration = 700, children }: App
         {children}
         {!hidden && (
           <div
-            className={`absolute inset-0 z-[9999] flex items-center justify-center bg-white pointer-events-none transition-opacity  ${
+            className={`absolute inset-0 z-[9999] flex items-center justify-center bg-white pointer-events-none transition-opacity ${
               fadeOut ? 'opacity-0' : 'opacity-100'
             }`}
             style={{ transitionDuration: `${fadeDuration}ms` }}
