@@ -22,13 +22,23 @@ export const requestPermissionAndGetToken = async () => {
     serviceWorkerRegistration: await navigator.serviceWorker.register('/firebase-messaging-sw.js'),
   });
 
-  console.log('푸시 토큰:', token);
+  console.log('FCM 토큰:', token);
+  console.log('FCM 토큰 길이:', token.length);
+  console.log(
+    'FCM 토큰 형식:',
+    token.substring(0, 10) + '...' + token.substring(token.length - 10)
+  );
   return token;
 };
 
 export const setupOnMessage = () => {
   onMessage(messaging, payload => {
-    console.log('포그라운드 알림:', payload);
-    // alert(payload.notification?.title + '\n' + payload.notification?.body);
+    console.log('=== 포그라운드 메시지 수신 ===');
+    console.log('메시지 전체 데이터:', payload);
+    console.log('알림 제목:', payload.notification?.title);
+    console.log('알림 내용:', payload.notification?.body);
+    console.log('추가 데이터:', payload.data);
+    console.log('메시지 ID:', payload.messageId);
+    console.log('==========================');
   });
 };
