@@ -60,13 +60,24 @@
       const isInAppBrowser = /KAKAOTALK|NAVER|Line|FBAN|FBAV/i.test(navigator.userAgent);
       if (!isInAppBrowser) {
         window.addEventListener('load', () => {
+          // Firebase 메시징 서비스 워커 등록
+          navigator.serviceWorker
+            .register('/firebase-messaging-sw.js')
+            .then((registration) => {
+              console.log('Firebase Messaging SW registered:', registration);
+            })
+            .catch((error) => {
+              console.log('Firebase Messaging SW registration failed:', error);
+            });
+
+          // 기존 PWA 서비스 워커 등록
           navigator.serviceWorker
             .register('/sw.js')
             .then((registration) => {
-              console.log('SW registered:', registration);
+              console.log('PWA SW registered:', registration);
             })
             .catch((error) => {
-              console.log('SW registration failed:', error);
+              console.log('PWA SW registration failed:', error);
             });
         });
       }
