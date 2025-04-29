@@ -31,13 +31,20 @@ function App() {
   const checkNotificationPermission = async () => {
     if (Notification.permission === 'granted') {
       console.log('✅ 알림 권한 있음');
-      // alert('알림 권한 있음');
+      return true;
     } else if (Notification.permission === 'denied') {
       console.log('❌ 알림 권한 거부됨');
+      return false;
     } else {
       console.log('ℹ️ 권한 미요청 상태, 요청 시도...');
-      const permission = await Notification.requestPermission();
-      console.log('사용자 선택 결과:', permission);
+      try {
+        const permission = await Notification.requestPermission();
+        console.log('사용자 선택 결과:', permission);
+        return permission === 'granted';
+      } catch (error) {
+        console.error('알림 권한 요청 중 오류:', error);
+        return false;
+      }
     }
   };
 

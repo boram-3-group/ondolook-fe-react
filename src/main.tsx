@@ -5,11 +5,12 @@ import { registerServiceWorker } from './utils/serviceWorker';
 import './index.css';
 import { requestPermissionAndGetToken } from './core/firebase.ts';
 
-requestPermissionAndGetToken();
-
 // 서비스 워커 등록
 if (process.env.NODE_ENV === 'production') {
-  registerServiceWorker();
+  registerServiceWorker().then(() => {
+    // 서비스 워커 등록 후 Firebase 토큰 요청
+    requestPermissionAndGetToken();
+  });
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
