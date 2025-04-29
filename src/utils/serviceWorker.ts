@@ -11,11 +11,9 @@ export const registerServiceWorker = async () => {
         if (newWorker) {
           newWorker.addEventListener('statechange', () => {
             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              // 새 버전이 설치되었을 때 사용자에게 알림
-              if (window.confirm('새 버전이 있습니다. 업데이트하시겠습니까?')) {
-                newWorker.postMessage({ type: 'SKIP_WAITING' });
-                window.location.reload();
-              }
+              // 새 버전이 설치되면 자동으로 업데이트
+              newWorker.postMessage({ type: 'SKIP_WAITING' });
+              window.location.reload();
             }
           });
         }

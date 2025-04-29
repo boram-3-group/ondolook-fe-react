@@ -37,6 +37,7 @@ export const requestPermissionAndGetToken = async () => {
     });
 
     console.log('[Firebase] FCM 토큰 발급 성공:', {
+      token,
       tokenLength: token.length,
       tokenPreview: `${token.substring(0, 10)}...${token.substring(token.length - 10)}`,
     });
