@@ -4,12 +4,12 @@ import { cva, type VariantProps } from 'class-variance-authority';
 const inputClassName = cva('w-full rounded-md bg-grayScale-5 placeholder:text-Body2', {
   variants: {
     inputHeight: {
-      small: 'h-[40px]',
+      small: 'h-[45px] px-4 py-3',
       medium: 'h-[56px] px-4 py-3',
     },
   },
   defaultVariants: {
-    inputHeight: 'medium',
+    inputHeight: 'small',
   },
 });
 

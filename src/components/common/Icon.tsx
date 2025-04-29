@@ -6,6 +6,7 @@ import annotation_dots from '../../assets/icons/annotation-dots.svg';
 import announcement from '../../assets/icons/announcement.svg';
 import bell from '../../assets/icons/bell.svg';
 import bookmark from '../../assets/icons/bookmark.svg';
+import blue_bookmark from '../../assets/icons/blue-bookmark.svg';
 import chevron_left from '../../assets/icons/chevron-left.svg';
 import chevron_right from '../../assets/icons/chevron-right.svg';
 import edit from '../../assets/icons/edit.svg';
@@ -17,6 +18,7 @@ import home from '../../assets/icons/home.svg';
 import mypage from '../../assets/icons/mypage.svg';
 import blue_check from '../../assets/icons/blue-check.svg';
 import white_check from '../../assets/icons/white-check.svg';
+import small_button from '../../assets/icons/small-button.svg';
 
 import bit_cloudy_lightning from '../../assets/icons/bit-cloudy-lightning.png';
 import bit_cloudy_moon from '../../assets/icons/bit-cloudy-moon.png';
@@ -46,6 +48,7 @@ type IconName =
   | 'announcement'
   | 'bell'
   | 'bookmark'
+  | 'blue-bookmark'
   | 'chevron-left'
   | 'chevron-right'
   | 'edit'
@@ -57,6 +60,7 @@ type IconName =
   | 'mypage'
   | 'blue-check'
   | 'white-check'
+  | 'small-button'
   | 'bit-cloudy-lightning'
   | 'bit-cloudy-moon'
   | 'bit-cloudy-sun'
@@ -85,6 +89,7 @@ const iconMap: Record<IconName, any> = {
   announcement: announcement,
   bell: bell,
   bookmark: bookmark,
+  'blue-bookmark': blue_bookmark,
   'chevron-left': chevron_left,
   'chevron-right': chevron_right,
   edit: edit,
@@ -96,6 +101,7 @@ const iconMap: Record<IconName, any> = {
   mypage: mypage,
   'blue-check': blue_check,
   'white-check': white_check,
+  'small-button': small_button,
   'bit-cloudy-lightning': bit_cloudy_lightning,
   'bit-cloudy-moon': bit_cloudy_moon,
   'bit-cloudy-sun': bit_cloudy_sun,

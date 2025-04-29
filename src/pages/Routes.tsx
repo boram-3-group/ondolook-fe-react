@@ -32,7 +32,7 @@ type RouteWithHandle = RouteObject & {
 export const router = createBrowserRouter([
   {
     path: '/home',
-    element: <HomePage />,
+    element: <EmptyLayout />,
     children: [{ path: '', element: <HomePage /> }],
   } as RouteWithHandle,
   {
@@ -105,6 +105,7 @@ export const router = createBrowserRouter([
         element: <FindIdSuccess />,
         handle: {
           isShowBack: true,
+          title: '아이디 찾기',
         },
       },
     ],

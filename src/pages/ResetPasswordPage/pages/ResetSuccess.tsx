@@ -19,9 +19,9 @@ const ResetSuccess = () => {
         </div>
         <Button
           onClick={() => navigate('/login/form')}
-          className="w-full"
+          className="absolute left-1/2 bottom-5 -translate-x-1/2 w-[calc(100%-40px)]"
           intent="primary"
-          size="medium"
+          size="large"
           type="submit"
         >
           로그인하러가기

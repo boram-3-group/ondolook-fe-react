@@ -142,7 +142,12 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
               )}
             />
           </div>
-          <Button intent="primary" size="medium" type="submit">
+          <Button
+            intent="primary"
+            size="large"
+            className="absolute left-1/2 bottom-5 -translate-x-1/2 w-[calc(100%-40px)]"
+            type="submit"
+          >
             다음
           </Button>
         </form>

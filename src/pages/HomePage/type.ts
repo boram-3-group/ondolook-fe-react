@@ -46,3 +46,39 @@ export interface Category {
 export interface CategoryResponse {
   content: Category[];
 }
+
+export interface WeatherPayload {
+  lat: number;
+  lon: number;
+}
+
+export interface Forecast {
+  time: string;
+  temperature: number;
+  sky: number;
+  pty: number;
+  pop: number;
+  icon: string;
+  iconNumber: number;
+  iconMessage: string;
+}
+
+export interface AirQuality {
+  airQuality: number;
+  message: string;
+  iconFlag: boolean;
+  grade: string;
+}
+
+export interface UvIndex {
+  uvIndex: number;
+  message: string;
+  iconFlag: boolean;
+  grade: string;
+}
+
+export interface WeatherResponse {
+  forecasts: Forecast[];
+  airQuality: AirQuality;
+  uvIndex: UvIndex;
+}

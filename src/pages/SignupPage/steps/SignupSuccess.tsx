@@ -19,14 +19,14 @@ const SignupSuccess = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center mt-[180px] mx-4 relative">
+      <div className="flex flex-col items-center justify-center mt-[180px] mx-4">
         <img src="/signupSuccess.svg" className="width-[228px] height-[239px]" />
-        <p className="text-Body2 text-primary-40 absolute bottom-[90px]">가입 완료!</p>
-        <div className="text-Display mt-1">{username}님, 환영해요</div>
+        <div className="text-Body2 text-primary-40">가입 완료!</div>
+        <div className="text-Display">{username}님, 환영해요</div>
         <Button
-          className="w-full"
           intent="primary"
-          size="medium"
+          size="large"
+          className="absolute left-1/2 bottom-5 -translate-x-1/2 w-[calc(100%-40px)]"
           type="submit"
           onClick={handlemovetoLogin}
         >
