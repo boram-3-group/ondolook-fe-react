@@ -52,9 +52,26 @@ export default defineConfig({
         type: 'module',
       },
       injectRegister: null,
-      strategies: 'injectManifest',
-      srcDir: 'public',
-      filename: 'sw.js',
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,jpg,jpeg,json,woff2}'],
+        cleanupOutdatedCaches: true,
+        skipWaiting: true,
+        clientsClaim: true,
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/ondolook\.click\/.*/i,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'api-cache',
+              networkTimeoutSeconds: 10,
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 60 * 5, // 5 minutes
+              },
+            },
+          },
+        ],
+      },
     }),
   ],
   server: {
