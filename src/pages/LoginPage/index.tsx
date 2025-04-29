@@ -31,8 +31,8 @@ const LoginPage = () => {
               className="mt-4"
               {...register('password')}
             />
-            <Button intent="primary" size="medium" type="submit" className="mt-2 w-full">
-              로그인하기
+            <Button intent="primary" size="large" type="submit" className="mt-[42px] w-full">
+              로그인 하기
             </Button>
           </div>
         </form>

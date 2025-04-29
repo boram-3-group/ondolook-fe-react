@@ -115,7 +115,12 @@ const AccountForm = ({ onNext }: moveNextProps) => {
             </div>
           </div>
 
-          <Button intent="primary" size="large" className="w-full" type="submit">
+          <Button
+            intent="primary"
+            size="large"
+            className="absolute left-1/2 bottom-5 -translate-x-1/2 w-[calc(100%-40px)]"
+            type="submit"
+          >
             다음
           </Button>
         </form>

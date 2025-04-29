@@ -105,6 +105,7 @@ export const router = createBrowserRouter([
         element: <FindIdSuccess />,
         handle: {
           isShowBack: true,
+          title: '아이디 찾기',
         },
       },
     ],

@@ -48,7 +48,7 @@ const FindIdPage = () => {
             <Input type="text" placeholder="인증번호 입력" {...register('code')}></Input>
           </div>
           <div className="mt-[42px]">
-            <Button className="w-full" intent="primary" size="medium" type="submit">
+            <Button className="w-full" intent="primary" size="large" type="submit">
               {isCodeSent ? '인증 확인' : '인증번호 받기'}
             </Button>
           </div>

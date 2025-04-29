@@ -15,7 +15,7 @@ const button = cva(
       },
       size: {
         large: 'px-4 text-sm',
-        medium: 'px-4 py-2 text-sm',
+        medium: 'px-4 py-3 text-sm',
         small: 'px-3 py-1 text-xs',
       },
       side: {
