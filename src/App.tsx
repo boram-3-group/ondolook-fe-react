@@ -3,6 +3,7 @@ import './App.scss';
 import { Routes } from './pages/Routes';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AppSplash } from './components/AppSplash';
+import PWAInstallPrompt from './components/PWAInstallPrompt';
 
 function App() {
   const queryClient = new QueryClient();
@@ -62,6 +63,7 @@ function App() {
           <AppSplash duration={2000}>
             <Routes />
           </AppSplash>
+          <PWAInstallPrompt />
         </div>
       </div>
     </QueryClientProvider>
