@@ -10,16 +10,6 @@ export default defineConfig({
       include: '**/*.svg',
     }),
     VitePWA({
-      registerType: 'autoUpdate',
-      includeAssets: [
-        'favicon.svg',
-        'robots.txt',
-        'apple-touch-icon.png',
-        'splash-screen.png',
-        'splash-screen-iphone.png',
-        'splash-screen-ipad.png',
-        'splash-screen-ipad-pro.png',
-      ],
       manifest: {
         name: 'Ondolook',
         short_name: 'Ondolook',
@@ -47,38 +37,9 @@ export default defineConfig({
           },
         ],
       },
-      workbox: {
-        cleanupOutdatedCaches: true,
-        sourcemap: true,
-        navigateFallback: '/index.html',
-        runtimeCaching: [
-          {
-            urlPattern: /^https:\/\/ondolook\.click\/.*/i,
-            handler: 'NetworkFirst',
-            options: {
-              cacheName: 'ondolook-cache',
-              networkTimeoutSeconds: 10,
-              expiration: {
-                maxEntries: 200,
-                maxAgeSeconds: 24 * 60 * 60, // 24 hours
-              },
-              cacheableResponse: {
-                statuses: [0, 200],
-              },
-            },
-          },
-        ],
-      },
       devOptions: {
         enabled: process.env.NODE_ENV === 'development',
         type: 'module',
-        navigateFallback: 'index.html',
-      },
-      srcDir: 'public',
-      filename: 'sw.js',
-      strategies: 'injectManifest',
-      injectManifest: {
-        injectionPoint: undefined,
       },
       injectRegister: null,
     }),
@@ -92,7 +53,6 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: './index.html',
-        sw: './public/sw.js',
       },
     },
   },
