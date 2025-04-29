@@ -4,6 +4,7 @@ import { Routes } from './pages/Routes';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AppSplash } from './components/AppSplash';
 import PWAInstallPrompt from './components/PWAInstallPrompt';
+import { NotificationTest } from './components/NotificationTest';
 
 function App() {
   const queryClient = new QueryClient();
@@ -71,6 +72,7 @@ function App() {
             <Routes />
           </AppSplash>
           <PWAInstallPrompt />
+          <NotificationTest />
         </div>
       </div>
     </QueryClientProvider>
