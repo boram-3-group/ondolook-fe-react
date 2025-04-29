@@ -34,3 +34,8 @@ declare interface ServiceWorkerRegistration {
   update(): Promise<void>;
   unregister(): Promise<boolean>;
 }
+
+declare interface ServiceWorker {
+  state: 'installing' | 'installed' | 'activating' | 'activated' | 'redundant';
+  scriptURL: string;
+}
