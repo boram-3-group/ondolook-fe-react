@@ -23,7 +23,7 @@ export default defineConfig({
       manifest: {
         name: 'Ondolook',
         short_name: 'Ondolook',
-        description: '온라인 부동산 플랫폼 Ondolook',
+        description: 'Ondolook',
         start_url: 'https://ondolook.link/',
         scope: 'https://ondolook.link/',
         display: 'standalone',
@@ -88,17 +88,26 @@ export default defineConfig({
         type: 'module',
         navigateFallback: 'index.html',
       },
+      // 서비스 워커 파일 설정
+      srcDir: 'public',
+      filename: 'sw.js',
       strategies: 'injectManifest',
-      injectRegister: 'auto',
-      minify: true,
-      includeManifestIcons: true,
-      manifestFilename: 'manifest.json',
-      useCredentials: true,
+      injectManifest: {
+        injectionPoint: undefined,
+      },
     }),
   ],
   server: {
     host: '0.0.0.0',
     port: 3000,
     allowedHosts: ['.trycloudflare.com', 'ondolook.link'],
+  },
+  build: {
+    rollupOptions: {
+      input: {
+        main: './index.html',
+        sw: './public/sw.js',
+      },
+    },
   },
 });

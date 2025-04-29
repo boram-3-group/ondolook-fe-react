@@ -1,21 +1,17 @@
-import { precacheAndRoute } from 'workbox-precaching';
-import { NetworkFirst, CacheFirst } from 'workbox-strategies';
-import { registerRoute } from 'workbox-routing';
-import { ExpirationPlugin } from 'workbox-expiration';
-import { CacheableResponsePlugin } from 'workbox-cacheable-response';
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/7.0.0/workbox-sw.js');
 
-// @ts-ignore
-precacheAndRoute(self.__WB_MANIFEST);
+workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
 
-registerRoute(
+// API 요청에 대한 캐싱 전략
+workbox.routing.registerRoute(
   ({ url }) => url.pathname.startsWith('/api'),
-  new NetworkFirst({
+  new workbox.strategies.NetworkFirst({
     cacheName: 'api-cache',
     plugins: [
-      new CacheableResponsePlugin({
+      new workbox.cacheableResponse.CacheableResponsePlugin({
         statuses: [0, 200],
       }),
-      new ExpirationPlugin({
+      new workbox.expiration.ExpirationPlugin({
         maxEntries: 50,
         maxAgeSeconds: 5 * 60, // 5분
       }),
@@ -24,15 +20,15 @@ registerRoute(
 );
 
 // 정적 자원에 대한 캐싱 전략
-registerRoute(
+workbox.routing.registerRoute(
   ({ request }) => request.destination === 'image',
-  new CacheFirst({
+  new workbox.strategies.CacheFirst({
     cacheName: 'image-cache',
     plugins: [
-      new CacheableResponsePlugin({
+      new workbox.cacheableResponse.CacheableResponsePlugin({
         statuses: [0, 200],
       }),
-      new ExpirationPlugin({
+      new workbox.expiration.ExpirationPlugin({
         maxEntries: 60,
         maxAgeSeconds: 30 * 24 * 60 * 60, // 30일
       }),
@@ -41,7 +37,7 @@ registerRoute(
 );
 
 // 서비스 워커 설치 이벤트
-self.addEventListener('install', (event: ServiceWorkerInstallEvent) => {
+self.addEventListener('install', event => {
   event.waitUntil(
     (async () => {
       const cache = await caches.open('ondolook-cache-v1');
@@ -60,7 +56,7 @@ self.addEventListener('install', (event: ServiceWorkerInstallEvent) => {
 });
 
 // 서비스 워커 활성화 이벤트
-self.addEventListener('activate', (event: ServiceWorkerActivateEvent) => {
+self.addEventListener('activate', event => {
   event.waitUntil(
     (async () => {
       // 이전 캐시 삭제
@@ -84,7 +80,7 @@ self.addEventListener('activate', (event: ServiceWorkerActivateEvent) => {
 });
 
 // 오프라인 지원
-self.addEventListener('fetch', (event: ServiceWorkerFetchEvent) => {
+self.addEventListener('fetch', event => {
   event.respondWith(
     (async () => {
       try {
@@ -100,8 +96,8 @@ self.addEventListener('fetch', (event: ServiceWorkerFetchEvent) => {
 });
 
 // 메시지 처리
-self.addEventListener('message', (event: MessageEvent) => {
+self.addEventListener('message', event => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
-    (self as ServiceWorkerGlobalScope).skipWaiting();
+    self.skipWaiting();
   }
 });
