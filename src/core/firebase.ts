@@ -1,6 +1,8 @@
 import { initializeApp } from 'firebase/app';
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
+import { getAnalytics } from 'firebase/analytics';
 
+// Firebase 설정
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_APP_FIREBASE_API_KEY!,
   authDomain: import.meta.env.VITE_APP_FIREBASE_AUTH_DOMAIN!,
@@ -10,36 +12,69 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_APP_FIREBASE_APP_ID!,
 };
 
+// Firebase 초기화
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
+const analytics = getAnalytics(app);
 
-export const requestPermissionAndGetToken = async () => {
-  const status = await Notification.requestPermission();
-  console.log('알림 권한 상태:', status);
-  if (status !== 'granted') return;
+// 서비스 워커 등록 및 환경 변수 전달
+export const registerServiceWorker = async () => {
+  try {
+    const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+    console.log('[Firebase] 서비스 워커 등록 성공:', registration);
 
-  const token = await getToken(messaging, {
-    vapidKey: import.meta.env.VITE_APP_FIREBASE_VAPID_KEY!,
-    serviceWorkerRegistration: await navigator.serviceWorker.register('/firebase-messaging-sw.js'),
-  });
+    // 서비스 워커에 환경 변수 전달
+    registration.active?.postMessage({
+      type: 'FIREBASE_CONFIG',
+      config: firebaseConfig,
+    });
 
-  console.log('FCM 토큰:', token);
-  console.log('FCM 토큰 길이:', token.length);
-  console.log(
-    'FCM 토큰 형식:',
-    token.substring(0, 10) + '...' + token.substring(token.length - 10)
-  );
-  return token;
+    return registration;
+  } catch (error) {
+    console.error('[Firebase] 서비스 워커 등록 실패:', error);
+    throw error;
+  }
 };
 
+// FCM 토큰 요청
+export const requestPermissionAndGetToken = async () => {
+  try {
+    const status = await Notification.requestPermission();
+    console.log('[Firebase] 알림 권한 상태:', status);
+
+    if (status !== 'granted') {
+      console.warn('[Firebase] 알림 권한이 거부되었습니다.');
+      return null;
+    }
+
+    const registration = await registerServiceWorker();
+    const token = await getToken(messaging, {
+      vapidKey: import.meta.env.VITE_APP_FIREBASE_VAPID_KEY!,
+      serviceWorkerRegistration: registration,
+    });
+
+    console.log('[Firebase] FCM 토큰 발급 성공:', {
+      tokenLength: token.length,
+      tokenPreview: `${token.substring(0, 10)}...${token.substring(token.length - 10)}`,
+    });
+
+    return token;
+  } catch (error) {
+    console.error('[Firebase] FCM 토큰 요청 실패:', error);
+    return null;
+  }
+};
+
+// 포그라운드 메시지 처리
 export const setupOnMessage = () => {
   onMessage(messaging, payload => {
-    console.log('=== 포그라운드 메시지 수신 ===');
-    console.log('메시지 전체 데이터:', payload);
-    console.log('알림 제목:', payload.notification?.title);
-    console.log('알림 내용:', payload.notification?.body);
-    console.log('추가 데이터:', payload.data);
-    console.log('메시지 ID:', payload.messageId);
-    console.log('==========================');
+    console.log('[Firebase] 포그라운드 메시지 수신:', {
+      title: payload.notification?.title,
+      body: payload.notification?.body,
+      data: payload.data,
+      messageId: payload.messageId,
+    });
   });
 };
+
+export { messaging, analytics };
