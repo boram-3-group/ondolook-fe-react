@@ -8,7 +8,7 @@ export const WeatherBox = () => {
   const { lat, lon } = useLocationStore();
 
   const shouldFetch = lat !== 0 && lon !== 0;
-  console.log('weather render!');
+  // console.log('weather render!');
   // const { data, isLoading } = useFetchWeather({ lat: 37.498095, lon: 127.02761 });
 
   return (
