@@ -8,6 +8,7 @@ import { WeatherBox } from './_components/WeatherBox';
 import { Icon } from '../../components/common/Icon';
 import useLocationStore from '../../store/useLocationStore';
 import { Categories } from '../../core/constants';
+import Carousel from '../../components/common/Carousel';
 
 export function HomePage() {
   const [selectCategory, setSelectCategory] = useState('daily');
@@ -58,12 +59,6 @@ export function HomePage() {
             );
           })}
         </div>
-      </div>
-      <Icon name="bookmark" width={28} height={28} className="ml-9" alt="북마크" />
-      <Icon name="small-button" width={48} height={48} className="ml-9" alt="작은버튼" />
-      <div className="flex absolute">
-        <Icon name="home" width={28} height={28} className="ml-9" alt="홈" />
-        <Icon name="mypage" width={28} height={28} className="mr-9" alt="마이페이지" />
       </div>
     </>
   );

@@ -32,7 +32,7 @@ type RouteWithHandle = RouteObject & {
 export const router = createBrowserRouter([
   {
     path: '/home',
-    element: <HomePage />,
+    element: <EmptyLayout />,
     children: [{ path: '', element: <HomePage /> }],
   } as RouteWithHandle,
   {

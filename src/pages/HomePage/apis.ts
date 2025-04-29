@@ -5,6 +5,8 @@ import {
   OutfitPayload,
   OutfitResponse,
   CategoryResponse,
+  WeatherPayload,
+  WeatherResponse,
 } from './type';
 
 export const getRegion = async ({ lat, lon }: RegionPayload) => {
@@ -21,5 +23,12 @@ export const getOutfit = async ({ lat, lon, eventType, gender }: OutfitPayload) 
 
 export const getCategory = async () => {
   const res = await api.service.get<CategoryResponse>(`/api/v1/outfit-condition/event-types`);
+  return res && res.data;
+};
+
+export const getWeather = async ({ lat, lon }: WeatherPayload) => {
+  const res = await api.service.get<WeatherResponse>(
+    `/api/v1/weather/position?lat=${lat}&lon=${lon}`
+  );
   return res && res.data;
 };
