@@ -5,6 +5,14 @@ export const registerServiceWorker = async () => {
         scope: '/',
       });
 
+      // Firebase 메시지 이벤트 리스너 추가
+      navigator.serviceWorker.addEventListener('message', event => {
+        if (event.data && event.data.type === 'FIREBASE_MESSAGE') {
+          console.log('Firebase 푸시 알림 수신:', event.data.payload);
+          // 여기에 추가적인 알림 처리 로직을 추가할 수 있습니다
+        }
+      });
+
       // 서비스 워커 업데이트 확인
       registration.addEventListener('updatefound', () => {
         const newWorker = registration.installing;
