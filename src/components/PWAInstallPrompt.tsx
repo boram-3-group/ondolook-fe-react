@@ -1,9 +1,23 @@
 import { useEffect, useState } from 'react';
 import './PWAInstallPrompt.css';
 
+declare global {
+  interface WindowEventMap {
+    beforeinstallprompt: BeforeInstallPromptEvent;
+  }
+
+  interface Navigator {
+    standalone?: boolean; // Safari-specific property
+  }
+}
+
 interface BeforeInstallPromptEvent extends Event {
-  prompt: () => Promise<void>;
-  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
+  readonly platforms: string[];
+  readonly userChoice: Promise<{
+    outcome: 'accepted' | 'dismissed';
+    platform: string;
+  }>;
+  prompt(): Promise<void>;
 }
 
 const PWAInstallPrompt = () => {
@@ -15,7 +29,7 @@ const PWAInstallPrompt = () => {
     // PWA로 실행 중인지 확인
     const isPWA =
       window.matchMedia('(display-mode: standalone)').matches ||
-      (window.navigator as any).standalone ||
+      window.navigator.standalone ||
       document.referrer.includes('android-app://');
 
     if (isPWA) {
@@ -35,9 +49,9 @@ const PWAInstallPrompt = () => {
     const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent);
     setIsIOS(isIOSDevice);
 
-    const handleBeforeInstallPrompt = (e: Event) => {
+    const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
       e.preventDefault();
-      setDeferredPrompt(e as BeforeInstallPromptEvent);
+      setDeferredPrompt(e);
       setShowPrompt(true);
     };
 
