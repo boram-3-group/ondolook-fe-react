@@ -11,6 +11,17 @@ import { NotificationPermissionModal } from './components/NotificationPermission
 function App() {
   const queryClient = new QueryClient();
   const [showNotificationModal, setShowNotificationModal] = useState(false);
+  const [isIOS, setIsIOS] = useState(false);
+
+  useEffect(() => {
+    // iOS 기기 감지
+    const checkIOS = () => {
+      const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+      setIsIOS(isIOSDevice);
+    };
+
+    checkIOS();
+  }, []);
 
   function requestGeolocationPermission() {
     return new Promise((resolve, reject) => {
@@ -71,7 +82,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="app">
+      <div className={`app ${isIOS ? 'ios-safe-area' : ''}`}>
         <div className="web-side__banner">
           <div className="web-side__banner__content">
             <h1>Welcome to our OndoLook!</h1>
