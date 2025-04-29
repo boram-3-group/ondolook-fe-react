@@ -28,7 +28,7 @@ export default defineConfig({
         scope: '/',
         display: 'standalone',
         background_color: '#ffffff',
-        theme_color: '#4A90E2',
+        theme_color: '#ffffff',
         orientation: 'portrait',
         categories: ['lifestyle'],
         prefer_related_applications: false,
