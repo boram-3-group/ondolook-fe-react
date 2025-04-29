@@ -29,7 +29,7 @@ const NewPassword = () => {
               className="mt-4"
               {...register('confirmPassword')}
             />
-            <Button intent="primary" size="medium" type="submit" className="mt-[42px] w-full">
+            <Button intent="primary" size="large" type="submit" className="mt-[42px] w-full">
               비밀번호 변경
             </Button>
           </div>

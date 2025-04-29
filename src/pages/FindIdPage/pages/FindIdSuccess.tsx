@@ -15,7 +15,7 @@ const FindIdSuccess = () => {
           <Button
             className="w-full"
             intent="primary"
-            size="medium"
+            size="large"
             type="submit"
             onClick={() => navigate('/login/form')}
           >

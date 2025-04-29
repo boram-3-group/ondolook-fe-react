@@ -77,7 +77,7 @@ export const AgreeForm = ({ onNext }: moveNextProps) => {
           <Button
             className="w-full"
             intent={isRequiredChecked ? 'primary' : 'disabled'}
-            size="medium"
+            size="large"
             type="submit"
             onClick={handleSubmitAgree}
           >

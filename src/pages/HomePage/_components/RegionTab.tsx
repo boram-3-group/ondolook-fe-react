@@ -17,7 +17,7 @@ export const RegionTab = () => {
   return (
     <>
       <div className="flex">
-        <div> {JSON.stringify(data)}</div>
+        {/* <div> {JSON.stringify(data)}</div> */}
         <Icon name="location" width={24} height={24} alt="위치" />
         <div className="text-Title1">서울시 강남구</div>
       </div>
