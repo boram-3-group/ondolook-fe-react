@@ -1,4 +1,5 @@
 import { useMatches } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 interface RouteHandle {
   title: string;
@@ -9,7 +10,23 @@ interface RouteHandle {
 export const useRouteMeta = () => {
   const matches = useMatches();
   const currentRoute = matches[matches.length - 1];
-  const handle = currentRoute?.handle as RouteHandle | undefined;
+  const routeHandle = currentRoute?.handle as RouteHandle | undefined;
 
-  return { meta: handle };
+  const [meta, setMeta] = useState<RouteHandle | undefined>(routeHandle);
+
+  useEffect(() => {
+    setMeta(routeHandle);
+  }, [routeHandle]);
+
+  const setHeaderMeta = (newMeta: Partial<RouteHandle>) => {
+    setMeta(prev => {
+      if (!prev) return newMeta as RouteHandle;
+      return {
+        ...prev,
+        ...newMeta,
+      };
+    });
+  };
+
+  return { meta, setHeaderMeta };
 };

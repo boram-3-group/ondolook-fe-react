@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SelectBox from '../../../components/common/SelectBox';
+import { Input } from '../../../components/common/Input';
 
 interface Option {
   value: string;
@@ -54,8 +55,6 @@ const UserInfoSettings: React.FC = () => {
   };
 
   const labelStyle = 'text-[18px] font-semibold leading-[150%] text-[#2D2D2D] mb-2';
-  const inputStyle =
-    'w-full h-[45px] px-4 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-left bg-[#F8F8F8] text-[14px] font-medium';
   const buttonStyle = `absolute left-1/2 bottom-5 -translate-x-1/2 w-[calc(100%-40px)] h-14 rounded-lg ${
     isChanged() ? 'bg-[#4D97FF]' : 'bg-[#D9D9D9]'
   } text-white text-base font-medium`;
@@ -71,41 +70,35 @@ const UserInfoSettings: React.FC = () => {
         <div className={labelStyle}>생년월일</div>
         <div className="flex gap-2">
           <div className="flex-1">
-            <input
-              type="text"
+            <Input
               value={birthYear}
               onChange={e => {
                 const value = e.target.value.replace(/[^0-9]/g, '');
                 if (value.length <= 4) setBirthYear(value);
               }}
               placeholder="2000"
-              className={inputStyle}
               maxLength={4}
             />
           </div>
           <div className="flex-1">
-            <input
-              type="text"
+            <Input
               value={birthMonth}
               onChange={e => {
                 const value = e.target.value.replace(/[^0-9]/g, '');
                 if (value.length <= 2) setBirthMonth(value);
               }}
               placeholder="01"
-              className={inputStyle}
               maxLength={2}
             />
           </div>
           <div className="flex-1">
-            <input
-              type="text"
+            <Input
               value={birthDay}
               onChange={e => {
                 const value = e.target.value.replace(/[^0-9]/g, '');
                 if (value.length <= 2) setBirthDay(value);
               }}
               placeholder="01"
-              className={inputStyle}
               maxLength={2}
             />
           </div>

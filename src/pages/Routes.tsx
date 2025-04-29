@@ -19,6 +19,7 @@ import UserInfoSettings from './MyPage/pages/UserInfoSettings';
 import AlramSettings from './MyPage/pages/AlramSettings';
 import NewPassword from './ResetPasswordPage/pages/NewPassword';
 import ResetSuccess from './ResetPasswordPage/pages/ResetSuccess';
+import Policy from './MyPage/pages/Policy';
 
 type RouteWithHandle = RouteObject & {
   handle?: {
@@ -184,6 +185,14 @@ export const router = createBrowserRouter([
         element: <AlramSettings />,
         handle: {
           title: '알림 설정',
+          isShowBack: true,
+        },
+      } as RouteWithHandle,
+      {
+        path: 'policy',
+        element: <Policy />,
+        handle: {
+          title: '약관 및 정책',
           isShowBack: true,
         },
       } as RouteWithHandle,

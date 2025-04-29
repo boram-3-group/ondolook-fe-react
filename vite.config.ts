@@ -10,36 +10,81 @@ export default defineConfig({
       include: '**/*.svg',
     }),
     VitePWA({
-      registerType: 'prompt', // 서비스 워커 자동 갱신
-      includeAssets: ['favicon.svg', 'robots.txt', 'apple-touch-icon.png'],
-      // devOptions: {
-      //   enabled: true, // ✅ dev 서버에서도 PWA 작동하도록 설정
-      // },
+      registerType: 'autoUpdate',
+      includeAssets: ['favicon.svg', 'robots.txt', 'apple-touch-icon.png', 'splash-screen.png'],
       manifest: {
         name: 'Ondolook',
         short_name: 'Ondolook',
-        start_url: '/',
+        description: '온라인 부동산 플랫폼 Ondolook',
+        start_url: 'https://ondolook.link/',
+        scope: 'https://ondolook.link/',
         display: 'standalone',
         background_color: '#ffffff',
         theme_color: '#4A90E2',
+        orientation: 'portrait',
+        categories: ['business', 'lifestyle', 'real estate'],
+        prefer_related_applications: false,
         icons: [
           {
             src: '/pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png',
+            purpose: 'any maskable',
           },
           {
             src: '/pwa-192x192.png',
             sizes: '192x192',
             type: 'image/png',
+            purpose: 'any maskable',
+          },
+          {
+            src: '/pwa-144x144.png',
+            sizes: '144x144',
+            type: 'image/png',
+            purpose: 'any maskable',
           },
         ],
+        screenshots: [
+          {
+            src: '/screenshot1.png',
+            sizes: '1280x720',
+            type: 'image/png',
+            label: 'Ondolook 메인 화면',
+          },
+        ],
+      },
+      workbox: {
+        cleanupOutdatedCaches: true,
+        sourcemap: true,
+        navigateFallback: '/index.html',
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/ondolook\.link\/.*/i,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'ondolook-cache',
+              networkTimeoutSeconds: 10,
+              expiration: {
+                maxEntries: 200,
+                maxAgeSeconds: 24 * 60 * 60, // 24 hours
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+        ],
+      },
+      devOptions: {
+        enabled: process.env.NODE_ENV === 'development',
+        type: 'module',
+        navigateFallback: 'index.html',
       },
     }),
   ],
   server: {
-    host: '0.0.0.0', // 외부 접속 허용
+    host: '0.0.0.0',
     port: 3000,
-    allowedHosts: ['.trycloudflare.com', ''], // Cloudflare Tunnel을 통한 접속 허용
+    allowedHosts: ['.trycloudflare.com', 'ondolook.link'],
   },
 });
