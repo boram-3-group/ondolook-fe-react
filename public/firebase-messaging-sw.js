@@ -1,14 +1,13 @@
 importScripts('https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js');
 importScripts('https://www.gstatic.com/firebasejs/10.8.1/firebase-messaging-compat.js');
 console.log('firebase-messaging-sw.js loaded');
-firebase.initializeApp({
-  apiKey: import.meta.env.VITE_APP_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_APP_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_APP_FIREBASE_APP_ID,
-});
+
+// 전역 변수에서 Firebase 설정을 가져옵니다
+const firebaseConfig = self.FIREBASE_CONFIG || {};
+
+console.log('Firebase 설정:', firebaseConfig);
+
+firebase.initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging();
 
