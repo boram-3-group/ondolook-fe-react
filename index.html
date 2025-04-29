@@ -55,6 +55,27 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/manifest.json" />
   <title>Ondolook - 온라인 부동산 플랫폼</title>
+  <script>
+    // 인앱 브라우저 체크
+    function isInAppBrowser() {
+      const ua = navigator.userAgent || navigator.vendor;
+      return /KAKAOTALK|NAVER|Line|FBAN|FBAV/i.test(ua);
+    }
+
+    // 서비스 워커 등록
+    if ('serviceWorker' in navigator && !isInAppBrowser()) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker
+          .register('/sw.js')
+          .then((registration) => {
+            console.log('SW registered:', registration);
+          })
+          .catch((error) => {
+            console.log('SW registration failed:', error);
+          });
+      });
+    }
+  </script>
 </head>
 
 <body>

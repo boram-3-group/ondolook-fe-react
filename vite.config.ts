@@ -95,6 +95,11 @@ export default defineConfig({
       injectManifest: {
         injectionPoint: undefined,
       },
+      // 인앱 브라우저에서는 서비스 워커를 등록하지 않음
+      registerSW: true,
+      injectRegister: 'inline',
+      minify: true,
+      disable: false,
     }),
   ],
   server: {
