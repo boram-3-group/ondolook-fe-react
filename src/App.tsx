@@ -5,9 +5,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AppSplash } from './components/AppSplash';
 import PWAInstallPrompt from './components/PWAInstallPrompt';
 import { NotificationTest } from './components/NotificationTest';
+import { useEffect, useState } from 'react';
+import { NotificationPermissionModal } from './components/NotificationPermissionModal';
 
 function App() {
   const queryClient = new QueryClient();
+  const [showNotificationModal, setShowNotificationModal] = useState(false);
 
   function requestGeolocationPermission() {
     return new Promise((resolve, reject) => {
@@ -29,6 +32,15 @@ function App() {
     });
   }
 
+  const requestNotificationPermission = async (): Promise<void> => {
+    try {
+      const permission = await Notification.requestPermission();
+      console.log('알림 권한 요청 결과:', permission);
+    } catch (error) {
+      console.error('알림 권한 요청 중 오류:', error);
+    }
+  };
+
   const checkNotificationPermission = async () => {
     if (Notification.permission === 'granted') {
       console.log('✅ 알림 권한 있음');
@@ -37,15 +49,9 @@ function App() {
       console.log('❌ 알림 권한 거부됨');
       return false;
     } else {
-      console.log('ℹ️ 권한 미요청 상태, 요청 시도...');
-      try {
-        const permission = await Notification.requestPermission();
-        console.log('사용자 선택 결과:', permission);
-        return permission === 'granted';
-      } catch (error) {
-        console.error('알림 권한 요청 중 오류:', error);
-        return false;
-      }
+      console.log('ℹ️ 권한 미요청 상태');
+      setShowNotificationModal(true);
+      return false;
     }
   };
 
@@ -58,7 +64,11 @@ function App() {
     }
   }
 
-  checkNotificationPermission();
+  // 앱 시작 시 알림 권한 확인
+  useEffect(() => {
+    checkNotificationPermission();
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <div className="app">
@@ -74,6 +84,11 @@ function App() {
           <PWAInstallPrompt />
           <NotificationTest />
         </div>
+        <NotificationPermissionModal
+          isOpen={showNotificationModal}
+          onClose={() => setShowNotificationModal(false)}
+          onRequestPermission={requestNotificationPermission}
+        />
       </div>
     </QueryClientProvider>
   );
