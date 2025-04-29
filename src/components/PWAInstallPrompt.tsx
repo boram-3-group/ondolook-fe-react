@@ -12,6 +12,16 @@ const PWAInstallPrompt = () => {
   const [showPrompt, setShowPrompt] = useState(false);
 
   useEffect(() => {
+    // 모바일 기기 체크
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    // 인앱 브라우저 체크
+    const isInApp = /KAKAOTALK|NAVER|Line|FBAN|FBAV/i.test(navigator.userAgent);
+
+    // 모바일이 아니거나 인앱 브라우저면 프롬프트 표시하지 않음
+    if (!isMobile || isInApp) {
+      return;
+    }
+
     const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent);
     setIsIOS(isIOSDevice);
 
@@ -22,6 +32,11 @@ const PWAInstallPrompt = () => {
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    // iOS에서는 즉시 프롬프트 표시
+    if (isIOSDevice) {
+      setShowPrompt(true);
+    }
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);

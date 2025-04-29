@@ -10,6 +10,16 @@ export default defineConfig({
       include: '**/*.svg',
     }),
     VitePWA({
+      registerType: 'autoUpdate',
+      includeAssets: [
+        'favicon.svg',
+        'robots.txt',
+        'apple-touch-icon.png',
+        'splash-screen.png',
+        'splash-screen-iphone.png',
+        'splash-screen-ipad.png',
+        'splash-screen-ipad-pro.png',
+      ],
       manifest: {
         name: 'Ondolook',
         short_name: 'Ondolook',
@@ -42,6 +52,9 @@ export default defineConfig({
         type: 'module',
       },
       injectRegister: null,
+      strategies: 'injectManifest',
+      srcDir: 'public',
+      filename: 'sw.js',
     }),
   ],
   server: {
