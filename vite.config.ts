@@ -23,14 +23,14 @@ export default defineConfig({
       manifest: {
         name: 'Ondolook',
         short_name: 'Ondolook',
-        description: 'Ondolook',
+        description: '날씨에 맞는 나만의 코디를 온도록',
         start_url: '/',
         scope: '/',
         display: 'standalone',
         background_color: '#ffffff',
         theme_color: '#4A90E2',
         orientation: 'portrait',
-        categories: ['business', 'lifestyle', 'real estate'],
+        categories: ['lifestyle'],
         prefer_related_applications: false,
         icons: [
           {
@@ -45,20 +45,6 @@ export default defineConfig({
             type: 'image/png',
             purpose: 'any maskable',
           },
-          {
-            src: '/pwa-144x144.png',
-            sizes: '144x144',
-            type: 'image/png',
-            purpose: 'any maskable',
-          },
-        ],
-        screenshots: [
-          {
-            src: '/screenshot1.png',
-            sizes: '1280x720',
-            type: 'image/png',
-            label: 'Ondolook 메인 화면',
-          },
         ],
       },
       workbox: {
@@ -67,7 +53,7 @@ export default defineConfig({
         navigateFallback: '/index.html',
         runtimeCaching: [
           {
-            urlPattern: /^https:\/\/ondolook\.link\/.*/i,
+            urlPattern: /^https:\/\/ondolook\.click\/.*/i,
             handler: 'NetworkFirst',
             options: {
               cacheName: 'ondolook-cache',
@@ -88,24 +74,19 @@ export default defineConfig({
         type: 'module',
         navigateFallback: 'index.html',
       },
-      // 서비스 워커 파일 설정
       srcDir: 'public',
       filename: 'sw.js',
       strategies: 'injectManifest',
       injectManifest: {
         injectionPoint: undefined,
       },
-      // 인앱 브라우저에서는 서비스 워커를 등록하지 않음
-      registerSW: true,
-      injectRegister: 'inline',
-      minify: true,
-      disable: false,
+      injectRegister: null,
     }),
   ],
   server: {
     host: '0.0.0.0',
     port: 3000,
-    allowedHosts: ['.trycloudflare.com', 'ondolook.link'],
+    allowedHosts: ['.trycloudflare.com', 'ondolook.click'],
   },
   build: {
     rollupOptions: {

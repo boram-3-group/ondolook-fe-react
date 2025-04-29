@@ -57,13 +57,10 @@
   <title>Ondolook - 날씨에 맞는 나만의 코디를 온도록</title>
   <script>
     // 인앱 브라우저 체크
-    function isInAppBrowser() {
-      const ua = navigator.userAgent || navigator.vendor;
-      return /KAKAOTALK|NAVER|Line|FBAN|FBAV/i.test(ua);
-    }
+    const isInAppBrowser = /KAKAOTALK|NAVER|Line|FBAN|FBAV/i.test(navigator.userAgent);
 
-    // 서비스 워커 등록
-    if ('serviceWorker' in navigator && !isInAppBrowser()) {
+    // 일반 브라우저에서만 서비스 워커 등록
+    if ('serviceWorker' in navigator && !isInAppBrowser) {
       window.addEventListener('load', () => {
         navigator.serviceWorker
           .register('/sw.js')
