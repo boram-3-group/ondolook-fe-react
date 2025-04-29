@@ -40,7 +40,7 @@ export const OnBoardPage = () => {
       />
       <div className="mt-8 px-5 flex gap-3">
         <Button intent="outline" size="large" side="full" className="w-1/2">
-          둘러보기12345
+          둘러보기123456
         </Button>
 
         <Button
