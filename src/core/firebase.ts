@@ -15,6 +15,7 @@ const messaging = getMessaging(app);
 
 export const requestPermissionAndGetToken = async () => {
   const status = await Notification.requestPermission();
+  console.log('알림 권한 상태:', status);
   if (status !== 'granted') return;
 
   const token = await getToken(messaging, {
