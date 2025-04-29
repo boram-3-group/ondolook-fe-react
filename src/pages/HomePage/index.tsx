@@ -7,6 +7,7 @@ import { useFetchCategory } from './fetches/useFetchCategory';
 import { WeatherBox } from './_components/WeatherBox';
 import { Icon } from '../../components/common/Icon';
 import useLocationStore from '../../store/useLocationStore';
+import { Categories } from '../../core/constants';
 
 export function HomePage() {
   const [selectCategory, setSelectCategory] = useState('daily');
@@ -24,31 +25,46 @@ export function HomePage() {
     gender: 'MALE',
   });
 
-  const { data: Categories, isLoading: CategoriesLoading } = useFetchCategory();
+  //임시데이터
+  const fileMetadata = [
+    { id: 1, imageUrl: '/sample1.jpg' },
+    { id: 2, imageUrl: '/sample2.jpg' },
+    { id: 3, imageUrl: '/sample3.jpg' },
+  ];
+
+  // const { data: Categories, isLoading: CategoriesLoading } = useFetchCategory();
 
   return (
     <>
       <div className="mx-5">
-        <div className="mb-[20px] mt-[38px]">
+        <div className="flex mb-[20px] mt-[38px] justify-between">
           <RegionTab></RegionTab>
+          <Icon name="bell" width={24} height={24} alt="알람" />
         </div>
-        <div> {JSON.stringify(data)}</div>
+        {/* <div> {JSON.stringify(data)}</div> */}
         <div className="mb-[20px]">
           <WeatherBox></WeatherBox>
         </div>
-        {Categories?.content?.map(Category => {
-          return (
-            <CategoryChip
-              key={Category.id}
-              categoryName={Category.categoryName}
-              onClick={() => onSelectChip(Category.categoryName)}
-              isActive={selectCategory === Category.categoryName}
-            />
-          );
-        })}
+        {/* {Categories?.content?.map(Category => { */}
+        <div className="flex flex-wrap gap-[12px]">
+          {Categories.map(Category => {
+            return (
+              <CategoryChip
+                key={Category.id}
+                categoryName={Category.categoryName}
+                onClick={() => onSelectChip(Category.categoryName)}
+                isActive={selectCategory === Category.categoryName}
+              />
+            );
+          })}
+        </div>
       </div>
-      <Icon name="home" width={28} height={28} alt="홈" />
-      <Icon name="mypage" width={28} height={28} alt="마이페이지" />
+      <Icon name="bookmark" width={28} height={28} className="ml-9" alt="북마크" />
+      <Icon name="small-button" width={48} height={48} className="ml-9" alt="작은버튼" />
+      <div className="flex absolute">
+        <Icon name="home" width={28} height={28} className="ml-9" alt="홈" />
+        <Icon name="mypage" width={28} height={28} className="mr-9" alt="마이페이지" />
+      </div>
     </>
   );
 }
