@@ -4,37 +4,18 @@ import { getAnalytics } from 'firebase/analytics';
 
 // Firebase 설정
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_APP_FIREBASE_API_KEY!,
-  authDomain: import.meta.env.VITE_APP_FIREBASE_AUTH_DOMAIN!,
-  projectId: import.meta.env.VITE_APP_FIREBASE_PROJECT_ID!,
-  storageBucket: import.meta.env.VITE_APP_FIREBASE_STORAGE_BUCKET!,
-  messagingSenderId: import.meta.env.VITE_APP_FIREBASE_MESSAGING_SENDER_ID!,
-  appId: import.meta.env.VITE_APP_FIREBASE_APP_ID!,
+  apiKey: 'AIzaSyCSnuPnQSM1cvqcMONxOKRxGG_hM4oQHrA',
+  authDomain: 'ondolook-1b496.firebaseapp.com',
+  projectId: 'ondolook-1b496',
+  storageBucket: 'ondolook-1b496.firebasestorage.app',
+  messagingSenderId: '182182096530',
+  appId: '1:182182096530:web:8aec9ad4f2ec337243804b',
 };
 
 // Firebase 초기화
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
 const analytics = getAnalytics(app);
-
-// 서비스 워커 등록 및 환경 변수 전달
-export const registerServiceWorker = async () => {
-  try {
-    const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
-    console.log('[Firebase] 서비스 워커 등록 성공:', registration);
-
-    // 서비스 워커에 환경 변수 전달
-    registration.active?.postMessage({
-      type: 'FIREBASE_CONFIG',
-      config: firebaseConfig,
-    });
-
-    return registration;
-  } catch (error) {
-    console.error('[Firebase] 서비스 워커 등록 실패:', error);
-    throw error;
-  }
-};
 
 // FCM 토큰 요청
 export const requestPermissionAndGetToken = async () => {
@@ -47,7 +28,9 @@ export const requestPermissionAndGetToken = async () => {
       return null;
     }
 
-    const registration = await registerServiceWorker();
+    const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+    console.log('[Firebase] 서비스 워커 등록 성공:', registration);
+
     const token = await getToken(messaging, {
       vapidKey: import.meta.env.VITE_APP_FIREBASE_VAPID_KEY!,
       serviceWorkerRegistration: registration,
