@@ -13,8 +13,46 @@
   <meta name="apple-mobile-web-app-title" content="Ondolook" />
   <meta name="format-detection" content="telephone=no" />
   <meta name="apple-touch-fullscreen" content="yes" />
+
+  <!-- 다이나믹 아일랜드 영역 색상 설정 -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="theme-color" content="#4A90E2" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#4A90E2" media="(prefers-color-scheme: dark)" />
+
+  <!-- iPhone 스플래시 화면 -->
+  <link rel="apple-touch-startup-image"
+    media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)"
+    href="/splash-screen-iphone.png" />
+  <link rel="apple-touch-startup-image"
+    media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3)"
+    href="/splash-screen-iphone.png" />
+  <link rel="apple-touch-startup-image"
+    media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3)"
+    href="/splash-screen-iphone.png" />
+  <link rel="apple-touch-startup-image"
+    media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)"
+    href="/splash-screen-iphone.png" />
+  <link rel="apple-touch-startup-image"
+    media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)"
+    href="/splash-screen-iphone.png" />
+
+  <!-- iPad 스플래시 화면 -->
+  <link rel="apple-touch-startup-image"
+    media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)"
+    href="/splash-screen-ipad.png" />
+  <link rel="apple-touch-startup-image"
+    media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)"
+    href="/splash-screen-ipad.png" />
+  <link rel="apple-touch-startup-image"
+    media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)"
+    href="/splash-screen-ipad.png" />
+
+  <!-- iPad Pro 스플래시 화면 -->
+  <link rel="apple-touch-startup-image"
+    media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)"
+    href="/splash-screen-ipad-pro.png" />
+
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-  <link rel="apple-touch-startup-image" href="/splash-screen.png" />
   <link rel="manifest" href="/manifest.json" />
   <title>Ondolook - 온라인 부동산 플랫폼</title>
 </head>
@@ -22,6 +60,28 @@
 <body>
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
+  <!-- PWA 설치 배너 스크립트 -->
+  <script>
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      // 설치 배너 표시 로직
+      setTimeout(() => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+              console.log('User accepted the install prompt');
+            } else {
+              console.log('User dismissed the install prompt');
+            }
+            deferredPrompt = null;
+          });
+        }
+      }, 3000); // 3초 후에 설치 배너 표시
+    });
+  </script>
 </body>
 
 </html>

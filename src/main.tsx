@@ -1,22 +1,19 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import { registerServiceWorker } from './utils/serviceWorker';
 import './index.css';
-import App from './App.tsx';
-import { registerSW } from 'virtual:pwa-register';
 import { requestPermissionAndGetToken } from './core/firebase.ts';
 
 requestPermissionAndGetToken();
 
-registerSW({
-  onNeedRefresh() {
-    console.log('업데이트 필요!');
-  },
-  onOfflineReady() {
-    console.log('오프라인에서도 사용 가능!');
-  },
-});
-createRoot(document.getElementById('root')!).render(
-  // <StrictMode>
-  <App />
-  // </StrictMode>
+// 서비스 워커 등록
+if (process.env.NODE_ENV === 'production') {
+  registerServiceWorker();
+}
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
 );
