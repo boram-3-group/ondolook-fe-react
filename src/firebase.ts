@@ -13,13 +13,14 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
-
+const swRegistration = await navigator.serviceWorker.ready;
 // 웹 푸시 토큰을 가져오는 함수
 export const getFCMToken = async () => {
   try {
     const token = await getToken(messaging, {
       vapidKey:
         'BGPsb4h4k38AFSzw82uLy0x5HaB3L7idUwokMW0A8V-EXwCdmBkJuOsdYU-wAKEUThXAlEKUNKlPLH6jKFSbyOE',
+      serviceWorkerRegistration: swRegistration,
     });
     return token;
   } catch (error) {

@@ -11,17 +11,6 @@ import { NotificationPermissionModal } from './components/NotificationPermission
 function App() {
   const queryClient = new QueryClient();
   const [showNotificationModal, setShowNotificationModal] = useState(false);
-  const [isIOS, setIsIOS] = useState(false);
-
-  useEffect(() => {
-    // iOS 기기 감지
-    const checkIOS = () => {
-      const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
-      setIsIOS(isIOSDevice);
-    };
-
-    checkIOS();
-  }, []);
 
   function requestGeolocationPermission() {
     return new Promise((resolve, reject) => {
@@ -61,10 +50,7 @@ function App() {
       return false;
     } else {
       console.log('ℹ️ 권한 미요청 상태');
-      // iOS에서는 모달을 즉시 표시하지 않고, 사용자 상호작용이 있을 때 표시
-      if (!isIOS) {
-        setShowNotificationModal(true);
-      }
+      setShowNotificationModal(true);
       return false;
     }
   };
@@ -97,15 +83,6 @@ function App() {
           </AppSplash>
           <PWAInstallPrompt />
           <NotificationTest />
-          {/* iOS에서는 알림 권한 요청 버튼 추가 */}
-          {isIOS && Notification.permission === 'default' && (
-            <button
-              onClick={() => setShowNotificationModal(true)}
-              className="fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg"
-            >
-              알림 설정
-            </button>
-          )}
         </div>
         <NotificationPermissionModal
           isOpen={showNotificationModal}
