@@ -12,6 +12,7 @@ export const NotificationPermissionModal = ({
   onRequestPermission,
 }: NotificationPermissionModalProps) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [isRequesting, setIsRequesting] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -20,7 +21,19 @@ export const NotificationPermissionModal = ({
   }, [isOpen]);
 
   const handleConfirm = async () => {
-    await onRequestPermission();
+    try {
+      setIsRequesting(true);
+      await onRequestPermission();
+    } catch (error) {
+      console.error('알림 권한 요청 중 오류:', error);
+    } finally {
+      setIsRequesting(false);
+      setIsVisible(false);
+      onClose();
+    }
+  };
+
+  const handleCancel = () => {
     setIsVisible(false);
     onClose();
   };
@@ -37,16 +50,18 @@ export const NotificationPermissionModal = ({
         </p>
         <div className="flex justify-end space-x-4">
           <button
-            onClick={onClose}
+            onClick={handleCancel}
             className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+            disabled={isRequesting}
           >
             취소
           </button>
           <button
             onClick={handleConfirm}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50"
+            disabled={isRequesting}
           >
-            확인
+            {isRequesting ? '요청 중...' : '확인'}
           </button>
         </div>
       </div>

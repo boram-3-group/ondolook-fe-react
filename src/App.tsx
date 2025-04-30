@@ -73,13 +73,8 @@ function App() {
       return false;
     } else {
       console.log('ℹ️ 권한 미요청 상태');
-      // 사파리나 iOS에서는 모달을 통해 권한 요청
-      if (isSafari || isIOS) {
-        setShowNotificationModal(true);
-      } else {
-        // 다른 브라우저에서는 직접 권한 요청
-        requestNotificationPermission();
-      }
+      // 모든 브라우저에서 모달을 통해 권한 요청
+      setShowNotificationModal(true);
       return false;
     }
   };
