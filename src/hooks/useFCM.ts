@@ -16,6 +16,7 @@ interface WindowWithMSStream extends Window {
 
 const isIOS =
   /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as WindowWithMSStream).MSStream;
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
 
 export const useFCM = () => {
   const [token, setToken] = useState<string | null>(null);
@@ -24,6 +25,20 @@ export const useFCM = () => {
   useEffect(() => {
     const requestPermission = async () => {
       try {
+        // iOS PWA에서는 FCM 토큰 요청 시도
+        if (isIOS && isStandalone) {
+          console.log('iOS PWA에서 FCM 토큰 요청 시도');
+          try {
+            const token = await getFCMToken();
+            setToken(token);
+            console.log('iOS PWA FCM 토큰:', token);
+          } catch (error) {
+            console.error('iOS PWA FCM 토큰 요청 실패:', error);
+          }
+          return;
+        }
+
+        // 일반 사파리에서는 FCM 토큰 요청하지 않음
         if (isIOS) {
           console.log('iOS 기기에서는 웹 푸시 알림을 지원하지 않습니다.');
           return;
@@ -45,8 +60,25 @@ export const useFCM = () => {
   useEffect(() => {
     const setupMessageListener = async () => {
       try {
+        // iOS PWA에서는 메시지 리스너 설정
+        if (isIOS && isStandalone) {
+          const message = await onMessageListener();
+          if (message) {
+            const firebaseMessage = message as FirebaseMessage;
+            setNotification(firebaseMessage);
+            // 포그라운드에서 알림 표시
+            if (Notification.permission === 'granted') {
+              new Notification(firebaseMessage.notification?.title || 'Ondolook', {
+                body: firebaseMessage.notification?.body,
+                icon: '/favicon.ico',
+              });
+            }
+          }
+          return;
+        }
+
+        // 일반 사파리에서는 메시지 리스너 설정하지 않음
         if (isIOS) {
-          // iOS에서는 로컬 알림을 사용
           return;
         }
 
