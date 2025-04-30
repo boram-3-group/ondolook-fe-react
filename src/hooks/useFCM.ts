@@ -1,11 +1,25 @@
 import { useEffect, useState } from 'react';
 import { getFCMToken, onMessageListener } from '../firebase';
+// 타입스크립트 타입 체크 해제
 
-const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+interface FirebaseMessage {
+  notification?: {
+    title?: string;
+    body?: string;
+  };
+  data?: Record<string, string>;
+}
+
+interface WindowWithMSStream extends Window {
+  MSStream?: unknown;
+}
+
+const isIOS =
+  /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as WindowWithMSStream).MSStream;
 
 export const useFCM = () => {
   const [token, setToken] = useState<string | null>(null);
-  const [notification, setNotification] = useState<any>(null);
+  const [notification, setNotification] = useState<FirebaseMessage | null>(null);
 
   useEffect(() => {
     const requestPermission = async () => {
@@ -38,11 +52,12 @@ export const useFCM = () => {
 
         const message = await onMessageListener();
         if (message) {
-          setNotification(message);
+          const firebaseMessage = message as FirebaseMessage;
+          setNotification(firebaseMessage);
           // 포그라운드에서 알림 표시
           if (Notification.permission === 'granted') {
-            new Notification(message.notification?.title || 'Ondolook', {
-              body: message.notification?.body,
+            new Notification(firebaseMessage.notification?.title || 'Ondolook', {
+              body: firebaseMessage.notification?.body,
               icon: '/favicon.ico',
             });
           }

@@ -71,7 +71,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className={`app ${isIOS ? 'ios-safe-area' : ''}`}>
+      <div className="app">
         <div className="web-side__banner">
           <div className="web-side__banner__content">
             <h1>Welcome to our OndoLook!</h1>

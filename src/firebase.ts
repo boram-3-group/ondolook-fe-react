@@ -13,9 +13,9 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
-const swRegistration = await navigator.serviceWorker.ready;
 // 웹 푸시 토큰을 가져오는 함수
 export const getFCMToken = async () => {
+  const swRegistration = await navigator.serviceWorker.ready;
   try {
     const token = await getToken(messaging, {
       vapidKey:
