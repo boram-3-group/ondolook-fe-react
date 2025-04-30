@@ -5,10 +5,18 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AppSplash } from './components/AppSplash';
 import PWAInstallPrompt from './components/PWAInstallPrompt';
 import { NotificationTest } from './components/NotificationTest';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { NotificationPermissionModal } from './components/NotificationPermissionModal';
+
+interface WindowWithMSStream extends Window {
+  MSStream?: unknown;
+}
 
 function App() {
   const queryClient = new QueryClient();
+  const [showNotificationModal, setShowNotificationModal] = useState(false);
+  const isIOS =
+    /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as WindowWithMSStream).MSStream;
 
   function requestGeolocationPermission() {
     return new Promise((resolve, reject) => {
@@ -30,10 +38,16 @@ function App() {
     });
   }
 
-  const checkNotificationPermission = async () => {
-    // iOS 기기 확인
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+  const requestNotificationPermission = async (): Promise<void> => {
+    try {
+      const permission = await Notification.requestPermission();
+      console.log('알림 권한 요청 결과:', permission);
+    } catch (error) {
+      console.error('알림 권한 요청 중 오류:', error);
+    }
+  };
 
+  const checkNotificationPermission = async () => {
     if (Notification.permission === 'granted') {
       console.log('✅ 알림 권한 있음');
       return true;
@@ -41,25 +55,9 @@ function App() {
       console.log('❌ 알림 권한 거부됨');
       return false;
     } else {
-      console.log('ℹ️ 권한 미요청 상태, 요청 시도...');
-      try {
-        // iOS에서는 사용자 상호작용 후에만 권한 요청 가능
-        if (isIOS) {
-          // iOS에서는 알림 권한 요청을 지연시켜 사용자 상호작용 후에 실행
-          setTimeout(async () => {
-            const permission = await Notification.requestPermission();
-            console.log('iOS 사용자 선택 결과:', permission);
-          }, 1000); // 1초 후에 권한 요청
-          return false;
-        } else {
-          const permission = await Notification.requestPermission();
-          console.log('사용자 선택 결과:', permission);
-          return permission === 'granted';
-        }
-      } catch (error) {
-        console.error('알림 권한 요청 중 오류:', error);
-        return false;
-      }
+      console.log('ℹ️ 권한 미요청 상태');
+      setShowNotificationModal(true);
+      return false;
     }
   };
 
@@ -79,7 +77,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="app">
+      <div className={`app ${isIOS ? 'ios-safe-area' : ''}`}>
         <div className="web-side__banner">
           <div className="web-side__banner__content">
             <h1>Welcome to our OndoLook!</h1>
@@ -92,6 +90,11 @@ function App() {
           <PWAInstallPrompt />
           <NotificationTest />
         </div>
+        <NotificationPermissionModal
+          isOpen={showNotificationModal}
+          onClose={() => setShowNotificationModal(false)}
+          onRequestPermission={requestNotificationPermission}
+        />
       </div>
     </QueryClientProvider>
   );
