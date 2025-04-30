@@ -45,7 +45,7 @@ function App() {
       const permission = await Notification.requestPermission();
       console.log('알림 권한 요청 결과:', permission);
 
-      if (permission === 'granted') {
+      if (permission === 'granted' && !isSafari) {
         try {
           const token = await getFCMToken();
           console.log('Firebase 토큰:', token);
@@ -61,11 +61,13 @@ function App() {
   const checkNotificationPermission = async () => {
     if (Notification.permission === 'granted') {
       console.log('✅ 알림 권한 있음');
-      try {
-        const token = await getFCMToken();
-        console.log('Firebase 토큰:', token);
-      } catch (error) {
-        console.error('Firebase 토큰 요청 중 오류:', error);
+      if (!isSafari) {
+        try {
+          const token = await getFCMToken();
+          console.log('Firebase 토큰:', token);
+        } catch (error) {
+          console.error('Firebase 토큰 요청 중 오류:', error);
+        }
       }
       return true;
     } else if (Notification.permission === 'denied') {
