@@ -7,6 +7,7 @@ import PWAInstallPrompt from './components/PWAInstallPrompt';
 import { NotificationTest } from './components/NotificationTest';
 import { useEffect, useState } from 'react';
 import { NotificationPermissionModal } from './components/NotificationPermissionModal';
+import { getFCMToken } from './firebase';
 
 interface WindowWithMSStream extends Window {
   MSStream?: unknown;
@@ -42,6 +43,15 @@ function App() {
     try {
       const permission = await Notification.requestPermission();
       console.log('알림 권한 요청 결과:', permission);
+
+      if (permission === 'granted') {
+        try {
+          const token = await getFCMToken();
+          console.log('Firebase 토큰:', token);
+        } catch (error) {
+          console.error('Firebase 토큰 요청 중 오류:', error);
+        }
+      }
     } catch (error) {
       console.error('알림 권한 요청 중 오류:', error);
     }
@@ -50,6 +60,12 @@ function App() {
   const checkNotificationPermission = async () => {
     if (Notification.permission === 'granted') {
       console.log('✅ 알림 권한 있음');
+      try {
+        const token = await getFCMToken();
+        console.log('Firebase 토큰:', token);
+      } catch (error) {
+        console.error('Firebase 토큰 요청 중 오류:', error);
+      }
       return true;
     } else if (Notification.permission === 'denied') {
       console.log('❌ 알림 권한 거부됨');
