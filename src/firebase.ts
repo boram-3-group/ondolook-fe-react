@@ -13,19 +13,25 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
+
 // 웹 푸시 토큰을 가져오는 함수
-export const getFCMToken = async () => {
-  const swRegistration = await navigator.serviceWorker.ready;
+export const getFCMToken = async (): Promise<string> => {
   try {
-    const token = await getToken(messaging, {
+    const currentToken = await getToken(messaging, {
       vapidKey:
-        'BGPsb4h4k38AFSzw82uLy0x5HaB3L7idUwokMW0A8V-EXwCdmBkJuOsdYU-wAKEUThXAlEKUNKlPLH6jKFSbyOE',
-      serviceWorkerRegistration: swRegistration,
+        'BGPsb4h4k38AFSzw82uLy0x5HaB3L7idUwokMW0A8V-EXwCdmBkJuOsdYU-wAKEUThXAlEKUNKlPLH6jKFSbyOE', // Firebase Console에서 발급받은 VAPID 키
+      // serviceWorkerRegistration: swRegistration,
     });
-    return token;
+    if (currentToken) {
+      console.log('FCM 토큰:', currentToken);
+      return currentToken;
+    } else {
+      console.log('FCM 토큰을 가져올 수 없습니다. 알림 권한을 확인하세요.');
+      throw new Error('FCM 토큰을 가져올 수 없습니다.');
+    }
   } catch (error) {
-    console.error('Error getting FCM token:', error);
-    return null;
+    console.error('FCM 토큰 가져오기 실패:', error);
+    throw error;
   }
 };
 
@@ -33,6 +39,7 @@ export const getFCMToken = async () => {
 export const onMessageListener = () =>
   new Promise(resolve => {
     onMessage(messaging, payload => {
+      console.log('포그라운드 메시지 수신:', payload);
       resolve(payload);
     });
   });
