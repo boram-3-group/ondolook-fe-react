@@ -19,6 +19,7 @@ function App() {
   const isIOS =
     /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as WindowWithMSStream).MSStream;
   const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  const [isPWAInstalled, setIsPWAInstalled] = useState(false);
 
   function requestGeolocationPermission() {
     return new Promise((resolve, reject) => {
@@ -40,18 +41,30 @@ function App() {
     });
   }
 
+  useEffect(() => {
+    // PWA 설치 여부 확인
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setIsPWAInstalled(true);
+    }
+  }, []);
+
   const requestNotificationPermission = async (): Promise<void> => {
     try {
-      const permission = await Notification.requestPermission();
-      console.log('알림 권한 요청 결과:', permission);
+      // PWA로 설치된 경우에만 시스템 알림 권한 요청
+      if (isPWAInstalled) {
+        const permission = await Notification.requestPermission();
+        console.log('시스템 알림 권한 요청 결과:', permission);
 
-      if (permission === 'granted' && !isSafari) {
-        try {
-          const token = await getFCMToken();
-          console.log('Firebase 토큰:', token);
-        } catch (error) {
-          console.error('Firebase 토큰 요청 중 오류:', error);
+        if (permission === 'granted') {
+          try {
+            const token = await getFCMToken();
+            console.log('Firebase 토큰:', token);
+          } catch (error) {
+            console.error('Firebase 토큰 요청 중 오류:', error);
+          }
         }
+      } else {
+        console.log('PWA로 설치되지 않았습니다. 시스템 알림 권한을 요청할 수 없습니다.');
       }
     } catch (error) {
       console.error('알림 권한 요청 중 오류:', error);
@@ -59,15 +72,13 @@ function App() {
   };
 
   const checkNotificationPermission = async () => {
-    if (Notification.permission === 'granted') {
-      console.log('✅ 알림 권한 있음');
-      if (!isSafari) {
-        try {
-          const token = await getFCMToken();
-          console.log('Firebase 토큰:', token);
-        } catch (error) {
-          console.error('Firebase 토큰 요청 중 오류:', error);
-        }
+    if (isPWAInstalled && Notification.permission === 'granted') {
+      console.log('✅ 시스템 알림 권한 있음');
+      try {
+        const token = await getFCMToken();
+        console.log('Firebase 토큰:', token);
+      } catch (error) {
+        console.error('Firebase 토큰 요청 중 오류:', error);
       }
       return true;
     } else if (Notification.permission === 'denied') {
@@ -75,8 +86,10 @@ function App() {
       return false;
     } else {
       console.log('ℹ️ 권한 미요청 상태');
-      // 모든 브라우저에서 모달을 통해 권한 요청
-      setShowNotificationModal(true);
+      // PWA로 설치된 경우에만 모달을 통해 권한 요청
+      if (isPWAInstalled) {
+        setShowNotificationModal(true);
+      }
       return false;
     }
   };
