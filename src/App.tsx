@@ -18,6 +18,7 @@ function App() {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const isIOS =
     /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as WindowWithMSStream).MSStream;
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
   function requestGeolocationPermission() {
     return new Promise((resolve, reject) => {
@@ -72,7 +73,13 @@ function App() {
       return false;
     } else {
       console.log('ℹ️ 권한 미요청 상태');
-      setShowNotificationModal(true);
+      // 사파리나 iOS에서는 모달을 통해 권한 요청
+      if (isSafari || isIOS) {
+        setShowNotificationModal(true);
+      } else {
+        // 다른 브라우저에서는 직접 권한 요청
+        requestNotificationPermission();
+      }
       return false;
     }
   };
