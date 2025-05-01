@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import CategoryChip from './_components/CategoryChip';
 import { RegionTab } from './_components/RegionTab';
 import { useGeolocation } from '../../hooks/useGeolocation';
@@ -15,31 +15,31 @@ import { useFetchWeather } from './fetches/useFetchWeather';
 export function HomePage() {
   const [selectCategory, setSelectCategory] = useState('daily');
 
-  const onSelectChip = (Category: string) => {
+  const onSelectChip = useCallback((Category: string) => {
     setSelectCategory(Category);
-  };
+  }, []);
 
   useGeolocation();
   const { lat, lon } = useLocationStore();
   // const { lat, lon } = useGeolocation();
   const shouldFetch = lat !== 0 && lon !== 0;
 
-  const { data: RegionData, isLoading: RegionDataLoading } = useFetchRegion(
-    { lat: 37.498095, lon: 127.02761 },
-    { enabled: shouldFetch }
-  );
+  // const { data: RegionData, isLoading: RegionDataLoading } = useFetchRegion(
+  //   { lat: 37.498095, lon: 127.02761 },
+  //   { enabled: shouldFetch }
+  // );
 
   // const { data: WeatherData, isLoading: WeatherDataLoading } = useFetchWeather({
   //   lat: 37.498095,
   //   lon: 127.02761,
   // });
 
-  const { data: OutfitData, isLoading: OutfitDataLoading } = useFetchOutfit({
-    lat: 37.498095,
-    lon: 127.02761,
-    eventType: 1,
-    gender: 'MALE',
-  });
+  // const { data: OutfitData, isLoading: OutfitDataLoading } = useFetchOutfit({
+  //   lat: 37.498095,
+  //   lon: 127.02761,
+  //   eventType: 1,
+  //   gender: 'MALE',
+  // });
 
   console.log('home render');
 
@@ -56,7 +56,7 @@ export function HomePage() {
     <>
       <div className="mx-5">
         <div className="flex mb-[20px] mt-[38px] justify-between">
-          {RegionData && <RegionTab {...RegionData} />}
+          {/* {RegionData && <RegionTab {...RegionData} />} */}
           <Icon name="bell" width={24} height={24} alt="알람" />
         </div>
         {/* <div className="mb-[20px]">{WeatherData && <WeatherBox {...WeatherData} />}</div> */}

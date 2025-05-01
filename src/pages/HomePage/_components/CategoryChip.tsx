@@ -1,3 +1,5 @@
+import React from 'react';
+
 type CategoryChipProps = {
   onClick: () => void;
   categoryName: string;
@@ -17,4 +19,4 @@ const CategoryChip = ({ onClick, categoryName, isActive }: CategoryChipProps) =>
   );
 };
 
-export default CategoryChip;
+export default React.memo(CategoryChip);
