@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import CategoryChip from './_components/CategoryChip';
 import { RegionTab } from './_components/RegionTab';
 import { useGeolocation } from '../../hooks/useGeolocation';
@@ -15,11 +15,11 @@ import { useFetchWeather } from './fetches/useFetchWeather';
 export function HomePage() {
   const [selectCategory, setSelectCategory] = useState('daily');
 
-  const onSelectChip = (Category: string) => {
+  const onSelectChip = useCallback((Category: string) => {
     setSelectCategory(Category);
-  };
+  }, []);
 
-  useGeolocation();
+  // useGeolocation();
   const { lat, lon } = useLocationStore();
   // const { lat, lon } = useGeolocation();
   const shouldFetch = lat !== 0 && lon !== 0;
@@ -34,12 +34,12 @@ export function HomePage() {
   //   lon: 127.02761,
   // });
 
-  const { data: OutfitData, isLoading: OutfitDataLoading } = useFetchOutfit({
-    lat: 37.498095,
-    lon: 127.02761,
-    eventType: 1,
-    gender: 'MALE',
-  });
+  // const { data: OutfitData, isLoading: OutfitDataLoading } = useFetchOutfit({
+  //   lat: 37.498095,
+  //   lon: 127.02761,
+  //   eventType: 1,
+  //   gender: 'MALE',
+  // });
 
   console.log('home render');
 
