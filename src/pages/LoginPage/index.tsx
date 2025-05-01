@@ -13,7 +13,18 @@ const LoginPage = () => {
   const { mutate: login } = useFetchLogin();
 
   const onSubmit = ({ username, password }: LoginFormValues) => {
-    login({ username, password });
+    login(
+      { username, password },
+      {
+        onSuccess: data => {
+          const accessToken = data.access;
+          localStorage.setItem('accessToken', accessToken);
+        },
+        onError: error => {
+          console.error('로그인실패', error);
+        },
+      }
+    );
   };
 
   return (

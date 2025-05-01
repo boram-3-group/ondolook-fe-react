@@ -8,7 +8,7 @@ export const RegionTab = () => {
   const { lat, lon } = useLocationStore();
 
   const shouldFetch = lat !== 0 && lon !== 0;
-  console.log('render!');
+  console.log('Regiontab render!');
   const { data, isLoading } = useFetchRegion(
     { lat: 37.498095, lon: 127.02761 },
     { enabled: shouldFetch }

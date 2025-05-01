@@ -5,6 +5,8 @@ import { Input } from '../../components/common/Input';
 import { Button } from '../../components/common/Button';
 import { useNavigate } from 'react-router-dom';
 import { useSendEmailCode, useVerifyEmailCode } from '../SignupPage/fetches/useFetchEmail';
+import { sendResetEmail } from './apis';
+import { useSendResetEmail } from './fetches/useSendResetEmail';
 
 const ResetPasswordPage = () => {
   const {
@@ -14,29 +16,14 @@ const ResetPasswordPage = () => {
     formState: { errors },
   } = useForm();
 
-  const navigate = useNavigate();
-  const { mutate: sendEmailCode } = useSendEmailCode();
-  const { mutate: verifyEmailCode } = useVerifyEmailCode();
+  const { mutate: sendResetEmail } = useSendResetEmail();
   const [isCodeSent, setIsCodeSent] = useState(false);
 
-  const email = watch('email');
-  const code = watch('code');
+  const username = watch('username');
+  const callbackUrl = 'https://www.ondolook.click/reset-password/newpassword';
 
   const onSubmit = () => {
-    if (!isCodeSent) {
-      //   sendEmailCode(email, {
-      //     onSuccess: () => setIsCodeSent(true),
-      //   });
-      setIsCodeSent(true);
-    } else {
-      //   verifyEmailCode(
-      //     { email, code },
-      //     {
-      //       onSuccess: () => navigate('/find-id/success'),
-      //     }
-      //   );
-      navigate('/reset-password/newpassword');
-    }
+    sendResetEmail({ username, callbackUrl });
   };
 
   return (

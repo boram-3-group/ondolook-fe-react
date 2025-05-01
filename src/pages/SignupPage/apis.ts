@@ -41,7 +41,9 @@ export const checkDuplicateUsername = async (username: string | undefined) => {
 
 export const sendEmailCode = async (email: SendEmailValue) => {
   try {
-    const res = await api.service.post<SendEmailValue>(`/api/v1/auth/send-code?email=${email}`);
+    const res = await api.service.post<SendEmailValue>(`/api/v2/auth/send-code`, {
+      email,
+    });
     return res && res.data;
   } catch (error) {
     throw new Error('이메일 인증코드 전송 실패');
@@ -52,7 +54,7 @@ export const verifyEmailCode = async ({ email, code }: VerifyEmailValue) => {
   console.log('{ email, code', email, code);
   try {
     const res = await api.service.post<VerifyEmailValue>(
-      `/api/v1/auth/verify-code?email=${email}&code=${code}`
+      `/api/v2/auth/verify-code?email=${email}&code=${code}`
     );
     return res && res.data;
   } catch (error) {
