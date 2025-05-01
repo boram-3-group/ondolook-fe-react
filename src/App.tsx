@@ -8,20 +8,76 @@ import { NotificationTest } from './components/NotificationTest';
 import { useEffect, useState } from 'react';
 import { NotificationPermissionModal } from './components/NotificationPermissionModal';
 import { getFCMToken } from './firebase';
-
-interface WindowWithMSStream extends Window {
-  MSStream?: unknown;
-}
+import { useSystem } from './store/useSystem';
 
 function App() {
   const queryClient = new QueryClient();
   const [showNotificationModal, setShowNotificationModal] = useState(false);
-  const isIOS =
-    /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as WindowWithMSStream).MSStream;
-  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-  const [isPWAInstalled, setIsPWAInstalled] = useState(false);
+
+  const {
+    isPWAInstalled,
+    setIsPWAInstalled,
+    notificationPermission,
+    setNotificationPermission,
+    setFcmToken,
+    geolocationPermission,
+    setGeolocationPermission,
+    setCurrentLocation,
+    isIOS,
+  } = useSystem();
+
+  useEffect(() => {
+    // PWA 설치 여부 확인
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setIsPWAInstalled(true);
+    }
+  }, [setIsPWAInstalled]);
+
+  const handleTokenAndSave = async () => {
+    console.log('handleTokenAndSave');
+    try {
+      const token = await getFCMToken();
+
+      setFcmToken(token);
+    } catch (error) {
+      console.error('Firebase 토큰 요청 중 오류:', error);
+    }
+  };
+
+  const requestNotificationPermission = async (): Promise<void> => {
+    console.log('requestNotificationPermission');
+    try {
+      const permission = await Notification.requestPermission();
+      console.log('시스템 알림 권한 요청 결과:', permission);
+      setNotificationPermission(permission);
+
+      if (permission === 'granted') {
+        await handleTokenAndSave();
+      }
+    } catch (error) {
+      console.error('알림 권한 요청 중 오류:', error);
+    }
+  };
+
+  const checkNotificationPermission = async () => {
+    if (notificationPermission === 'granted') {
+      console.log('✅ 시스템 알림 권한 있음');
+      await handleTokenAndSave();
+      return true;
+    }
+
+    if (notificationPermission === 'denied') {
+      console.log('❌ 알림 권한 거부됨');
+      return false;
+    }
+
+    console.log('ℹ️ 권한 미요청 상태');
+    setShowNotificationModal(true);
+    return false;
+  };
 
   function requestGeolocationPermission() {
+    console.log('requestGeolocationPermission');
     return new Promise((resolve, reject) => {
       if (!navigator.geolocation) {
         reject('Geolocation is not supported');
@@ -31,6 +87,7 @@ function App() {
       navigator.geolocation.getCurrentPosition(
         position => {
           console.log('위치 정보:', position.coords);
+          setCurrentLocation(position.coords);
           resolve(position.coords);
         },
         error => {
@@ -41,64 +98,13 @@ function App() {
     });
   }
 
-  useEffect(() => {
-    // PWA 설치 여부 확인
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      setIsPWAInstalled(true);
-    }
-  }, []);
-
-  const requestNotificationPermission = async (): Promise<void> => {
-    try {
-      // PWA로 설치된 경우에만 시스템 알림 권한 요청
-      if (isPWAInstalled) {
-        const permission = await Notification.requestPermission();
-        console.log('시스템 알림 권한 요청 결과:', permission);
-
-        if (permission === 'granted') {
-          try {
-            const token = await getFCMToken();
-            console.log('Firebase 토큰:', token);
-          } catch (error) {
-            console.error('Firebase 토큰 요청 중 오류:', error);
-          }
-        }
-      } else {
-        console.log('PWA로 설치되지 않았습니다. 시스템 알림 권한을 요청할 수 없습니다.');
-      }
-    } catch (error) {
-      console.error('알림 권한 요청 중 오류:', error);
-    }
-  };
-
-  const checkNotificationPermission = async () => {
-    if (isPWAInstalled && Notification.permission === 'granted') {
-      console.log('✅ 시스템 알림 권한 있음');
-      try {
-        const token = await getFCMToken();
-        console.log('Firebase 토큰:', token);
-      } catch (error) {
-        console.error('Firebase 토큰 요청 중 오류:', error);
-      }
-      return true;
-    } else if (Notification.permission === 'denied') {
-      console.log('❌ 알림 권한 거부됨');
-      return false;
-    } else {
-      console.log('ℹ️ 권한 미요청 상태');
-      // PWA로 설치된 경우에만 모달을 통해 권한 요청
-      if (isPWAInstalled) {
-        setShowNotificationModal(true);
-      }
-      return false;
-    }
-  };
-
   async function initGeolocation() {
     try {
       const coords = (await requestGeolocationPermission()) as GeolocationCoordinates;
+      setGeolocationPermission('granted');
       alert(`위도: ${coords.latitude}, 경도: ${coords.longitude}`);
     } catch (err) {
+      setGeolocationPermission('denied');
       alert('위치 정보를 사용할 수 없습니다.');
     }
   }
@@ -119,9 +125,9 @@ function App() {
         <div className="mobile-content">
           <AppSplash duration={2000}>
             <Routes />
+            <NotificationTest />
           </AppSplash>
           <PWAInstallPrompt />
-          <NotificationTest />
         </div>
         <NotificationPermissionModal
           isOpen={showNotificationModal}

@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import { getFCMToken, onMessageListener } from '../firebase';
+import { saveTokenToNotion } from '../core/notion';
+import { isSafari } from '../core/constants';
+import { useSystem } from '../store/useSystem';
 // 타입스크립트 타입 체크 해제
 
 interface FirebaseMessage {
@@ -10,17 +13,12 @@ interface FirebaseMessage {
   data?: Record<string, string>;
 }
 
-interface WindowWithMSStream extends Window {
-  MSStream?: unknown;
-}
-
-const isIOS =
-  /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as WindowWithMSStream).MSStream;
 const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
 
 export const useFCM = () => {
   const [token, setToken] = useState<string | null>(null);
   const [notification, setNotification] = useState<FirebaseMessage | null>(null);
+  const { isPWAInstalled, isIOS } = useSystem();
 
   useEffect(() => {
     const requestPermission = async () => {
@@ -30,8 +28,11 @@ export const useFCM = () => {
           console.log('iOS PWA에서 FCM 토큰 요청 시도');
           try {
             const token = await getFCMToken();
-            setToken(token);
-            console.log('iOS PWA FCM 토큰:', token);
+            if (token) {
+              await saveTokenToNotion(token, { isIOS, isSafari, isPWAInstalled });
+              setToken(token);
+              console.log('iOS PWA FCM 토큰:', token);
+            }
           } catch (error) {
             console.error('iOS PWA FCM 토큰 요청 실패:', error);
           }

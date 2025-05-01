@@ -23,7 +23,6 @@ export const getFCMToken = async (): Promise<string> => {
       // serviceWorkerRegistration: swRegistration,
     });
     if (currentToken) {
-      console.log('FCM 토큰:', currentToken);
       return currentToken;
     } else {
       console.log('FCM 토큰을 가져올 수 없습니다. 알림 권한을 확인하세요.');

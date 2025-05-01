@@ -17,21 +17,15 @@ export const NotificationPermissionModal = ({
   useEffect(() => {
     if (isOpen) {
       setIsVisible(true);
-      console.log('MCP Token:', localStorage.getItem('mcpToken'));
-      console.log('Notification Message:', 'Modal opened');
     }
   }, [isOpen]);
 
   const handleConfirm = async () => {
     try {
       setIsRequesting(true);
-      console.log('MCP Token:', localStorage.getItem('mcpToken'));
-      console.log('Notification Message:', 'Requesting permission');
       await onRequestPermission();
     } catch (error) {
       console.error('알림 권한 요청 중 오류:', error);
-      console.log('MCP Token:', localStorage.getItem('mcpToken'));
-      console.log('Notification Message:', 'Permission request failed');
     } finally {
       setIsRequesting(false);
       setIsVisible(false);
@@ -40,8 +34,6 @@ export const NotificationPermissionModal = ({
   };
 
   const handleCancel = () => {
-    console.log('MCP Token:', localStorage.getItem('mcpToken'));
-    console.log('Notification Message:', 'Modal closed by user');
     setIsVisible(false);
     onClose();
   };

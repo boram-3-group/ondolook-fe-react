@@ -1,3 +1,6 @@
+interface WindowWithMSStream extends Window {
+  MSStream?: unknown;
+}
 export const serviceUrl = {
   base_url: import.meta.env.VITE_APP_API_BASE_URL,
 };
@@ -8,5 +11,9 @@ export const Categories = [
   { id: '3', categoryName: '데이트', value: 'date' },
   { id: '4', categoryName: '액티비티', value: 'activity' },
 ];
+
+export const isIOS =
+  /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as WindowWithMSStream).MSStream;
+export const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
 export const steps = ['인증', '계정입력', '프로필입력', '가입완료'];
