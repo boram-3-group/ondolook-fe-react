@@ -4,9 +4,9 @@ import { FormLayout } from '../../components/common/FormLayout';
 import { Input } from '../../components/common/Input';
 import { Button } from '../../components/common/Button';
 import { useNavigate } from 'react-router-dom';
-import { useSendEmailCode, useVerifyEmailCode } from '../SignupPage/fetches/useFetchEmail';
-import { sendResetEmail } from './apis';
-import { useSendResetEmail } from './fetches/useSendResetEmail';
+import { useSendResetEmail, useVerifytToResetEmail } from './fetches/useResetEmail';
+import { verifytToResetEmail } from './apis';
+import { Timer } from '../../components/common/Timer';
 
 const ResetPasswordPage = () => {
   const {
@@ -17,13 +17,38 @@ const ResetPasswordPage = () => {
   } = useForm();
 
   const { mutate: sendResetEmail } = useSendResetEmail();
+  const { mutate: verifytToResetEmail } = useVerifytToResetEmail();
   const [isCodeSent, setIsCodeSent] = useState(false);
+  const [isTimerStart, setIsTimerStart] = useState(false);
+  const navigate = useNavigate();
 
   const username = watch('username');
-  const callbackUrl = 'https://www.ondolook.click/reset-password/newpassword';
+  const email = watch('email');
+  const code = watch('code');
 
   const onSubmit = () => {
-    sendResetEmail({ username, callbackUrl });
+    if (!isCodeSent) {
+      sendResetEmail(
+        { username, email },
+        {
+          onSuccess: () => {
+            setIsCodeSent(true);
+            setIsTimerStart(true);
+          },
+        }
+      );
+    } else {
+      verifytToResetEmail(
+        { username, code },
+        {
+          onSuccess: () => {
+            navigate('/reset-password/newpassword', {
+              state: { username, code },
+            });
+          },
+        }
+      );
+    }
   };
 
   return (
@@ -41,7 +66,19 @@ const ResetPasswordPage = () => {
           </div>
           <div className="flex flex-col gap-[16px]">
             <Input type="text" placeholder="이메일을 입력해주세요" {...register('email')}></Input>
-            <Input type="text" placeholder="인증번호 입력" {...register('code')}></Input>
+            <div className="relative">
+              <Input
+                type="text"
+                placeholder="인증번호 입력"
+                {...register('code')}
+                className="pr-4"
+              />
+              {isTimerStart && (
+                <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                  <Timer />
+                </div>
+              )}
+            </div>
           </div>
           <div className="mt-[42px]">
             <Button className="w-full" intent="primary" size="large" type="submit">

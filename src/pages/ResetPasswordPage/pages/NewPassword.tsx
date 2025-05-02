@@ -5,16 +5,17 @@ import { Input } from '../../../components/common/Input';
 import { Button } from '../../../components/common/Button';
 import { useSearchParams } from 'react-router-dom';
 import { useResetPassword } from '../fetches/useResetPassword';
+import { useLocation } from 'react-router-dom';
 
 const NewPassword = () => {
   const navigate = useNavigate();
   const { register, handleSubmit, watch } = useForm();
-  let [searchParams] = useSearchParams();
-  const verificationCode = searchParams.get('verification-code');
   const { mutate: resetPassword } = useResetPassword();
 
   const newPassword = watch('password');
-  const username = searchParams.get('username');
+  const location = useLocation();
+  const username = location.state?.username;
+  const verificationCode = location.state?.code;
 
   const onSubmit = () => {
     resetPassword(

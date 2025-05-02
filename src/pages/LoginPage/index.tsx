@@ -19,6 +19,7 @@ const LoginPage = () => {
         onSuccess: data => {
           const accessToken = data.access;
           localStorage.setItem('accessToken', accessToken);
+          navigate('/home');
         },
         onError: error => {
           console.error('로그인실패', error);

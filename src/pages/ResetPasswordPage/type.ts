@@ -1,6 +1,11 @@
 export type SendResetMaillValue = {
   username: string;
-  callbackUrl: string;
+  email: string;
+};
+
+export type VerifyResetMaillValue = {
+  username: string;
+  code: string;
 };
 
 export type ResetPasswordValue = {
