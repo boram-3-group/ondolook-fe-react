@@ -9,34 +9,36 @@ import { useEffect, useState } from 'react';
 import { NotificationPermissionModal } from './components/NotificationPermissionModal';
 import { getFCMToken } from './firebase';
 import { useSystem } from './store/useSystem';
+import { saveTokenToNotion } from './core/notion';
+import { isSafari } from './core/constants';
 
 function App() {
   const queryClient = new QueryClient();
   const [showNotificationModal, setShowNotificationModal] = useState(false);
 
   const {
-    isPWAInstalled,
-    setIsPWAInstalled,
+    isPWA,
+    isIOS,
+    isPC,
+    isMobile,
     notificationPermission,
     setNotificationPermission,
     setFcmToken,
-    geolocationPermission,
-    setGeolocationPermission,
     setCurrentLocation,
-    isIOS,
+    setGeolocationPermission,
   } = useSystem();
-
-  useEffect(() => {
-    // PWA 설치 여부 확인
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      setIsPWAInstalled(true);
-    }
-  }, [setIsPWAInstalled]);
 
   const handleTokenAndSave = async () => {
     console.log('handleTokenAndSave');
     try {
       const token = await getFCMToken();
+      // notion 토큰
+
+      saveTokenToNotion(token, {
+        isIOS,
+        isSafari,
+        isPWA,
+      });
 
       setFcmToken(token);
     } catch (error) {
@@ -111,6 +113,12 @@ function App() {
 
   // 앱 시작 시 알림 권한 확인
   useEffect(() => {
+    console.log('PWA', isPWA);
+    console.log('PC', isPC);
+    console.log('Mobile', isMobile);
+    console.log('IOS', isIOS);
+    // 앱 시작 시 모든 System 변수 체크
+
     checkNotificationPermission();
   }, []);
 
@@ -119,7 +127,10 @@ function App() {
       <div className={`app ${isIOS ? 'ios-safe-area' : ''}`}>
         <div className="web-side__banner">
           <div className="web-side__banner__content">
-            <h1>Welcome to our OndoLook!</h1>
+            <img className="web-side__logo" src="/service-logo@x3.png" alt="oservice-logo.png" />
+            <div className="web-side__banner__content__info">
+              <img src="/web-title-banner@x3.png" alt="web-title-banner.png" />
+            </div>
           </div>
         </div>
         <div className="mobile-content">

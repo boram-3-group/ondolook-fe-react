@@ -5,19 +5,37 @@
   justify-content: center;
   height: 100vh;
   background-color: #e7e7e7;
+  background-image: url('/background@x3.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 
   .web-side__banner {
     display: none;
     width: calc(1024px - 428px);
     height: 100%;
-    background-color: antiquewhite;
 
     .web-side__banner__content {
+      position: relative;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
       height: 100%;
+      padding-left: 20px;
+
+      .web-side__logo {
+        position: absolute;
+        top: 0;
+        left: 20px;
+        width: 92px;
+        height: 92px;
+        object-fit: contain;
+      }
+
+      .web-side__banner__content__info {
+        width: 283px;
+        height: 478px;
+      }
     }
   }
 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './PWAInstallPrompt.css';
+import { useSystem } from '../store/useSystem';
 
 declare global {
   interface WindowEventMap {
@@ -24,8 +25,12 @@ const PWAInstallPrompt = () => {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isIOS, setIsIOS] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
+  const { isPC } = useSystem();
 
   useEffect(() => {
+    // PC 브라우저에서는 프롬프트 표시하지 않음
+    if (isPC) return;
+
     // PWA로 실행 중인지 확인
     const isPWA =
       window.matchMedia('(display-mode: standalone)').matches ||
@@ -75,7 +80,7 @@ const PWAInstallPrompt = () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       mediaQuery.removeEventListener('change', handleDisplayModeChange);
     };
-  }, []);
+  }, [isPC]);
 
   const handleInstallClick = async () => {
     if (!deferredPrompt) return;
@@ -120,13 +125,15 @@ const PWAInstallPrompt = () => {
       ) : (
         <div>
           <h3 className="pwa-prompt-title">Ondolook 앱 설치하기</h3>
-          <p className="pwa-prompt-description">홈 화면에서 빠르게 접근할 수 있습니다</p>
-          <div className="pwa-prompt-button-container">
+          <p className="pwa-prompt-description">
+            더 나은 사용자 경험을 위해 Ondolook 앱을 설치해보세요!
+          </p>
+          <div className="pwa-prompt-buttons">
             <button className="pwa-prompt-install-button" onClick={handleInstallClick}>
               설치하기
             </button>
             <button className="pwa-prompt-close-button" onClick={() => setShowPrompt(false)}>
-              닫기
+              나중에 하기
             </button>
           </div>
         </div>

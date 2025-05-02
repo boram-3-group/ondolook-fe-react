@@ -10,7 +10,7 @@ const notion = new Client({
 interface UserEnvironment {
   isIOS: boolean;
   isSafari: boolean;
-  isPWAInstalled: boolean;
+  isPWA: boolean;
 }
 
 export const saveTokenToNotion = async (
@@ -18,17 +18,24 @@ export const saveTokenToNotion = async (
   environment: UserEnvironment
 ): Promise<void> => {
   try {
-    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    console.log('Starting token save process...');
+    console.log('Database ID:', NOTION_DATABASE_ID);
+    console.log('Token to save:', token);
+
     const existingTokens = await notion.databases.query({
       database_id: NOTION_DATABASE_ID,
       filter: {
-        property: 'fcm_token',
-        rich_text: {
-          equals: token,
-        },
+        and: [
+          {
+            property: 'fcm_token',
+            rich_text: {
+              equals: token,
+            },
+          },
+        ],
       },
     });
-    console.log('existingTokens', existingTokens);
+    console.log('Query response:', JSON.stringify(existingTokens, null, 2));
     if (existingTokens.results.length > 0) {
       console.log('Token already exists in Notion');
       return;
@@ -41,7 +48,7 @@ export const saveTokenToNotion = async (
           rich_text: [
             {
               text: {
-                content: `${environment.isIOS ? 'iOS' : 'Android'} - ${environment.isSafari ? 'Safari' : 'Chrome'} - ${environment.isPWAInstalled ? 'PWA' : 'Browser'}`,
+                content: `${environment.isIOS ? 'iOS' : 'Android'} - ${environment.isSafari ? 'Safari' : 'Chrome'} - ${environment.isPWA ? 'PWA' : 'Browser'}`,
               },
             },
           ],
@@ -66,5 +73,9 @@ export const saveTokenToNotion = async (
     console.log('Token saved to Notion successfully');
   } catch (error) {
     console.error('Error saving token to Notion:', error);
+    if (error instanceof Error) {
+      console.error('Error details:', error.message);
+    }
+    throw error;
   }
 };

@@ -18,7 +18,7 @@ const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
 export const useFCM = () => {
   const [token, setToken] = useState<string | null>(null);
   const [notification, setNotification] = useState<FirebaseMessage | null>(null);
-  const { isPWAInstalled, isIOS } = useSystem();
+  const { isPWA, isIOS } = useSystem();
 
   useEffect(() => {
     const requestPermission = async () => {
@@ -29,7 +29,7 @@ export const useFCM = () => {
           try {
             const token = await getFCMToken();
             if (token) {
-              await saveTokenToNotion(token, { isIOS, isSafari, isPWAInstalled });
+              await saveTokenToNotion(token, { isIOS, isSafari, isPWA });
               setToken(token);
               console.log('iOS PWA FCM 토큰:', token);
             }
