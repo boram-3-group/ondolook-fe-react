@@ -61,7 +61,7 @@ export function HomePage() {
         </div>
         {/* <div className="mb-[20px]">{WeatherData && <WeatherBox {...WeatherData} />}</div> */}
         {/* {Categories?.content?.map(Category => { */}
-        <div className="flex flex-wrap gap-[12px]">
+        <div className="flex flex-wrap gap-[12px] mb-5">
           {Categories.map(Category => {
             return (
               <CategoryChip
@@ -72,6 +72,32 @@ export function HomePage() {
               />
             );
           })}
+        </div>
+        <Carousel
+          slides={fileMetadata.map(item => (
+            <div
+              key={item.id}
+              className="relative w-full h-[458px] justify-center flex flex-col items-center mb-8 bg-grayScale-20"
+            >
+              <img
+                src={item.imageUrl}
+                alt={item.imageUrl}
+                className="w-full h-[431px] mt-5 pb-5 px-[19px] object-contain bg-grayScale-10"
+                draggable={false}
+              />
+              <Icon
+                name="white-bookmark"
+                width={48}
+                height={48}
+                alt="북마크"
+                className="absolute top-4 right-4 z-10"
+              />
+            </div>
+          ))}
+        />
+        <div className="flex absolute bottom-[21px]">
+          <Icon name="home" width={28} height={28} className="ml-9" alt="홈" />
+          <Icon name="mypage" width={28} height={28} className="mr-9" alt="마이페이지" />
         </div>
       </div>
     </>

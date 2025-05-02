@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from 'react';
 type CarouselProps = {
   slides: React.ReactNode[];
   height?: number; // 선택 사항
+  dotType?: 'default' | 'long';
 };
 
 const Carousel: React.FC<CarouselProps> = ({ slides, height }) => {

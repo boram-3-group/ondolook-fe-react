@@ -4,13 +4,13 @@ import { WeatherResponse } from '../type';
 export const WeatherBox = ({ forecasts, airQuality, uvIndex }: WeatherResponse) => {
   return (
     <div className="flex px-4 py-1 border rounded-xl gap-[12px] items-center">
-      <div>
+      {/* <div>
         {forecasts.map((item, index) => (
           <div key={index}>
             <div>{item.time}</div>
           </div>
         ))}
-      </div>
+      </div> */}
       <div className="text-5xl font-medium leading-[150%]">22°</div>
       <div className="flex flex-col">
         <div className="flex justify-between">
