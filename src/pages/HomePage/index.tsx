@@ -56,11 +56,11 @@ export function HomePage() {
 
   return (
     <>
+      <div className="flex bg-slate-500 mb-[20px] justify-between px-4 h-[44px]">
+        {RegionData && <RegionTab {...RegionData} />}
+        <Icon name="bell" width={24} height={24} alt="알람" />
+      </div>
       <div className="mx-5">
-        <div className="flex mb-[20px] mt-[38px] justify-between">
-          {RegionData && <RegionTab {...RegionData} />}
-          <Icon name="bell" width={24} height={24} alt="알람" />
-        </div>
         <div className="mb-[20px]">{WeatherData && <WeatherBox {...WeatherData} />}</div>
         <div className="flex flex-wrap gap-[12px] mb-5">
           {Categories?.content?.map(Category => {

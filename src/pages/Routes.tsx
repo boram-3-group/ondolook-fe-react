@@ -20,7 +20,7 @@ import AlramSettings from './MyPage/pages/AlramSettings';
 import NewPassword from './ResetPasswordPage/pages/NewPassword';
 import ResetSuccess from './ResetPasswordPage/pages/ResetSuccess';
 import Policy from './MyPage/pages/Policy';
-
+import { HomeLayout } from './Layouts/HomeLayout';
 type RouteWithHandle = RouteObject & {
   handle?: {
     title: string;
@@ -32,7 +32,7 @@ type RouteWithHandle = RouteObject & {
 export const router = createBrowserRouter([
   {
     path: '/home',
-    element: <EmptyLayout />,
+    element: <HomeLayout />,
     children: [{ path: '', element: <HomePage /> }],
   } as RouteWithHandle,
   {

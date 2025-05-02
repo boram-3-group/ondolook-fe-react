@@ -16,7 +16,7 @@ export const WeatherBox = ({ forecasts, airQuality, uvIndex, weatherMessage }: W
   return (
     <div className="flex px-4 py-1 border rounded-xl gap-[12px] items-center">
       <div className="text-5xl font-medium leading-[150%]">{currentForecast[0].temperature}°</div>
-      <div className="flex flex-col">
+      <div className="flex flex-col flex-1">
         <div className="flex justify-between">
           <div className="flex gap-[6px]">
             <WeatherIcon
