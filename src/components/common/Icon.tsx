@@ -7,6 +7,7 @@ import announcement from '../../assets/icons/announcement.svg';
 import bell from '../../assets/icons/bell.svg';
 import bookmark from '../../assets/icons/bookmark.svg';
 import blue_bookmark from '../../assets/icons/blue-bookmark.svg';
+import white_bookmark from '../../assets/icons/white-bookmark.svg';
 import chevron_left from '../../assets/icons/chevron-left.svg';
 import chevron_right from '../../assets/icons/chevron-right.svg';
 import edit from '../../assets/icons/edit.svg';
@@ -49,6 +50,7 @@ type IconName =
   | 'bell'
   | 'bookmark'
   | 'blue-bookmark'
+  | 'white-bookmark'
   | 'chevron-left'
   | 'chevron-right'
   | 'edit'
@@ -90,6 +92,7 @@ const iconMap: Record<IconName, any> = {
   bell: bell,
   bookmark: bookmark,
   'blue-bookmark': blue_bookmark,
+  'white-bookmark': white_bookmark,
   'chevron-left': chevron_left,
   'chevron-right': chevron_right,
   edit: edit,

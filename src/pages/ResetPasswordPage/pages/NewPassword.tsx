@@ -3,13 +3,29 @@ import { useForm } from 'react-hook-form';
 import { FormLayout } from '../../../components/common/FormLayout';
 import { Input } from '../../../components/common/Input';
 import { Button } from '../../../components/common/Button';
+import { useSearchParams } from 'react-router-dom';
+import { useResetPassword } from '../fetches/useResetPassword';
+import { useLocation } from 'react-router-dom';
 
 const NewPassword = () => {
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, watch } = useForm();
+  const { mutate: resetPassword } = useResetPassword();
+
+  const newPassword = watch('password');
+  const location = useLocation();
+  const username = location.state?.username;
+  const verificationCode = location.state?.code;
 
   const onSubmit = () => {
-    navigate('/reset-password/success');
+    resetPassword(
+      { verificationCode, username, newPassword },
+      {
+        onSuccess: () => {
+          navigate('/reset-password/success');
+        },
+      }
+    );
   };
   return (
     <>
