@@ -1,5 +1,5 @@
 import { api } from '../../core/axios';
-import { SendEmailValue, SignUpResponse, VerifyEmailValue } from './type';
+import { SignUpResponse, VerifyEmailValue } from './type';
 
 export const signup = async ({
   username,
@@ -39,10 +39,12 @@ export const checkDuplicateUsername = async (username: string | undefined) => {
   }
 };
 
-export const sendEmailCode = async (email: SendEmailValue) => {
+export const sendEmailCode = async (email: string) => {
   try {
-    const res = await api.service.post<SendEmailValue>(`/api/v2/auth/send-code`, {
-      email,
+    const res = await api.service.post(`/api/v1/user/email/send-mail`, email, {
+      headers: {
+        'Content-Type': 'text/plain',
+      },
     });
     return res && res.data;
   } catch (error) {
@@ -51,11 +53,11 @@ export const sendEmailCode = async (email: SendEmailValue) => {
 };
 
 export const verifyEmailCode = async ({ email, code }: VerifyEmailValue) => {
-  console.log('{ email, code', email, code);
   try {
-    const res = await api.service.post<VerifyEmailValue>(
-      `/api/v2/auth/verify-code?email=${email}&code=${code}`
-    );
+    const res = await api.service.post<VerifyEmailValue>(`/api/v1/user/email/verify`, {
+      email,
+      code,
+    });
     return res && res.data;
   } catch (error) {
     throw new Error('이메일 인증 실패');

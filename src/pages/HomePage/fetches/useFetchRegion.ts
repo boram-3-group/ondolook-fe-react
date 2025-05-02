@@ -7,5 +7,6 @@ export const useFetchRegion = ({ lat, lon }: RegionPayload, options?: any) => {
     queryKey: ['region', lat, lon],
     queryFn: async () => await getRegion({ lat, lon }),
     enabled: options?.enabled,
+    //refetchOnWindowFocus: options?.refetchOnWindowFocus,
   });
 };

@@ -81,4 +81,5 @@ export interface WeatherResponse {
   forecasts: Forecast[];
   airQuality: AirQuality;
   uvIndex: UvIndex;
+  weatherMessage: string;
 }

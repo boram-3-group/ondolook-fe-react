@@ -7,7 +7,6 @@ import { useFetchCategory } from './fetches/useFetchCategory';
 import { WeatherBox } from './_components/WeatherBox';
 import { Icon } from '../../components/common/Icon';
 import useLocationStore from '../../store/useLocationStore';
-import { Categories } from '../../core/constants';
 import Carousel from '../../components/common/Carousel';
 import { useFetchRegion } from './fetches/useFetchRegion';
 import { useFetchWeather } from './fetches/useFetchWeather';
@@ -24,22 +23,27 @@ export function HomePage() {
   // const { lat, lon } = useGeolocation();
   const shouldFetch = lat !== 0 && lon !== 0;
 
-  // const { data: RegionData, isLoading: RegionDataLoading } = useFetchRegion(
-  //   { lat: 37.498095, lon: 127.02761 },
-  //   { enabled: shouldFetch }
-  // );
+  const { data: Categories, isLoading: CategoriesLoading } = useFetchCategory();
 
-  // const { data: WeatherData, isLoading: WeatherDataLoading } = useFetchWeather({
-  //   lat: 37.498095,
-  //   lon: 127.02761,
-  // });
+  const { data: RegionData, isLoading: RegionDataLoading } = useFetchRegion(
+    { lat: 37.498095, lon: 127.02761 },
+    {
+      enabled: shouldFetch,
+      //  refetchOnWindowFocus: false
+    }
+  );
 
-  // const { data: OutfitData, isLoading: OutfitDataLoading } = useFetchOutfit({
-  //   lat: 37.498095,
-  //   lon: 127.02761,
-  //   eventType: 1,
-  //   gender: 'MALE',
-  // });
+  const { data: WeatherData, isLoading: WeatherDataLoading } = useFetchWeather({
+    lat: 37.498095,
+    lon: 127.02761,
+  });
+
+  const { data: OutfitData, isLoading: OutfitDataLoading } = useFetchOutfit({
+    lat: 37.498095,
+    lon: 127.02761,
+    eventType: 1,
+    gender: 'MALE',
+  });
 
   console.log('home render');
 
@@ -50,19 +54,16 @@ export function HomePage() {
     { id: 3, imageUrl: '/sample3.jpg' },
   ];
 
-  // const { data: Categories, isLoading: CategoriesLoading } = useFetchCategory();
-
   return (
     <>
       <div className="mx-5">
         <div className="flex mb-[20px] mt-[38px] justify-between">
-          {/* {RegionData && <RegionTab {...RegionData} />} */}
+          {RegionData && <RegionTab {...RegionData} />}
           <Icon name="bell" width={24} height={24} alt="알람" />
         </div>
-        {/* <div className="mb-[20px]">{WeatherData && <WeatherBox {...WeatherData} />}</div> */}
-        {/* {Categories?.content?.map(Category => { */}
+        <div className="mb-[20px]">{WeatherData && <WeatherBox {...WeatherData} />}</div>
         <div className="flex flex-wrap gap-[12px] mb-5">
-          {Categories.map(Category => {
+          {Categories?.content?.map(Category => {
             return (
               <CategoryChip
                 key={Category.id}

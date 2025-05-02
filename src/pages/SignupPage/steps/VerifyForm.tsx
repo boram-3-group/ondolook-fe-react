@@ -1,7 +1,7 @@
 import { Button } from '../../../components/common/Button';
 import { Input } from '../../../components/common/Input';
 import { FormLayout } from '../../../components/common/FormLayout';
-import { moveNextProps, SendEmailValue } from '../type';
+import { moveNextProps } from '../type';
 import { useSendEmailCode, useVerifyEmailCode } from '../fetches/useFetchEmail';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
@@ -22,32 +22,36 @@ const VerifyForm = ({ onNext }: moveNextProps) => {
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [isAgreeFormOpen, setIsAgreeFormOpen] = useState(false);
   const [isTimerStart, setIsTimerStart] = useState(false);
+  const [Error, setError] = useState('');
   const email = watch('email');
   const code = watch('code');
   const setSignupForm = useUserStore(state => state.setSignupForm);
 
   const onSubmit = () => {
-    // if (!isCodeSent) {
-    //   sendEmailCode(email, {
-    //     onSuccess: () => {
-    //       setIsCodeSent(true);
-    //       setIsTimerStart(true);
-    //     },
-    //     onError: () => {},
-    //   });
-    // } else {
-    //   verifyEmailCode(
-    //     { email, code },
-    //     {
-    //       onSuccess: () => {
-    setSignupForm({ email });
-    setIsAgreeFormOpen(true);
-    onNext();
-    //       },
-    //       onError: () => {},
-    //     }
-    //   );
-    // }
+    if (!isCodeSent) {
+      sendEmailCode(email, {
+        onSuccess: () => {
+          setIsCodeSent(true);
+          setIsTimerStart(true);
+        },
+        onError: () => {},
+      });
+    } else {
+      verifyEmailCode(
+        { email, code },
+        {
+          onSuccess: () => {
+            setSignupForm({ email });
+            setIsAgreeFormOpen(true);
+            onNext();
+          },
+          onError: error => {
+            const message = error.name;
+            console.log(message);
+          },
+        }
+      );
+    }
   };
 
   return (
@@ -56,6 +60,7 @@ const VerifyForm = ({ onNext }: moveNextProps) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col gap-[16px]">
             <Input type="text" placeholder="이메일을 입력해주세요" {...register('email')}></Input>
+
             <div className="relative">
               <Input
                 type="text"
