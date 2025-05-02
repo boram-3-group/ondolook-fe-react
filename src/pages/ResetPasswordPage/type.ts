@@ -9,7 +9,7 @@ export type VerifyResetMaillValue = {
 };
 
 export type ResetPasswordValue = {
-  verificationCode: string | null;
-  username: string | null;
+  verificationCode: string;
+  username: string;
   newPassword: string;
 };
