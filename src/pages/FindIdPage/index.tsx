@@ -15,10 +15,7 @@ const FindIdPage = () => {
       .string()
       .min(1, { message: '이메일은 필수값입니다.' })
       .email({ message: '유효한 이메일 형식을 입력해주세요.' }),
-    code: z
-      .string()
-      .min(1, { message: '인증번호는 필수값입니다.' })
-      .length(6, { message: '6자리 인증번호를 입력해주세요.' }),
+    code: z.string(),
   });
   const {
     register,

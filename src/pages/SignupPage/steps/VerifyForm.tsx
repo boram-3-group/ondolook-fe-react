@@ -22,7 +22,8 @@ const VerifyForm = ({ onNext }: moveNextProps) => {
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [isAgreeFormOpen, setIsAgreeFormOpen] = useState(false);
   const [isTimerStart, setIsTimerStart] = useState(false);
-  const [Error, setError] = useState('');
+  const [sendEmailError, setSendEmailError] = useState('');
+  const [verifyError, setVerifyErrorr] = useState('');
   const email = watch('email');
   const code = watch('code');
   const setSignupForm = useUserStore(state => state.setSignupForm);
@@ -31,10 +32,13 @@ const VerifyForm = ({ onNext }: moveNextProps) => {
     if (!isCodeSent) {
       sendEmailCode(email, {
         onSuccess: () => {
+          setSendEmailError('');
           setIsCodeSent(true);
           setIsTimerStart(true);
         },
-        onError: () => {},
+        onError: (error: any) => {
+          setSendEmailError(error.message);
+        },
       });
     } else {
       verifyEmailCode(
@@ -45,9 +49,8 @@ const VerifyForm = ({ onNext }: moveNextProps) => {
             setIsAgreeFormOpen(true);
             onNext();
           },
-          onError: error => {
-            const message = error.name;
-            console.log(message);
+          onError: (error: any) => {
+            setVerifyErrorr(error.message);
           },
         }
       );
@@ -60,7 +63,7 @@ const VerifyForm = ({ onNext }: moveNextProps) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col gap-[16px]">
             <Input type="text" placeholder="이메일을 입력해주세요" {...register('email')}></Input>
-
+            {sendEmailError && <p className="text-Detail text-danger-50">{sendEmailError}</p>}
             <div className="relative">
               <Input
                 type="text"
@@ -73,6 +76,7 @@ const VerifyForm = ({ onNext }: moveNextProps) => {
                   <Timer />
                 </div>
               )}
+              {verifyError && <p className="text-Detail text-danger-50 mt-2">{verifyError}</p>}
             </div>
           </div>
           <div className="mt-[42px]">
