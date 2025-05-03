@@ -135,6 +135,7 @@ interface IconProps {
   className?: string;
   alt?: string;
   stroke?: string;
+  onClick?: () => void;
 }
 
 export const Icon: React.FC<IconProps> = ({
@@ -144,6 +145,7 @@ export const Icon: React.FC<IconProps> = ({
   className = '',
   alt = '',
   stroke,
+  onClick,
 }) => {
   const IconComponent = iconMap[name];
 
@@ -154,6 +156,7 @@ export const Icon: React.FC<IconProps> = ({
         height={height}
         className={className}
         style={stroke ? { stroke: stroke } : undefined}
+        onClick={onClick}
       />
     );
   }
