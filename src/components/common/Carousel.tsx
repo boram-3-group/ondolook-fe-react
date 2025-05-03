@@ -92,7 +92,7 @@ const Carousel: React.FC<CarouselProps> = ({ slides, height }) => {
       </div>
 
       {/* Dot navigation */}
-      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
+      <div className="flex justify-center items-center bottom-2 gap-2 mt-5">
         {slides.map((_, index) => (
           <button
             key={index}

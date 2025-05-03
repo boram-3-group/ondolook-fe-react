@@ -22,7 +22,7 @@ export const OnBoardPage = () => {
     <div className="w-full max-w-xl mx-auto pt-[53px]">
       <Carousel
         slides={images.map(item => (
-          <div className="relative w-full justify-center flex flex-col items-center mb-4">
+          <div className="relative w-full justify-center flex flex-col items-center">
             <p
               className="
                 flex flex-col items-center justify-center
@@ -33,7 +33,7 @@ export const OnBoardPage = () => {
                 <span key={idx}>{msg}</span>
               ))}
             </p>
-            <div className="w-full max-w-[375px] aspect-[375/310] mt-5 pb-5">
+            <div className="w-full max-w-[375px] aspect-[375/310] mt-5">
               <img
                 src={item.src}
                 alt={item.alt}
