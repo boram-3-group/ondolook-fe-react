@@ -11,6 +11,7 @@ import { getFCMToken } from './firebase';
 import { useSystem } from './store/useSystem';
 import { saveTokenToNotion } from './core/notion';
 import { isSafari } from './core/constants';
+import { RouterGuardProvider } from './pages/RouterGuardProvider';
 
 function App() {
   const queryClient = new QueryClient();
@@ -121,6 +122,26 @@ function App() {
 
     checkNotificationPermission();
   }, []);
+
+  const navigationGuards = {
+    '/login': {
+      beforeEnter: async (to: string, from: string) => {
+        const isLoggedIn = false;
+        if (isLoggedIn) return false;
+        return true;
+      },
+      afterEnter: (to: string, from: string) => {
+        console.log('Login page entered');
+      },
+    },
+    '/my': {
+      beforeEnter: async (to: string, from: string) => {
+        const isLoggedIn = false;
+        if (!isLoggedIn) return false;
+        return true;
+      },
+    },
+  };
 
   return (
     <QueryClientProvider client={queryClient}>

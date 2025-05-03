@@ -21,6 +21,9 @@ import NewPassword from './ResetPasswordPage/pages/NewPassword';
 import ResetSuccess from './ResetPasswordPage/pages/ResetSuccess';
 import Policy from './MyPage/pages/Policy';
 import { HomeLayout } from './Layouts/HomeLayout';
+import { RouterGuardProvider } from './RouterGuardProvider';
+import { guards } from './router-guard';
+
 type RouteWithHandle = RouteObject & {
   handle?: {
     title: string;
@@ -31,178 +34,188 @@ type RouteWithHandle = RouteObject & {
 
 export const router = createBrowserRouter([
   {
-    path: '/home',
-    element: <HomeLayout />,
-    children: [{ path: '', element: <HomePage /> }],
-  } as RouteWithHandle,
-  {
-    path: '/login',
-    element: <EmptyLayout />,
+    path: '/',
+    element: <RouterGuardProvider guards={guards} />,
     children: [
       {
         path: '',
-        element: <OnBoardPage />,
-      },
-      { path: 'oauth-callback', element: <OauthCallbackPage /> },
-    ],
-  } as RouteWithHandle,
-  {
-    path: '/login/form',
-    element: <DefaultLayout />,
-    children: [
-      {
-        path: '',
-        element: <LoginPage />,
-        handle: {
-          isShowBack: true,
-        },
-      },
-    ],
-  } as RouteWithHandle,
-  {
-    path: '/signup',
-    element: <DefaultLayout />,
-    children: [
-      {
-        path: '',
-        element: <SignupPage />,
-        handle: {
-          isShowBack: true,
-        },
-      },
-      {
-        path: 'agreedToTerms',
-        element: <AgreedToTerms />,
-        handle: {
-          isShowBack: true,
-          title: '이용약관',
-        },
-      },
-      {
-        path: 'agreedToPrivacy',
-        element: <AgreedToPrivacy />,
-        handle: {
-          isShowBack: true,
-          title: '개인정보 처리 방침',
-        },
-      },
-    ],
-  } as RouteWithHandle,
-  {
-    path: '/find-id',
-    element: <DefaultLayout />,
-    children: [
-      {
-        path: '',
-        element: <FindIdPage />,
-        handle: {
-          isShowBack: true,
-          title: '아이디 찾기',
-        },
-      },
-      {
-        path: 'success',
-        element: <FindIdSuccess />,
-        handle: {
-          isShowBack: true,
-          title: '아이디 찾기',
-        },
-      },
-    ],
-  } as RouteWithHandle,
-  {
-    path: '/reset-password',
-    element: <DefaultLayout />,
-    children: [
-      {
-        path: '',
-        element: <ResetPasswordPage />,
-        handle: {
-          isShowBack: true,
-          title: '비밀번호 찾기',
-        },
-      },
-      {
-        path: 'newpassword',
-        element: <NewPassword />,
-        handle: {
-          isShowBack: true,
-          title: '비밀번호 찾기',
-        },
-      },
-      {
-        path: 'success',
-        element: <ResetSuccess />,
-        handle: {
-          isShowBack: true,
-        },
-      },
-    ],
-  } as RouteWithHandle,
-  {
-    path: '/my',
-    element: <DefaultLayout />,
-    children: [
-      {
-        path: '',
-        element: <MyPage />,
-        handle: {
-          title: '마이페이지',
-        },
+        element: <Navigate to="/login" replace={true} />,
       } as RouteWithHandle,
       {
-        path: 'bookmark',
-        element: <Bookmark />,
-        handle: {
-          title: '북마크',
-          isShowBack: true,
-        },
+        path: '/home',
+        element: <HomeLayout />,
+        children: [{ path: '', element: <HomePage /> }],
       } as RouteWithHandle,
       {
-        path: 'notice',
-        element: <NoticeBoard />,
-        handle: {
-          title: '공지사항',
-          isShowBack: true,
-        },
+        path: '/login',
+        element: <EmptyLayout />,
+        children: [
+          {
+            path: '',
+            element: <OnBoardPage />,
+          },
+          { path: 'oauth-callback', element: <OauthCallbackPage /> },
+        ],
       } as RouteWithHandle,
       {
-        path: 'notice/:id',
-        element: <NoticeBoardDetails />,
-        handle: {
-          isShowBack: true,
-        },
+        path: '/login/form',
+        element: <DefaultLayout />,
+        children: [
+          {
+            path: '',
+            element: <LoginPage />,
+            handle: {
+              isShowBack: true,
+            },
+          },
+        ],
       } as RouteWithHandle,
       {
-        path: 'user-info',
-        element: <UserInfoSettings />,
-        handle: {
-          title: '회원 정보 설정',
-          isShowBack: true,
-        },
+        path: '/signup',
+        element: <DefaultLayout />,
+        children: [
+          {
+            path: '',
+            element: <SignupPage />,
+            handle: {
+              isShowBack: true,
+            },
+          },
+          {
+            path: 'agreedToTerms',
+            element: <AgreedToTerms />,
+            handle: {
+              isShowBack: true,
+              title: '이용약관',
+            },
+          },
+          {
+            path: 'agreedToPrivacy',
+            element: <AgreedToPrivacy />,
+            handle: {
+              isShowBack: true,
+              title: '개인정보 처리 방침',
+            },
+          },
+        ],
       } as RouteWithHandle,
       {
-        path: 'alarm',
-        element: <AlramSettings />,
-        handle: {
-          title: '알림 설정',
-          isShowBack: true,
-        },
+        path: '/find-id',
+        element: <DefaultLayout />,
+        children: [
+          {
+            path: '',
+            element: <FindIdPage />,
+            handle: {
+              isShowBack: true,
+              title: '아이디 찾기',
+            },
+          },
+          {
+            path: 'success',
+            element: <FindIdSuccess />,
+            handle: {
+              isShowBack: true,
+              title: '아이디 찾기',
+            },
+          },
+        ],
       } as RouteWithHandle,
       {
-        path: 'policy',
-        element: <Policy />,
-        handle: {
-          title: '약관 및 정책',
-          isShowBack: true,
-        },
+        path: '/reset-password',
+        element: <DefaultLayout />,
+        children: [
+          {
+            path: '',
+            element: <ResetPasswordPage />,
+            handle: {
+              isShowBack: true,
+              title: '비밀번호 찾기',
+            },
+          },
+          {
+            path: 'newpassword',
+            element: <NewPassword />,
+            handle: {
+              isShowBack: true,
+              title: '비밀번호 찾기',
+            },
+          },
+          {
+            path: 'success',
+            element: <ResetSuccess />,
+            handle: {
+              isShowBack: true,
+            },
+          },
+        ],
+      } as RouteWithHandle,
+      {
+        path: '/my',
+        element: <DefaultLayout />,
+        children: [
+          {
+            path: '',
+            element: <MyPage />,
+            handle: {
+              title: '마이페이지',
+            },
+          } as RouteWithHandle,
+          {
+            path: 'bookmark',
+            element: <Bookmark />,
+            handle: {
+              title: '북마크',
+              isShowBack: true,
+            },
+          } as RouteWithHandle,
+          {
+            path: 'notice',
+            element: <NoticeBoard />,
+            handle: {
+              title: '공지사항',
+              isShowBack: true,
+            },
+          } as RouteWithHandle,
+          {
+            path: 'notice/:id',
+            element: <NoticeBoardDetails />,
+            handle: {
+              isShowBack: true,
+            },
+          } as RouteWithHandle,
+          {
+            path: 'user-info',
+            element: <UserInfoSettings />,
+            handle: {
+              title: '회원 정보 설정',
+              isShowBack: true,
+            },
+          } as RouteWithHandle,
+          {
+            path: 'alarm',
+            element: <AlramSettings />,
+            handle: {
+              title: '알림 설정',
+              isShowBack: true,
+            },
+          } as RouteWithHandle,
+          {
+            path: 'policy',
+            element: <Policy />,
+            handle: {
+              title: '약관 및 정책',
+              isShowBack: true,
+            },
+          } as RouteWithHandle,
+        ],
+      },
+      {
+        path: '*',
+        element: <Navigate to="/login" replace={true} />,
       } as RouteWithHandle,
     ],
   },
-  {
-    path: '*',
-    element: <Navigate to="/login" replace={true} />,
-  } as RouteWithHandle,
 ] as RouteWithHandle[]);
 
 export const Routes = () => {

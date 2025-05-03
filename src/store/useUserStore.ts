@@ -17,7 +17,7 @@ interface User {
   agreedToMarketing: boolean;
 }
 
-interface UserStore {
+export interface UserStore {
   user: User | null;
   loading: boolean;
   error: string | null;

@@ -6,7 +6,7 @@ import { useFetchOutfit } from './fetches/useFetchOutfit';
 import { useFetchCategory } from './fetches/useFetchCategory';
 import { WeatherBox } from './_components/WeatherBox';
 import { Icon } from '../../components/common/Icon';
-import useLocationStore from '../../store/useLocationStore';
+import { useLocationStore } from '../../store/useLocationStore';
 import Carousel from '../../components/common/Carousel';
 import { useFetchRegion } from './fetches/useFetchRegion';
 import { useFetchWeather } from './fetches/useFetchWeather';

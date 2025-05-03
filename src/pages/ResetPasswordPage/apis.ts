@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { api } from '../../core/axios';
 import { VerifyResetMaillValue } from './type';
 
@@ -9,7 +10,9 @@ export const sendResetEmail = async ({ username, email }: { username: string; em
     });
     return res && res.data;
   } catch (error) {
-    throw new Error('비밀번호 재설정 메일전송에 실패');
+    if (error instanceof AxiosError) {
+      throw new Error('비밀번호 재설정 메일전송에 실패');
+    }
   }
 };
 
@@ -21,7 +24,9 @@ export const verifytToResetEmail = async ({ username, code }: VerifyResetMaillVa
     });
     return res && res.data;
   } catch (error) {
-    throw new Error('비밀번호 재설정 인증 실패');
+    if (error instanceof AxiosError) {
+      throw new Error('비밀번호 재설정 인증 실패');
+    }
   }
 };
 
@@ -42,6 +47,8 @@ export const resetPassword = async ({
     });
     return res && res.data;
   } catch (error) {
-    throw new Error('비밀번호 재설정 실패');
+    if (error instanceof AxiosError) {
+      throw new Error('비밀번호 재설정 실패');
+    }
   }
 };
