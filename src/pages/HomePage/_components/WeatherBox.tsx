@@ -1,31 +1,34 @@
 import WeatherIcon from '../../../components/common/WeatherIcon';
-import { WeatherResponse } from '../type';
+import { Forecast } from '../type';
 
-export const WeatherBox = ({ forecasts, airQuality, uvIndex, weatherMessage }: WeatherResponse) => {
-  const currentDate = new Date();
-  const currentHours = currentDate.getHours();
-  const hoursString = String(currentHours).padStart(2, '0');
-  const currentForecast = forecasts.filter(
-    forecast => forecast.time.substring(0, 2) === hoursString
-  );
+export interface currentWeatherProps {
+  forecast: Forecast;
+  weatherMessage: string;
+  minTodayTemp: number;
+  maxTodayTemp: number;
+}
 
-  const TodayTemp = forecasts.map(forecast => forecast.temperature);
-  const maxTodayTemp = Math.max(...TodayTemp);
-  const minTodayTemp = Math.min(...TodayTemp);
-
+export const WeatherBox = ({
+  forecast,
+  weatherMessage,
+  minTodayTemp,
+  maxTodayTemp,
+}: currentWeatherProps) => {
   return (
-    <div className="flex px-4 py-1 border rounded-xl gap-[12px] items-center">
-      <div className="text-5xl font-medium leading-[150%]">{currentForecast[0].temperature}°</div>
+    <div className="flex px-4 py-1 rounded-xl gap-[12px] items-center bg-white">
+      <div className="text-5xl font-medium leading-[150%] width-[82px]">
+        {forecast.temperature}°
+      </div>
       <div className="flex flex-col flex-1">
         <div className="flex justify-between">
           <div className="flex gap-[6px]">
             <WeatherIcon
-              weather={currentForecast[0].iconNumber.toString()}
+              weather={forecast.iconNumber.toString()}
               width={24}
               height={24}
               alt="맑음"
             />
-            <span className="text-Body1">{currentForecast[0].iconMessage}</span>
+            <span className="text-Body1">{forecast.iconMessage}</span>
           </div>
           <div className="flex text-Detail text-grayScale-60 gap-[8px]">
             <div className="">{minTodayTemp}°</div>
