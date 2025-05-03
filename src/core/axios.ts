@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { serviceUrl } from './constants';
+import { useUserStore } from '../store/useUserStore';
 
 class Service {
   private axiosInstance: AxiosInstance;
@@ -13,13 +14,24 @@ class Service {
     });
 
     this.axiosInstance.interceptors.request.use(
-      config => config,
+      config => {
+        const token = useUserStore.getState().accessToken;
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+      },
       error => Promise.reject(error)
     );
 
     this.axiosInstance.interceptors.response.use(
       response => response,
-      error => Promise.reject(error)
+      error => {
+        if (error.response?.status === 401) {
+          useUserStore.getState().logout();
+        }
+        return Promise.reject(error);
+      }
     );
   }
 

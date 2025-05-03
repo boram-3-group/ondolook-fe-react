@@ -46,6 +46,7 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
   const email = useUserStore(state => state.user?.email);
   const setSignupForm = useUserStore(state => state.setSignupForm);
   const setUser = useUserStore(state => state.setUser);
+  const user = useUserStore(state => state.user);
   const { mutate: signUp } = useFetchSignup();
   const { mutate: updateUserInfo } = useFetchUpdateUserInfo();
   const genderList = [
@@ -65,6 +66,7 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
     };
 
     const signUpData = {
+      ...user,
       username: username || '',
       password: password || '',
       email: email || '',
@@ -83,7 +85,6 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
         },
         onError: error => {
           setUser(signUpData);
-
           console.error('회원가입 실패:', error);
         },
       });

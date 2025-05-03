@@ -6,6 +6,7 @@ import { SignUpResponse } from '../pages/SignupPage/type';
 import { AxiosResponse } from 'axios';
 
 export interface User {
+  id?: string;
   username: string;
   password: string;
   gender: string;
@@ -22,7 +23,9 @@ export interface UserStore {
   user: User | null;
   loading: boolean;
   error: string | null;
+  accessToken: string | null;
   setUser: (user: User | null) => void;
+  setAccessToken: (token: string | null) => void;
   isLoggedIn: () => boolean;
   logout: () => Promise<void>;
   oauthRedirect: (provider: 'kakao' | 'google') => void;
@@ -36,15 +39,17 @@ export const useUserStore = create<UserStore>()(
       user: null,
       loading: false,
       error: null,
+      accessToken: null,
 
-      setUser: user => set({ user }),
-      isLoggedIn: () => !!get().user,
+      setUser: user => {
+        console.log('user', user);
+        set({ user });
+      },
+      setAccessToken: token => set({ accessToken: token }),
+      isLoggedIn: () => !!get().user && !!get().accessToken,
       logout: async () => {
         try {
-          await api.service.post('/auth/logout', null, {
-            withCredentials: true,
-          });
-          set({ user: null });
+          set({ user: null, accessToken: null });
         } catch (err: unknown) {
           console.error('로그아웃 실패:', err);
         }
@@ -90,6 +95,7 @@ export const useUserStore = create<UserStore>()(
       name: 'user-storage',
       partialize: state => ({
         user: state.user,
+        accessToken: state.accessToken,
       }),
     }
   )
