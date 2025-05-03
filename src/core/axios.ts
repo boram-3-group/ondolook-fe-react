@@ -9,6 +9,7 @@ class Service {
     this.axiosInstance = axios.create({
       baseURL: baseUrl,
       timeout: 15000,
+      withCredentials: true,
     });
 
     this.axiosInstance.interceptors.request.use(
@@ -30,8 +31,8 @@ class Service {
     return this.axiosInstance.post<R>(url, data, options);
   }
 
-  public put<R = any>(url: string, data?: any): Promise<AxiosResponse<R>> {
-    return this.axiosInstance.put<R>(url, data);
+  public put<R = any>(url: string, data?: any, options?: any): Promise<AxiosResponse<R>> {
+    return this.axiosInstance.put<R>(url, data, options);
   }
 }
 

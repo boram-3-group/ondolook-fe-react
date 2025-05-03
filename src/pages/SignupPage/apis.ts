@@ -65,9 +65,11 @@ export const verifyEmailCode = async ({ email, code }: VerifyEmailValue) => {
   }
 };
 
-export const updateUserInfo = async (user: User) => {
+export const updateUserInfo = async (user: SignUpResponse) => {
   try {
-    const res = await api.service.put<User>(`/api/v1/user/${user.username}`, user);
+    const res = await api.service.put<User>(`/api/v1/user/${user.username}`, user, {
+      withCredentials: true,
+    });
     return res && res.data;
   } catch (error) {
     throw new Error('사용자 정보 업데이트 실패');

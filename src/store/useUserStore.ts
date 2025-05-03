@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 import { api } from '../core/axios';
 import { getUserDeviceId } from '../core/helper';
 import { SignUpResponse } from '../pages/SignupPage/type';
+import { AxiosResponse } from 'axios';
 
 export interface User {
   userId: string;
@@ -15,6 +16,7 @@ export interface User {
   agreedToTerms: boolean;
   agreedToPrivacy: boolean;
   agreedToMarketing: boolean;
+  nickname: string;
 }
 
 export interface UserStore {
@@ -25,7 +27,7 @@ export interface UserStore {
   isLoggedIn: () => boolean;
   logout: () => Promise<void>;
   oauthRedirect: (provider: 'kakao' | 'google') => void;
-  loginWithSocial: (payload: { device: 'kakao' | 'google' }) => Promise<void>;
+  loginWithSocial: (payload: { device: 'kakao' | 'google' }) => Promise<AxiosResponse>;
   setSignupForm: (data: Partial<SignUpResponse>) => void;
 }
 
@@ -72,11 +74,16 @@ export const useUserStore = create<UserStore>()(
         try {
           set({ loading: true, error: null });
           const deviceId = getUserDeviceId();
-          await api.service.post(`/oauth/issue/${deviceId}`, null, {
+          const response = await api.service.post(`/oauth/issue/${deviceId}`, null, {
             headers: { 'X-DEVICE-ID': device },
+            withCredentials: true,
           });
+          console.log('Login Response:', response);
+          console.log('Cookies:', document.cookie);
+          return response;
         } catch (err: unknown) {
           set({ error: '소셜 로그인 실패 ' + err });
+          throw err;
         } finally {
           set({ loading: false });
         }

@@ -2,7 +2,7 @@ import { Button } from '../../../components/common/Button';
 import { Input } from '../../../components/common/Input';
 import { useForm, Controller } from 'react-hook-form';
 import { moveNextProps, ProfileFormFields, ProfileFormResponse } from '../type';
-import { useFetchSignup } from '../fetches/useFetchSignup';
+import { useFetchSignup, useFetchUpdateUserInfo } from '../fetches/useFetchSignup';
 import GenderChip from '../_components/GenderChip';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -47,7 +47,7 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
   const setSignupForm = useUserStore(state => state.setSignupForm);
 
   const { mutate: signUp } = useFetchSignup();
-
+  const { mutate: updateUserInfo } = useFetchUpdateUserInfo();
   const genderList = [
     { label: '여성', value: 'FEMALE' },
     { label: '남성', value: 'MALE' },
@@ -75,8 +75,15 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
     };
 
     if (socialType) {
-      // 소셜 로그인 회원가입
-      onNext();
+      updateUserInfo(signUpData, {
+        onSuccess: () => {
+          onNext();
+        },
+        onError: error => {
+          console.error('회원가입 실패:', error);
+          onNext();
+        },
+      });
     } else {
       signUp(signUpData, {
         onSuccess: () => {
