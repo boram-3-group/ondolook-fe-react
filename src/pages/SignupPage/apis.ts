@@ -1,6 +1,7 @@
 import { api } from '../../core/axios';
 import { SignUpResponse, VerifyEmailValue } from './type';
 import { User } from '../../store/useUserStore';
+import { AxiosError } from 'axios';
 
 export const signup = async ({
   username,
@@ -27,7 +28,9 @@ export const signup = async ({
     });
     return res && res.data;
   } catch (error) {
-    throw new Error('회원가입에 실패했습니다.');
+    if (error instanceof AxiosError) {
+      throw new Error('회원가입에 실패했습니다.');
+    }
   }
 };
 
@@ -36,7 +39,9 @@ export const checkDuplicateUsername = async (username: string | undefined) => {
     const res = await api.service.get(`/api/v1/user/username/${username}`);
     return res && res.data;
   } catch (error) {
-    throw new Error('username 중복조회 실패');
+    if (error instanceof AxiosError) {
+      throw new Error('username 중복조회 실패');
+    }
   }
 };
 
@@ -49,7 +54,9 @@ export const sendEmailCode = async (email: string) => {
     });
     return res && res.data;
   } catch (error) {
-    throw new Error('이메일 인증코드 전송 실패');
+    if (error instanceof AxiosError) {
+      throw new Error('이메일 인증코드 전송 실패');
+    }
   }
 };
 
@@ -61,17 +68,19 @@ export const verifyEmailCode = async ({ email, code }: VerifyEmailValue) => {
     });
     return res && res.data;
   } catch (error) {
-    throw new Error('이메일 인증 실패');
+    if (error instanceof AxiosError) {
+      throw new Error('이메일 인증 실패');
+    }
   }
 };
 
 export const updateUserInfo = async (user: SignUpResponse) => {
   try {
-    const res = await api.service.put<User>(`/api/v1/user/${user.username}`, user, {
-      withCredentials: true,
-    });
+    const res = await api.service.put<User>(`/api/v1/user/${user.username}`, user);
     return res && res.data;
   } catch (error) {
-    throw new Error('사용자 정보 업데이트 실패');
+    if (error instanceof AxiosError) {
+      throw new Error('사용자 정보 업데이트 실패');
+    }
   }
 };

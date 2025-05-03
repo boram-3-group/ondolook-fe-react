@@ -5,7 +5,7 @@ import { useUserStore } from '../../store/useUserStore';
 export const OauthCallbackPage = () => {
   const [params] = useSearchParams();
   const navigate = useNavigate();
-  const { loginWithSocial } = useUserStore();
+  const { loginWithSocial, setUser } = useUserStore();
 
   useEffect(() => {
     const stateId = params.get('stateId');
@@ -14,12 +14,18 @@ export const OauthCallbackPage = () => {
     (async () => {
       try {
         const response = await loginWithSocial({ device });
-        console.log('Login Response:', response);
-        console.log('Cookies:', document.cookie);
 
-        // 세션이 설정될 때까지 잠시 대기
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        if (response.status === 200) {
+          const { profile } = response.data;
+          setUser(profile);
+          if (profile.gender && profile.birthDate && profile.nickname) {
+            navigate('/home');
+            console.log('소셜 로그인 성공');
+            return;
+          }
+        }
 
+        await new Promise(resolve => setTimeout(resolve, 200));
         navigate('/signup?step=2&socialType=' + device);
       } catch (err) {
         console.error('소셜 로그인 실패', err);

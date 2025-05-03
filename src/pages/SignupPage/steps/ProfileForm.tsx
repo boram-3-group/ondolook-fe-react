@@ -45,7 +45,7 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
   const agreedToMarketing = useUserStore(state => state.user?.agreedToMarketing);
   const email = useUserStore(state => state.user?.email);
   const setSignupForm = useUserStore(state => state.setSignupForm);
-
+  const setUser = useUserStore(state => state.setUser);
   const { mutate: signUp } = useFetchSignup();
   const { mutate: updateUserInfo } = useFetchUpdateUserInfo();
   const genderList = [
@@ -71,23 +71,27 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
       agreedToTerms: agreedToTerms ?? false,
       agreedToPrivacy: agreedToPrivacy ?? false,
       agreedToMarketing: agreedToMarketing ?? false,
+      loginType: socialType || 'PC',
       ...profileData,
     };
 
     if (socialType) {
       updateUserInfo(signUpData, {
         onSuccess: () => {
+          setUser(signUpData);
           onNext();
         },
         onError: error => {
+          setUser(signUpData);
+
           console.error('회원가입 실패:', error);
-          onNext();
         },
       });
     } else {
       signUp(signUpData, {
         onSuccess: () => {
           setSignupForm(data);
+          setUser(signUpData);
           onNext();
         },
         onError: error => {

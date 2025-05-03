@@ -6,12 +6,11 @@ import { SignUpResponse } from '../pages/SignupPage/type';
 import { AxiosResponse } from 'axios';
 
 export interface User {
-  userId: string;
   username: string;
   password: string;
   gender: string;
   birthDate: string;
-  loginType: string;
+  loginType?: string;
   email: string;
   agreedToTerms: boolean;
   agreedToPrivacy: boolean;
@@ -78,8 +77,6 @@ export const useUserStore = create<UserStore>()(
             headers: { 'X-DEVICE-ID': device },
             withCredentials: true,
           });
-          console.log('Login Response:', response);
-          console.log('Cookies:', document.cookie);
           return response;
         } catch (err: unknown) {
           set({ error: '소셜 로그인 실패 ' + err });
