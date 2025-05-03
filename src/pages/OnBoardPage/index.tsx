@@ -7,9 +7,9 @@ import { useUserStore } from '../../store/useUserStore';
 export const OnBoardPage = () => {
   const { oauthRedirect } = useUserStore();
   const images = [
-    '날씨에 맞는 코디를 추천해요!',
-    '일정에 맞게 코디를 알려드려요!',
-    '밈에 드는 코디는 북마크로 저장',
+    ['날씨에 맞는', '코디를 추천해요!'],
+    ['일정에 맞게', '코디를 알려드려요!'],
+    ['맘에 드는', '코디는 북마크로 저장'],
   ].map((label, idx) => ({
     src: `/onboarding-${idx + 1}.png`,
     alt: `온보딩 이미지 ${idx}`,
@@ -19,26 +19,32 @@ export const OnBoardPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full max-w-xl mx-auto pt-14">
+    <div className="w-full max-w-xl mx-auto pt-[53px]">
       <Carousel
         slides={images.map(item => (
-          <div className="relative w-full h-full justify-center flex flex-col items-center mb-8">
+          <div className="relative w-full justify-center flex flex-col items-center">
             <p
-              className="text-[24px] font-bold leading-[150%] text-center break-words w-[176px] break-keep
+              className="
+                flex flex-col items-center justify-center
+              text-[24px] font-bold leading-[150%] text-center break-words w-full break-keep
             "
             >
-              {item.message}
+              {item.message.map((msg, idx) => (
+                <span key={idx}>{msg}</span>
+              ))}
             </p>
-            <img
-              src={item.src}
-              alt={item.alt}
-              className="w-full h-[310px] mt-5 pb-5 object-contain"
-              draggable={false}
-            />
+            <div className="w-full max-w-[375px] aspect-[375/310] mt-5">
+              <img
+                src={item.src}
+                alt={item.alt}
+                className="w-full h-full object-contain"
+                draggable={false}
+              />
+            </div>
           </div>
         ))}
       />
-      <div className="mt-8 px-5 flex gap-3">
+      <div className="mt-7 px-5 flex gap-3">
         <Button intent="outline" size="large" side="full" className="w-1/2">
           둘러보기123456
         </Button>

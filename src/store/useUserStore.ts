@@ -3,29 +3,33 @@ import { persist } from 'zustand/middleware';
 import { api } from '../core/axios';
 import { getUserDeviceId } from '../core/helper';
 import { SignUpResponse } from '../pages/SignupPage/type';
+import { AxiosResponse } from 'axios';
 
-interface User {
-  userId: string;
+export interface User {
+  id?: string;
   username: string;
   password: string;
   gender: string;
   birthDate: string;
-  loginType: string;
+  loginType?: string;
   email: string;
   agreedToTerms: boolean;
   agreedToPrivacy: boolean;
   agreedToMarketing: boolean;
+  nickname: string;
 }
 
-interface UserStore {
+export interface UserStore {
   user: User | null;
   loading: boolean;
   error: string | null;
+  accessToken: string | null;
   setUser: (user: User | null) => void;
+  setAccessToken: (token: string | null) => void;
   isLoggedIn: () => boolean;
   logout: () => Promise<void>;
   oauthRedirect: (provider: 'kakao' | 'google') => void;
-  loginWithSocial: (payload: { device: 'kakao' | 'google' }) => Promise<void>;
+  loginWithSocial: (payload: { device: 'kakao' | 'google' }) => Promise<AxiosResponse>;
   setSignupForm: (data: Partial<SignUpResponse>) => void;
 }
 
@@ -35,15 +39,17 @@ export const useUserStore = create<UserStore>()(
       user: null,
       loading: false,
       error: null,
+      accessToken: null,
 
-      setUser: user => set({ user }),
-      isLoggedIn: () => !!get().user,
+      setUser: user => {
+        console.log('user', user);
+        set({ user });
+      },
+      setAccessToken: token => set({ accessToken: token }),
+      isLoggedIn: () => !!get().user && !!get().accessToken,
       logout: async () => {
         try {
-          await api.service.post('/auth/logout', null, {
-            withCredentials: true,
-          });
-          set({ user: null });
+          set({ user: null, accessToken: null });
         } catch (err: unknown) {
           console.error('로그아웃 실패:', err);
         }
@@ -72,11 +78,14 @@ export const useUserStore = create<UserStore>()(
         try {
           set({ loading: true, error: null });
           const deviceId = getUserDeviceId();
-          await api.service.post(`/oauth/issue/${deviceId}`, null, {
+          const response = await api.service.post(`/oauth/issue/${deviceId}`, null, {
             headers: { 'X-DEVICE-ID': device },
+            withCredentials: true,
           });
+          return response;
         } catch (err: unknown) {
           set({ error: '소셜 로그인 실패 ' + err });
+          throw err;
         } finally {
           set({ loading: false });
         }
@@ -86,6 +95,7 @@ export const useUserStore = create<UserStore>()(
       name: 'user-storage',
       partialize: state => ({
         user: state.user,
+        accessToken: state.accessToken,
       }),
     }
   )

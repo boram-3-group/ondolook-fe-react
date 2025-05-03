@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { serviceUrl } from './constants';
+import { useUserStore } from '../store/useUserStore';
 
 class Service {
   private axiosInstance: AxiosInstance;
@@ -9,16 +10,28 @@ class Service {
     this.axiosInstance = axios.create({
       baseURL: baseUrl,
       timeout: 15000,
+      withCredentials: true,
     });
 
     this.axiosInstance.interceptors.request.use(
-      config => config,
+      config => {
+        const token = useUserStore.getState().accessToken;
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+      },
       error => Promise.reject(error)
     );
 
     this.axiosInstance.interceptors.response.use(
       response => response,
-      error => Promise.reject(error)
+      error => {
+        if (error.response?.status === 401) {
+          useUserStore.getState().logout();
+        }
+        return Promise.reject(error);
+      }
     );
   }
 
@@ -28,6 +41,10 @@ class Service {
 
   public post<R = any>(url: string, data?: any, options?: any): Promise<AxiosResponse<R>> {
     return this.axiosInstance.post<R>(url, data, options);
+  }
+
+  public put<R = any>(url: string, data?: any, options?: any): Promise<AxiosResponse<R>> {
+    return this.axiosInstance.put<R>(url, data, options);
   }
 }
 

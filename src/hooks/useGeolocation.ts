@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import useLocationStore from '../store/useLocationStore';
+import { useLocationStore } from '../store/useLocationStore';
 
 export const useGeolocation = () => {
   // const [lat, setLat] = useState(0);

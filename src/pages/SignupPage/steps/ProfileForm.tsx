@@ -2,7 +2,7 @@ import { Button } from '../../../components/common/Button';
 import { Input } from '../../../components/common/Input';
 import { useForm, Controller } from 'react-hook-form';
 import { moveNextProps, ProfileFormFields, ProfileFormResponse } from '../type';
-import { useFetchSignup } from '../fetches/useFetchSignup';
+import { useFetchSignup, useFetchUpdateUserInfo } from '../fetches/useFetchSignup';
 import GenderChip from '../_components/GenderChip';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -45,9 +45,10 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
   const agreedToMarketing = useUserStore(state => state.user?.agreedToMarketing);
   const email = useUserStore(state => state.user?.email);
   const setSignupForm = useUserStore(state => state.setSignupForm);
-
+  const setUser = useUserStore(state => state.setUser);
+  const user = useUserStore(state => state.user);
   const { mutate: signUp } = useFetchSignup();
-
+  const { mutate: updateUserInfo } = useFetchUpdateUserInfo();
   const genderList = [
     { label: '여성', value: 'FEMALE' },
     { label: '남성', value: 'MALE' },
@@ -65,22 +66,33 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
     };
 
     const signUpData = {
+      ...user,
       username: username || '',
       password: password || '',
       email: email || '',
       agreedToTerms: agreedToTerms ?? false,
       agreedToPrivacy: agreedToPrivacy ?? false,
       agreedToMarketing: agreedToMarketing ?? false,
+      loginType: socialType || 'PC',
       ...profileData,
     };
 
     if (socialType) {
-      // 소셜 로그인 회원가입
-      onNext();
+      updateUserInfo(signUpData, {
+        onSuccess: () => {
+          setUser(signUpData);
+          onNext();
+        },
+        onError: error => {
+          setUser(signUpData);
+          console.error('회원가입 실패:', error);
+        },
+      });
     } else {
       signUp(signUpData, {
         onSuccess: () => {
           setSignupForm(data);
+          setUser(signUpData);
           onNext();
         },
         onError: error => {

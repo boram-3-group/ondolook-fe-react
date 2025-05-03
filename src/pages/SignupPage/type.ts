@@ -23,6 +23,7 @@ export type ProfileFormFields = {
 };
 
 export type ProfileFormResponse = {
+  id?: string;
   nickname: string;
   gender: 'MALE' | 'FEMALE' | '';
   birthDate: string;
