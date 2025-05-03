@@ -97,7 +97,7 @@ const Carousel: React.FC<CarouselProps> = ({ slides, height }) => {
           <button
             key={index}
             onClick={() => goTo(index)}
-            className={`w-2.5 h-2.5 rounded-full transition-colors duration-200 ${
+            className={`w-2 h-2 rounded-full transition-colors duration-200 ${
               index === current ? 'bg-[#1E90FF]' : 'bg-gray-300'
             }`}
           />

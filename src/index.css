@@ -13,4 +13,5 @@
   /* 전역 적용 */
   body {
     font-family: 'Pretendard Variable', sans-serif;
+    overscroll-behavior: none;
   }
