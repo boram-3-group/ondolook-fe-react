@@ -19,6 +19,7 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   }
 
   #root {
@@ -26,4 +27,13 @@
     width: 100%;
     height: 100%;
     overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+
+  /* iOS에서 스크롤 동작 개선 */
+  @supports (-webkit-touch-callout: none) {
+    html, body {
+      height: -webkit-fill-available;
+    }
   }
