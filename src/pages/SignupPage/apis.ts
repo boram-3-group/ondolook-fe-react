@@ -1,5 +1,6 @@
 import { api } from '../../core/axios';
 import { SignUpResponse, VerifyEmailValue } from './type';
+import { User } from '../../store/useUserStore';
 
 export const signup = async ({
   username,
@@ -61,5 +62,14 @@ export const verifyEmailCode = async ({ email, code }: VerifyEmailValue) => {
     return res && res.data;
   } catch (error) {
     throw new Error('이메일 인증 실패');
+  }
+};
+
+export const updateUserInfo = async (user: User) => {
+  try {
+    const res = await api.service.put<User>(`/api/v1/user/${user.username}`, user);
+    return res && res.data;
+  } catch (error) {
+    throw new Error('사용자 정보 업데이트 실패');
   }
 };

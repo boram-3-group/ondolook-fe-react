@@ -29,6 +29,10 @@ class Service {
   public post<R = any>(url: string, data?: any, options?: any): Promise<AxiosResponse<R>> {
     return this.axiosInstance.post<R>(url, data, options);
   }
+
+  public put<R = any>(url: string, data?: any): Promise<AxiosResponse<R>> {
+    return this.axiosInstance.put<R>(url, data);
+  }
 }
 
 const api = {

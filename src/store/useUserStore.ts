@@ -4,7 +4,7 @@ import { api } from '../core/axios';
 import { getUserDeviceId } from '../core/helper';
 import { SignUpResponse } from '../pages/SignupPage/type';
 
-interface User {
+export interface User {
   userId: string;
   username: string;
   password: string;

@@ -75,12 +75,15 @@ function App() {
     }
 
     console.log('ℹ️ 권한 미요청 상태');
-    setShowNotificationModal(true);
+
+    if (!isPC) {
+      setShowNotificationModal(true);
+    }
+
     return false;
   };
 
   function requestGeolocationPermission() {
-    console.log('requestGeolocationPermission');
     return new Promise((resolve, reject) => {
       if (!navigator.geolocation) {
         reject('Geolocation is not supported');
@@ -112,36 +115,15 @@ function App() {
     }
   }
 
-  // 앱 시작 시 알림 권한 확인
   useEffect(() => {
     console.log('PWA', isPWA);
     console.log('PC', isPC);
     console.log('Mobile', isMobile);
     console.log('IOS', isIOS);
-    // 앱 시작 시 모든 System 변수 체크
 
     checkNotificationPermission();
+    requestGeolocationPermission();
   }, []);
-
-  const navigationGuards = {
-    '/login': {
-      beforeEnter: async (to: string, from: string) => {
-        const isLoggedIn = false;
-        if (isLoggedIn) return false;
-        return true;
-      },
-      afterEnter: (to: string, from: string) => {
-        console.log('Login page entered');
-      },
-    },
-    '/my': {
-      beforeEnter: async (to: string, from: string) => {
-        const isLoggedIn = false;
-        if (!isLoggedIn) return false;
-        return true;
-      },
-    },
-  };
 
   return (
     <QueryClientProvider client={queryClient}>
