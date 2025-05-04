@@ -21,7 +21,7 @@ const NoticeBoardDetails: React.FC = () => {
   if (!notice) return <div>존재하지 않는 공지입니다.</div>;
 
   return (
-    <div className="bg-white h-full min-h-screen">
+    <div className="bg-white h-full">
       <div className="px-5 pt-2">
         <div className="text-[#000] text-lg font-semibold mb-5">{notice.title}</div>
         <div className="text-[#8E8E8E] text-xs font-normal mb-5">{notice.date}</div>

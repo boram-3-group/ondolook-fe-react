@@ -7,7 +7,7 @@ export const MyPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col px-4 mt-8 w-full min-h-screen bg-white">
+    <div className="flex flex-col px-4 mt-8 w-full min-h-full bg-white">
       <div className="flex flex-col gap-1 mb-8">
         <span className="leading-[150%] text-[#000] text-[20px] font-bold ">온도룩</span>
         <span className="text-gray-600">{user?.username || ''}</span>

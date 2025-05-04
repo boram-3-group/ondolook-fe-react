@@ -26,7 +26,7 @@ export function HomeLayout() {
   }, [weather]);
 
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-full">
       <Outlet />
     </div>
   );

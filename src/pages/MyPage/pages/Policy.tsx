@@ -164,7 +164,7 @@ const Policy = () => {
 
   if (selectedPolicy) {
     return (
-      <div className="bg-white min-h-screen px-5 py-4">
+      <div className="bg-white min-h-full px-5 py-4">
         <button onClick={handleBack} className="text-[#8E8E8E] text-sm mb-4">
           ← 목록으로 돌아가기
         </button>
@@ -174,7 +174,7 @@ const Policy = () => {
   }
 
   return (
-    <div className="bg-white min-h-screen">
+    <div className="bg-white ">
       <div className="px-5 py-4">
         {policyData.map(policy => (
           <div

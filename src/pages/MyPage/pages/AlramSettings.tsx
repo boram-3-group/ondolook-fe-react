@@ -53,7 +53,7 @@ const AlramSettings = () => {
   };
 
   return (
-    <div className="flex h-full flex-col min-h-screen bg-white">
+    <div className="flex h-full flex-col min-h-full bg-white">
       <div className="flex-1 px-5 py-8">
         <div className="flex justify-between items-center mb-8">
           <span className="text-[18px] font-semibold text-[#000] leading-[150%] font-['Pretendard']">
