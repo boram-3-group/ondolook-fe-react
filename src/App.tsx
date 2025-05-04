@@ -12,8 +12,10 @@ import { useSystem } from './store/useSystem';
 import { saveTokenToNotion } from './core/notion';
 import { isSafari } from './core/constants';
 import { RouterGuardProvider } from './pages/RouterGuardProvider';
+import { useLocation } from 'react-router-dom';
 
 function App() {
+  const location = useLocation();
   const queryClient = new QueryClient();
   const [showNotificationModal, setShowNotificationModal] = useState(false);
 
@@ -124,6 +126,16 @@ function App() {
     checkNotificationPermission();
     requestGeolocationPermission();
   }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0); // 스크롤 위치 초기화
+    setTimeout(() => {
+      const mobileContent = document.querySelector('.mobile-content') as HTMLElement;
+      if (mobileContent) {
+        mobileContent.style.setProperty('padding-top', 'env(safe-area-inset-top)');
+      }
+    }, 50);
+  }, [location.pathname]);
 
   return (
     <QueryClientProvider client={queryClient}>
