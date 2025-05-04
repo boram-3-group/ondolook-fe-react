@@ -10,13 +10,17 @@ interface RouterGuard {
 export const guards = {
   beforeEnter: async ({ to, next, store }: RouterGuard) => {
     const isLoggedIn = store.userStore.isLoggedIn();
-    if (to === '/my/bookmark') {
+
+
+
+    if (to === '/my'    ) {
       if (!isLoggedIn) {
         next(false);
         return;
       }
     }
-
+    if (to === '/my') {
+      if (!isLoggedIn) {
     next(true);
   },
   // afterEnter: async ({ to, from }: RouterGuard) => {},
