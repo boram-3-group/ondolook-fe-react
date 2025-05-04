@@ -43,7 +43,7 @@
     height: 100%;
     background-color: white;
     position: relative;
-    padding: 50px 50px 50px 50px;
+    padding: env(safe-area-inset-top);
   }
 
   @media screen and (min-width: 1024px) {
