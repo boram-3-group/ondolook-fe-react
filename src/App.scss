@@ -56,10 +56,3 @@
     }
   }
 }
-
-// iOS 노치가 있는 기기에서의 추가 스타일
-@supports (padding: max(0px)) {
-  .web-side__banner {
-    padding-top: max(env(safe-area-inset-top), 20px);
-  }
-}
