@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Icon } from './Icon';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 
 type MainCarouselProps = {
   slides: React.ReactNode[];
@@ -13,6 +14,7 @@ const MainCarousel = ({ slides }: MainCarouselProps) => {
   const [dragStartX, setDragStartX] = useState<number | null>(null);
   const [dragOffset, setDragOffset] = useState(0);
   const navigate = useNavigate();
+  const { isAuthCheck } = useAuth();
 
   const updateWidth = () => {
     if (containerRef.current) {
@@ -63,9 +65,9 @@ const MainCarousel = ({ slides }: MainCarouselProps) => {
   };
 
   return (
-    <div ref={containerRef} className="relative overflow-hidden w-full height: 75vh;">
+    <div ref={containerRef} className="relative overflow-hidden w-full flex flex-col h-full">
       <div
-        className="flex"
+        className="flex flex-1 mb-8"
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
@@ -80,6 +82,7 @@ const MainCarousel = ({ slides }: MainCarouselProps) => {
           <div
             key={index}
             style={{
+              // height: '100%',
               width: containerWidth * 0.9,
               marginRight: 10,
               flexShrink: 0,
@@ -91,9 +94,9 @@ const MainCarousel = ({ slides }: MainCarouselProps) => {
       </div>
 
       {/* Dot navigation */}
-      <div className="flex justify-between">
+      <div className="h-[40px] flex justify-between">
         <Icon name="home" width={48} height={48} className="ml-9" alt="홈" />
-        <div className="flex justify-center items-center bottom-2 gap-2 mt-4">
+        <div className="flex justify-center items-center gap-2 mt-4">
           {slides.map((_, index) => (
             <button
               key={index}
@@ -107,7 +110,7 @@ const MainCarousel = ({ slides }: MainCarouselProps) => {
           ))}
         </div>
         <Icon
-          onClick={() => navigate('/my')}
+          onClick={() => isAuthCheck(() => navigate('/my'))}
           name="mypage"
           width={48}
           height={48}
