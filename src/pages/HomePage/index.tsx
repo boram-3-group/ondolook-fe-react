@@ -82,9 +82,14 @@ export function HomePage() {
     <div className="flex flex-col h-full">
       <div className="flex mb-[20px] justify-between px-4 h-[44px] items-center">
         {RegionData && <RegionTab {...RegionData} />}
-        <Icon name="bell" width={24} height={24} alt="알람" />
+        <Icon
+          name="bell"
+          width={24}
+          height={24}
+          alt="알람"
+          onClick={() => isAuthCheck(() => navigate('/my/alarm'))}
+        />
       </div>
-
       <div className="mx-5">
         <div className="mb-[20px]">
           {WeatherData && currentForecast && maxTodayTemp && minTodayTemp && (
@@ -96,7 +101,6 @@ export function HomePage() {
             />
           )}
         </div>
-
         <div className="flex flex-wrap gap-[12px] mb-5">
           {Categories?.content?.map(Category => (
             <CategoryChip
@@ -108,7 +112,6 @@ export function HomePage() {
           ))}
         </div>
       </div>
-
       <MainCarousel
         slides={fileMetadata.map(item => (
           <div
