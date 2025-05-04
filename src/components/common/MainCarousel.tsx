@@ -1,16 +1,18 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { Icon } from './Icon';
+import { useNavigate } from 'react-router-dom';
 
-type CarouselProps = {
+type MainCarouselProps = {
   slides: React.ReactNode[];
-  height?: number; // 선택 사항
 };
 
-const Carousel: React.FC<CarouselProps> = ({ slides, height }) => {
+const MainCarousel = ({ slides }: MainCarouselProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(0);
   const [current, setCurrent] = useState(0);
   const [dragStartX, setDragStartX] = useState<number | null>(null);
   const [dragOffset, setDragOffset] = useState(0);
+  const navigate = useNavigate();
 
   const updateWidth = () => {
     if (containerRef.current) {
@@ -61,11 +63,7 @@ const Carousel: React.FC<CarouselProps> = ({ slides, height }) => {
   };
 
   return (
-    <div
-      ref={containerRef}
-      className="relative overflow-hidden w-full"
-      style={height ? { height } : {}}
-    >
+    <div ref={containerRef} className="relative overflow-hidden w-full height: 75vh;">
       <div
         className="flex"
         onMouseDown={handleMouseDown}
@@ -73,15 +71,17 @@ const Carousel: React.FC<CarouselProps> = ({ slides, height }) => {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
         style={{
-          transform: `translateX(${dragOffset - current * containerWidth}px)`,
+          transform: `translateX(${dragOffset - current * (containerWidth * 0.9 + 10)}px)`,
           transition: dragStartX ? 'none' : 'transform 0.3s ease',
+          paddingLeft: 20,
         }}
       >
         {slides.map((slide, index) => (
           <div
             key={index}
             style={{
-              width: containerWidth,
+              width: containerWidth * 0.9,
+              marginRight: 10,
               flexShrink: 0,
             }}
           >
@@ -91,19 +91,32 @@ const Carousel: React.FC<CarouselProps> = ({ slides, height }) => {
       </div>
 
       {/* Dot navigation */}
-      <div className="flex justify-center items-center bottom-2 gap-2 mt-5">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goTo(index)}
-            className={`w-2 h-2 rounded-full transition-colors duration-200 ${
-              index === current ? 'bg-[#1E90FF]' : 'bg-gray-300'
-            }`}
-          />
-        ))}
+      <div className="flex justify-between">
+        <Icon name="home" width={48} height={48} className="ml-9" alt="홈" />
+        <div className="flex justify-center items-center bottom-2 gap-2 mt-4">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goTo(index)}
+              className={`transition-all duration-200 ${
+                index === current
+                  ? 'w-6 h-2 bg-primary-70 rounded-[94px]'
+                  : 'rounded-full w-2.5 h-2.5 bg-white'
+              }`}
+            />
+          ))}
+        </div>
+        <Icon
+          onClick={() => navigate('/my')}
+          name="mypage"
+          width={48}
+          height={48}
+          className="mr-9 cursor-pointer"
+          alt="마이페이지"
+        />
       </div>
     </div>
   );
 };
 
-export default Carousel;
+export default MainCarousel;

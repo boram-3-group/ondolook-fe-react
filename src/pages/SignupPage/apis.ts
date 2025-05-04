@@ -55,7 +55,8 @@ export const sendEmailCode = async (email: string) => {
     return res && res.data;
   } catch (error) {
     if (error instanceof AxiosError) {
-      throw new Error('이메일 인증코드 전송 실패');
+      const message = error.response?.data || '이메일 인증코드 전송 실패';
+      throw new Error(message);
     }
   }
 };
@@ -69,7 +70,8 @@ export const verifyEmailCode = async ({ email, code }: VerifyEmailValue) => {
     return res && res.data;
   } catch (error) {
     if (error instanceof AxiosError) {
-      throw new Error('이메일 인증 실패');
+      const message = error.response?.data || '이메일 인증실패';
+      throw new Error(message);
     }
   }
 };

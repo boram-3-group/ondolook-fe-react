@@ -25,6 +25,7 @@ const ResetPasswordPage = () => {
   const username = watch('username');
   const email = watch('email');
   const code = watch('code');
+  const isEmailValid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
 
   const onSubmit = () => {
     if (!isCodeSent) {
@@ -72,6 +73,7 @@ const ResetPasswordPage = () => {
                 placeholder="인증번호 입력"
                 {...register('code')}
                 className="pr-4"
+                disabled={!isCodeSent}
               />
               {isTimerStart && (
                 <div className="absolute right-3 top-1/2 -translate-y-1/2">
@@ -81,7 +83,13 @@ const ResetPasswordPage = () => {
             </div>
           </div>
           <div className="mt-[42px]">
-            <Button className="w-full" intent="primary" size="large" type="submit">
+            <Button
+              className="w-full"
+              intent={isEmailValid ? 'primary' : 'disabled'}
+              size="large"
+              type="submit"
+              disabled={!isEmailValid}
+            >
               {isCodeSent ? '인증 확인' : '인증번호 받기'}
             </Button>
           </div>

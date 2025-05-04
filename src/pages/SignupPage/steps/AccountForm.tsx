@@ -37,7 +37,7 @@ const AccountForm = ({ onNext }: moveNextProps) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     watch,
   } = useForm<AccountFormResponse>({
     resolver: zodResolver(schema),
@@ -82,7 +82,7 @@ const AccountForm = ({ onNext }: moveNextProps) => {
               )}
             </div>
 
-            <div className="flex flex-col gap-2 mt-[20px]">
+            <div className="flex flex-col gap-2 mt-[36px]">
               <label className="text-Body2">비밀번호</label>
               <Input
                 type="password"
@@ -98,7 +98,7 @@ const AccountForm = ({ onNext }: moveNextProps) => {
               )}
             </div>
 
-            <div className="flex flex-col gap-2 mt-[20px]">
+            <div className="flex flex-col gap-2 mt-[36px]">
               <label className="text-Body2">비밀번호 확인</label>
               <Input
                 type="password"
@@ -116,10 +116,11 @@ const AccountForm = ({ onNext }: moveNextProps) => {
           </div>
 
           <Button
-            intent="primary"
+            intent={isValid ? 'primary' : 'disabled'}
             size="large"
             className="absolute left-1/2 bottom-5 -translate-x-1/2 w-[calc(100%-40px)]"
             type="submit"
+            disabled={!isValid}
           >
             다음
           </Button>

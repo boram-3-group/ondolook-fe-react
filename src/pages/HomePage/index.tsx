@@ -7,9 +7,10 @@ import { useFetchCategory } from './fetches/useFetchCategory';
 import { WeatherBox } from './_components/WeatherBox';
 import { Icon } from '../../components/common/Icon';
 import { useLocationStore } from '../../store/useLocationStore';
-import Carousel from '../../components/common/Carousel';
 import { useFetchRegion } from './fetches/useFetchRegion';
 import { useFetchWeather } from './fetches/useFetchWeather';
+import useWeatherStore from '../../store/useWeatherStore';
+import MainCarousel from '../../components/common/MainCarousel';
 
 export function HomePage() {
   const [selectCategory, setSelectCategory] = useState('daily');
@@ -20,7 +21,8 @@ export function HomePage() {
 
   useGeolocation();
   const { lat, lon } = useLocationStore();
-  // const { lat, lon } = useGeolocation();
+  const setWeather = useWeatherStore(state => state.setWeather);
+
   const shouldFetch = lat !== 0 && lon !== 0;
 
   const { data: Categories, isLoading: CategoriesLoading } = useFetchCategory();
@@ -37,6 +39,26 @@ export function HomePage() {
     lat: 37.498095,
     lon: 127.02761,
   });
+
+  //현재 시간
+  const currentDate = new Date();
+  const currentHours = currentDate.getHours();
+  const hoursString = String(currentHours).padStart(2, '0');
+
+  //현재 시간에 해당하는 forecast
+  let currentForecast = WeatherData?.forecasts.find(
+    forecast => forecast.time.substring(0, 2) === hoursString
+  );
+
+  //오늘 최저/최고 온도
+  let TodayTemp = WeatherData?.forecasts.map(forecast => forecast.temperature);
+  let maxTodayTemp = TodayTemp && Math.max(...TodayTemp);
+  let minTodayTemp = TodayTemp && Math.min(...TodayTemp);
+
+  //흐림/비/맑음에 따른 홈 화면 배경 변경을 위한 날씨 아이콘 메시지 store에 저장
+  if (currentForecast) {
+    setWeather(currentForecast.iconMessage);
+  }
 
   const { data: OutfitData, isLoading: OutfitDataLoading } = useFetchOutfit({
     lat: 37.498095,
@@ -56,12 +78,21 @@ export function HomePage() {
 
   return (
     <>
-      <div className="flex bg-slate-500 mb-[20px] justify-between px-4 h-[44px]">
+      <div className="flex mb-[20px] justify-between px-4 h-[44px] items-center">
         {RegionData && <RegionTab {...RegionData} />}
         <Icon name="bell" width={24} height={24} alt="알람" />
       </div>
       <div className="mx-5">
-        <div className="mb-[20px]">{WeatherData && <WeatherBox {...WeatherData} />}</div>
+        <div className="mb-[20px]">
+          {WeatherData && currentForecast && maxTodayTemp && minTodayTemp && (
+            <WeatherBox
+              forecast={currentForecast}
+              weatherMessage={WeatherData.weatherMessage}
+              maxTodayTemp={maxTodayTemp}
+              minTodayTemp={minTodayTemp}
+            />
+          )}
+        </div>
         <div className="flex flex-wrap gap-[12px] mb-5">
           {Categories?.content?.map(Category => {
             return (
@@ -74,33 +105,29 @@ export function HomePage() {
             );
           })}
         </div>
-        <Carousel
-          slides={fileMetadata.map(item => (
-            <div
-              key={item.id}
-              className="relative w-full h-[458px] justify-center flex flex-col items-center mb-8 bg-grayScale-20"
-            >
-              <img
-                src={item.imageUrl}
-                alt={item.imageUrl}
-                className="w-full h-[431px] mt-5 pb-5 px-[19px] object-contain bg-grayScale-10"
-                draggable={false}
-              />
-              <Icon
-                name="white-bookmark"
-                width={48}
-                height={48}
-                alt="북마크"
-                className="absolute top-4 right-4 z-10"
-              />
-            </div>
-          ))}
-        />
-        <div className="flex absolute bottom-[21px]">
-          <Icon name="home" width={28} height={28} className="ml-9" alt="홈" />
-          <Icon name="mypage" width={28} height={28} className="mr-9" alt="마이페이지" />
-        </div>
       </div>
+      <MainCarousel
+        slides={fileMetadata.map(item => (
+          <div
+            key={item.id}
+            className="relative w-full h-[500px] flex flex-col justify-center items-center mb-8 bg-grayScale-30 rounded-lg"
+          >
+            <img
+              src={item.imageUrl}
+              alt={item.imageUrl}
+              className="w-full px-5 h-[400px] object-contain bg-grayScale-10"
+              draggable={false}
+            />
+            <Icon
+              name="white-bookmark"
+              width={48}
+              height={48}
+              alt="북마크"
+              className="absolute top-4 right-4 z-10"
+            />
+          </div>
+        ))}
+      />
     </>
   );
 }
