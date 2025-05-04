@@ -11,7 +11,6 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-color: aqua;
   .web-side__banner {
     display: none;
     width: calc(1024px - 428px);
@@ -43,11 +42,10 @@
   }
 
   .mobile-content {
-    background-color: red;
     width: 100%;
     max-width: 428px;
     height: 100%;
-    // background-color: white;
+    background-color: white;
     position: relative;
   }
 
