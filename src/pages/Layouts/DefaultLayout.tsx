@@ -7,7 +7,7 @@ export function DefaultLayout() {
 
   return (
     <div
-      className="w-full h-screen overflow-hidden
+      className="w-full h-full overflow-hidden
       flex flex-col
     "
     >
