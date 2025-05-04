@@ -21,15 +21,8 @@ export function HomeLayout() {
 
   return (
     <div
-      className="w-full h-full fixed inset-0"
-      style={{
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        paddingTop: 'env(safe-area-inset-top)',
-        paddingBottom: 'env(safe-area-inset-bottom)',
-        paddingLeft: 'env(safe-area-inset-left)',
-        paddingRight: 'env(safe-area-inset-right)',
-      }}
+      className="w-full h-full"
+      style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' }}
     >
       <Outlet />
     </div>
