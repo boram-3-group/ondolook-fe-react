@@ -23,6 +23,12 @@ export function HomeLayout() {
       ($mobileContent as HTMLElement).style.backgroundPosition = 'center';
       ($mobileContent as HTMLElement).style.backgroundRepeat = 'no-repeat';
     }
+
+    return () => {
+      if ($mobileContent) {
+        ($mobileContent as HTMLElement).style.backgroundImage = '';
+      }
+    };
   }, [weather]);
 
   return (
