@@ -48,16 +48,6 @@
     height: 100%;
     // background-color: white;
     position: relative;
-    overflow-y: unset;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: env(safe-area-inset-bottom);
-    padding-top: env(safe-area-inset-top);
-
-    // iOS safe area padding
-    @supports (padding: max(0px)) {
-      padding-top: env(safe-area-inset-top);
-      padding-bottom: env(safe-area-inset-bottom);
-    }
   }
 
   @media screen and (min-width: 1024px) {
