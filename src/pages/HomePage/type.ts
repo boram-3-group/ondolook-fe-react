@@ -72,7 +72,7 @@ export interface AirQuality {
 
 export interface UvIndex {
   uvIndex: number;
-  message: string;
+  message: string | null;
   iconFlag: boolean;
   grade: string;
 }
@@ -83,3 +83,13 @@ export interface WeatherResponse {
   uvIndex: UvIndex;
   weatherMessage: string;
 }
+
+export interface DayWeather {
+  forecastDate: string;
+  rainProbability: number;
+  minTemperature: number;
+  maxTemperature: number;
+  weather: string;
+}
+
+export type WeekWeatherResponse = DayWeather[];

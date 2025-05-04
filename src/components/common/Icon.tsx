@@ -20,6 +20,8 @@ import mypage from '../../assets/icons/mypage.svg';
 import blue_check from '../../assets/icons/blue-check.svg';
 import white_check from '../../assets/icons/white-check.svg';
 import small_button from '../../assets/icons/small-button.svg';
+import min_temparrow from '../../assets/icons/min-temparrow.svg';
+import max_temparrow from '../../assets/icons/max-temparrow.svg';
 
 import bit_cloudy_lightning from '../../assets/icons/bit-cloudy-lightning.png';
 import bit_cloudy_moon from '../../assets/icons/bit-cloudy-moon.png';
@@ -63,6 +65,8 @@ type IconName =
   | 'blue-check'
   | 'white-check'
   | 'small-button'
+  | 'min-temparrow'
+  | 'max-temparrow'
   | 'bit-cloudy-lightning'
   | 'bit-cloudy-moon'
   | 'bit-cloudy-sun'
@@ -105,6 +109,8 @@ const iconMap: Record<IconName, any> = {
   'blue-check': blue_check,
   'white-check': white_check,
   'small-button': small_button,
+  'min-temparrow': min_temparrow,
+  'max-temparrow': max_temparrow,
   'bit-cloudy-lightning': bit_cloudy_lightning,
   'bit-cloudy-moon': bit_cloudy_moon,
   'bit-cloudy-sun': bit_cloudy_sun,

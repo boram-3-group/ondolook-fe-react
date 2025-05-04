@@ -7,6 +7,7 @@ import {
   CategoryResponse,
   WeatherPayload,
   WeatherResponse,
+  WeekWeatherResponse,
 } from './type';
 
 export const getRegion = async ({ lat, lon }: RegionPayload) => {
@@ -29,6 +30,13 @@ export const getCategory = async () => {
 export const getWeather = async ({ lat, lon }: WeatherPayload) => {
   const res = await api.service.get<WeatherResponse>(
     `/api/v1/weather/position?lat=${lat}&lon=${lon}`
+  );
+  return res && res.data;
+};
+
+export const getWeekWeather = async ({ lat, lon }: WeatherPayload) => {
+  const res = await api.service.get<WeekWeatherResponse>(
+    `/api/v1/weather/mid-terms?lat=${lat}&lon=${lon}`
   );
   return res && res.data;
 };
