@@ -63,9 +63,9 @@ const MainCarousel = ({ slides }: MainCarouselProps) => {
   };
 
   return (
-    <div ref={containerRef} className="relative overflow-hidden w-full height: 75vh;">
+    <div ref={containerRef} className="relative overflow-hidden w-full  flex flex-col h-full">
       <div
-        className="flex"
+        className="flex flex-1 mb-8"
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
@@ -80,6 +80,7 @@ const MainCarousel = ({ slides }: MainCarouselProps) => {
           <div
             key={index}
             style={{
+              height: '100%',
               width: containerWidth * 0.9,
               marginRight: 10,
               flexShrink: 0,
@@ -90,7 +91,6 @@ const MainCarousel = ({ slides }: MainCarouselProps) => {
         ))}
       </div>
 
-      {/* Dot navigation */}
       <div className="flex justify-between">
         <Icon name="home" width={48} height={48} className="ml-9" alt="홈" />
         <div className="flex justify-center items-center bottom-2 gap-2 mt-4">

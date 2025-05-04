@@ -46,14 +46,14 @@ export function HomePage() {
   const hoursString = String(currentHours).padStart(2, '0');
 
   //현재 시간에 해당하는 forecast
-  let currentForecast = WeatherData?.forecasts.find(
+  const currentForecast = WeatherData?.forecasts.find(
     forecast => forecast.time.substring(0, 2) === hoursString
   );
 
   //오늘 최저/최고 온도
-  let TodayTemp = WeatherData?.forecasts.map(forecast => forecast.temperature);
-  let maxTodayTemp = TodayTemp && Math.max(...TodayTemp);
-  let minTodayTemp = TodayTemp && Math.min(...TodayTemp);
+  const TodayTemp = WeatherData?.forecasts.map(forecast => forecast.temperature);
+  const maxTodayTemp = TodayTemp && Math.max(...TodayTemp);
+  const minTodayTemp = TodayTemp && Math.min(...TodayTemp);
 
   //흐림/비/맑음에 따른 홈 화면 배경 변경을 위한 날씨 아이콘 메시지 store에 저장
   if (currentForecast) {
@@ -77,7 +77,7 @@ export function HomePage() {
   ];
 
   return (
-    <>
+    <div className="flex flex-col h-full">
       <div className="flex mb-[20px] justify-between px-4 h-[44px] items-center">
         {RegionData && <RegionTab {...RegionData} />}
         <Icon name="bell" width={24} height={24} alt="알람" />
@@ -110,12 +110,12 @@ export function HomePage() {
         slides={fileMetadata.map(item => (
           <div
             key={item.id}
-            className="relative w-full h-[500px] flex flex-col justify-center items-center mb-8 bg-grayScale-30 rounded-lg"
+            className="relative w-full h-full flex flex-col justify-center items-center bg-grayScale-30 rounded-lg"
           >
             <img
               src={item.imageUrl}
               alt={item.imageUrl}
-              className="w-full px-5 h-[400px] object-contain bg-grayScale-10"
+              className="w-full px-5 h-full object-contain bg-grayScale-10"
               draggable={false}
             />
             <Icon
@@ -128,6 +128,6 @@ export function HomePage() {
           </div>
         ))}
       />
-    </>
+    </div>
   );
 }
