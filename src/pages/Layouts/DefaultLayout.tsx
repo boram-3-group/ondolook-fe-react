@@ -6,7 +6,7 @@ export function DefaultLayout() {
   const { meta } = useRouteMeta();
 
   return (
-    <div className="w-full h-full overflow-hidden flex flex-col">
+    <div className="w-full h-full">
       <Header
         title={meta?.title}
         isShowBack={meta?.isShowBack}
