@@ -1,16 +1,12 @@
 // Reset default styles
 .app {
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  width: 100%;
-  background-color: #e7e7e7;
-  background-image: url('/background@x3.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+
   .web-side__banner {
     display: none;
     width: calc(1024px - 428px);
