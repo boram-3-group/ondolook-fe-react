@@ -21,8 +21,12 @@ export function HomeLayout() {
 
   return (
     <div
-      className="w-full h-full"
-      style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' }}
+      className="w-full h-screen"
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+      }}
     >
       <Outlet />
     </div>
