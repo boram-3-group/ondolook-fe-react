@@ -17,6 +17,15 @@ const Bookmark = () => {
     { id: 4, imageUrl: '/sample4.jpg' },
     { id: 5, imageUrl: '/sample5.jpg' },
     { id: 6, imageUrl: '/sample6.jpg' },
+    { id: 6, imageUrl: '/sample6.jpg' },
+    { id: 6, imageUrl: '/sample6.jpg' },
+    { id: 6, imageUrl: '/sample6.jpg' },
+    { id: 6, imageUrl: '/sample6.jpg' },
+    { id: 6, imageUrl: '/sample6.jpg' },
+    { id: 6, imageUrl: '/sample6.jpg' },
+    { id: 6, imageUrl: '/sample6.jpg' },
+    { id: 6, imageUrl: '/sample6.jpg' },
+    { id: 6, imageUrl: '/sample6.jpg' },
   ]);
 
   const toggleEditMode = () => {
@@ -38,8 +47,8 @@ const Bookmark = () => {
   };
 
   return (
-    <div className="p-5 pb-24">
-      <div className="flex justify-between items-center mb-3">
+    <div className="p-5 pb-24 w-full h-full">
+      <div className="flex justify-between items-center mb-3 ">
         <h1 className="text-[14px] font-medium leading-[150%] text-[#8E8E8E]">나의 북마크</h1>
         <button className="text-blue-500 text-base" onClick={toggleEditMode}>
           {isEditMode ? '완료' : '편집'}
@@ -50,7 +59,7 @@ const Bookmark = () => {
           {isEditMode ? `선택 ${selectedItems.length}개` : `북마크 ${bookmarks.length}개`}
         </span>
       </div>
-      <div className="grid grid-cols-2 gap-[13px]">
+      <div className="grid grid-cols-2 gap-[13px] h-full items-center mb-3 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:none] pb-24">
         {bookmarks.map(item => (
           <div
             key={item.id}
