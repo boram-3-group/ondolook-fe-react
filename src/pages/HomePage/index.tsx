@@ -79,7 +79,7 @@ export function HomePage() {
   ];
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full w-full max-w-xl mx-auto pt-[53px]">
       <div className="flex mb-[20px] justify-between px-4 h-[44px] items-center">
         {RegionData && <RegionTab {...RegionData} />}
         <Icon

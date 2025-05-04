@@ -12,7 +12,7 @@ export function DefaultLayout() {
         isShowBack={meta?.isShowBack}
         isShowForward={meta?.isShowForward}
       />
-      <div className="w-full h-full overflow-hidden flex-1">
+      <div className="w-full h-full overflow-hidden flex-1 bg-red-500">
         <Outlet />
       </div>
     </div>
