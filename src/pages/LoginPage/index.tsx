@@ -5,10 +5,12 @@ import { useForm } from 'react-hook-form';
 import { FormLayout } from '../../components/common/FormLayout';
 import { useFetchLogin } from './fetches/useLogin';
 import { LoginFormValues } from './type';
+import { useUserStore } from '../../store/useUserStore';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm<LoginFormValues>();
+  const { setUser, setAccessToken } = useUserStore();
 
   const { mutate: login } = useFetchLogin();
 
@@ -18,7 +20,8 @@ const LoginPage = () => {
       {
         onSuccess: data => {
           const accessToken = data.access;
-          localStorage.setItem('accessToken', accessToken);
+          setAccessToken(accessToken);
+          setUser(data);
           navigate('/home');
         },
         onError: error => {
