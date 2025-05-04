@@ -25,16 +25,6 @@ export const RouterGuardProvider = ({ guards }: RouterGuardProviderProps) => {
   const isNavigatingRef = useRef(false);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    setTimeout(() => {
-      (document.querySelector('.mobile-content') as HTMLElement).style.setProperty(
-        'padding-top',
-        'env(safe-area-inset-top)'
-      );
-    }, 50);
-  }, [location.pathname]);
-
-  useEffect(() => {
     if (isNavigatingRef.current) {
       isNavigatingRef.current = false;
       return;
