@@ -27,7 +27,7 @@ export default defineConfig(() => {
           description: '날씨에 맞는 나만의 코디를 온도록',
           start_url: '/',
           scope: '/',
-          display: 'fullscreen',
+          display: 'standalone',
           background_color: '#ffffff',
           theme_color: '#ffffff',
           orientation: 'portrait',
