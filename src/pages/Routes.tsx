@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { createBrowserRouter, Navigate, RouterProvider, RouteObject } from 'react-router-dom';
 import { HomePage } from './HomePage';
 import { DefaultLayout } from './Layouts/DefaultLayout';
@@ -200,6 +199,14 @@ export const router = createBrowserRouter([
           } as RouteWithHandle,
           {
             path: 'policy',
+            element: <Policy />,
+            handle: {
+              title: '약관 및 정책',
+              isShowBack: true,
+            },
+          } as RouteWithHandle,
+          {
+            path: 'password',
             element: <Policy />,
             handle: {
               title: '약관 및 정책',
