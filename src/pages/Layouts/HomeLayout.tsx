@@ -32,7 +32,7 @@ export function HomeLayout() {
   }, [weather]);
 
   return (
-    <div className="flex flex-col flex-1 bg-green-500">
+    <div className="flex flex-col flex-1 ">
       <Outlet />
     </div>
   );
