@@ -47,7 +47,7 @@ const Bookmark = () => {
   };
 
   return (
-    <div className="p-5 pb-24 w-full min-h-full">
+    <div className="p-5 pb-24 w-full h-full">
       <div className="flex justify-between items-center mb-3 ">
         <h1 className="text-[14px] font-medium leading-[150%] text-[#8E8E8E]">나의 북마크</h1>
         <button className="text-blue-500 text-base" onClick={toggleEditMode}>

@@ -32,7 +32,7 @@ export function HomeLayout() {
   }, [weather]);
 
   return (
-    <div className="w-full h-screen bg-slate-500">
+    <div className="aaa w-full h-screen">
       <Outlet />
     </div>
   );
