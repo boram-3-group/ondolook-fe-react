@@ -60,7 +60,7 @@ const UserInfoSettings: React.FC = () => {
   } text-white text-base font-medium`;
 
   return (
-    <div className="flex flex-col px-5 bg-white h-full ">
+    <div className="flex flex-col px-5 bg-white h-full">
       <div className="mt-10">
         <div className={labelStyle}>성별</div>
         <SelectBox value={selectedGender} onChange={setSelectedGender} options={genderOptions} />

@@ -18,15 +18,15 @@ export function HomeLayout() {
 
     const $mobileContent = document.querySelector('.mobile-content');
     if ($mobileContent) {
-      // ($mobileContent as HTMLElement).style.backgroundImage = `url(${backgroundImage})`;
-      // ($mobileContent as HTMLElement).style.backgroundSize = 'cover';
-      // ($mobileContent as HTMLElement).style.backgroundPosition = 'center';
-      // ($mobileContent as HTMLElement).style.backgroundRepeat = 'no-repeat';
+      ($mobileContent as HTMLElement).style.backgroundImage = `url(${backgroundImage})`;
+      ($mobileContent as HTMLElement).style.backgroundSize = 'cover';
+      ($mobileContent as HTMLElement).style.backgroundPosition = 'center';
+      ($mobileContent as HTMLElement).style.backgroundRepeat = 'no-repeat';
     }
 
     return () => {
       if ($mobileContent) {
-        // ($mobileContent as HTMLElement).style.backgroundImage = '';
+        ($mobileContent as HTMLElement).style.backgroundImage = '';
       }
     };
   }, [weather]);
