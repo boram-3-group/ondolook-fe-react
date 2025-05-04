@@ -31,9 +31,5 @@ export function HomeLayout() {
     };
   }, [weather]);
 
-  return (
-    <div className="aaa w-full h-screen">
-      <Outlet />
-    </div>
-  );
+  return <div className="flex flex-col flex-1 bg-green-500">{/* <Outlet /> */}</div>;
 }
