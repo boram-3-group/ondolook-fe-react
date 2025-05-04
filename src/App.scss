@@ -40,8 +40,7 @@
   .mobile-content {
     width: 100%;
     max-width: 428px;
-    height: 100vh;
-    height: -webkit-fill-available;
+    height: calc(100vh + env(safe-area-inset-top));
     background-color: white;
     position: relative;
     padding-top: env(safe-area-inset-top);
