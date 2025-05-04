@@ -2,7 +2,10 @@ import React from 'react';
 
 const AccountInfoSettings = () => {
   return (
-    <div style={{ background: '#fff', minHeight: '100vh', padding: '0 0 32px 0' }}>
+    <div
+      className="min-h-full"
+      style={{ background: '#fff', minHeight: '100vh', padding: '0 0 32px 0' }}
+    >
       <header style={{ paddingTop: 32, textAlign: 'center', fontWeight: 'bold', fontSize: 20 }}>
         계정 설정
       </header>

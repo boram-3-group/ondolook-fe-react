@@ -32,7 +32,7 @@ export function HomeLayout() {
   }, [weather, backgroundImage]);
 
   return (
-    <div className="w-full h-full">
+    <div className="flex flex-col flex-1 ">
       <Outlet />
     </div>
   );
