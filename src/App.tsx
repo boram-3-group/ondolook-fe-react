@@ -137,9 +137,9 @@ function App() {
           </div>
         </div>
         <div className="mobile-content">
-          {/* <AppSplash duration={2000}>
-            <Routes />
-            <NotificationTest />
+          {/* <AppSplash duration={2000}> */}
+          <Routes />
+          {/* <NotificationTest />
           </AppSplash>
           <PWAInstallPrompt /> */}
         </div>
