@@ -7,9 +7,7 @@ export const useAuth = () => {
     if (!isLoggedIn()) {
       window.alert('로그인 필요');
     } else {
-      {
-        onClickevent;
-      }
+      onClickevent();
     }
   };
 
