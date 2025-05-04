@@ -37,10 +37,7 @@ export const router = createBrowserRouter([
     path: '/',
     element: <RouterGuardProvider guards={guards} />,
     children: [
-      {
-        path: '',
-        element: <Navigate to="/login" replace={true} />,
-      } as RouteWithHandle,
+      { path: '', element: <Navigate to="/login" replace={true} /> } as RouteWithHandle,
       {
         path: '/home',
         element: <HomeLayout />,
@@ -202,6 +199,14 @@ export const router = createBrowserRouter([
           } as RouteWithHandle,
           {
             path: 'policy',
+            element: <Policy />,
+            handle: {
+              title: '약관 및 정책',
+              isShowBack: true,
+            },
+          } as RouteWithHandle,
+          {
+            path: 'password',
             element: <Policy />,
             handle: {
               title: '약관 및 정책',

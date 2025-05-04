@@ -1,31 +1,11 @@
 // Reset default styles
-html,
-body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
-  position: fixed;
-  width: 100%;
-}
-
 .app {
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  background-color: #e7e7e7;
-  background-image: url('/background@x3.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
 
   .web-side__banner {
     display: none;
@@ -63,28 +43,11 @@ body {
     height: 100%;
     background-color: white;
     position: relative;
-    overflow-y: unset;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: env(safe-area-inset-bottom);
-    padding-top: env(safe-area-inset-top);
-
-    // iOS safe area padding
-    @supports (padding: max(0px)) {
-      padding-top: env(safe-area-inset-top);
-      padding-bottom: env(safe-area-inset-bottom);
-    }
   }
 
   @media screen and (min-width: 1024px) {
     .web-side__banner {
       display: block;
     }
-  }
-}
-
-// iOS 노치가 있는 기기에서의 추가 스타일
-@supports (padding: max(0px)) {
-  .web-side__banner {
-    padding-top: max(env(safe-area-inset-top), 20px);
   }
 }

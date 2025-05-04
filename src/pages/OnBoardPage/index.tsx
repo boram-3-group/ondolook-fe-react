@@ -52,7 +52,7 @@ export const OnBoardPage = () => {
           className="w-1/2"
           onClick={() => navigate('/home')}
         >
-          둘러보기123456
+          둘러보기
         </Button>
 
         <Button

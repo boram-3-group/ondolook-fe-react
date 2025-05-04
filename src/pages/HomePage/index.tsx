@@ -34,7 +34,6 @@ export function HomePage() {
     { lat: 37.498095, lon: 127.02761 },
     {
       enabled: shouldFetch,
-      //  refetchOnWindowFocus: false
     }
   );
 
@@ -43,22 +42,22 @@ export function HomePage() {
     lon: 127.02761,
   });
 
-  //현재 시간
+  // 현재 시간
   const currentDate = new Date();
   const currentHours = currentDate.getHours();
   const hoursString = String(currentHours).padStart(2, '0');
 
-  //현재 시간에 해당하는 forecast
+  // 현재 시간에 해당하는 forecast
   const currentForecast = WeatherData?.forecasts.find(
     forecast => forecast.time.substring(0, 2) === hoursString
   );
 
-  //오늘 최저/최고 온도
+  // 오늘 최저/최고 온도
   const TodayTemp = WeatherData?.forecasts.map(forecast => forecast.temperature);
   const maxTodayTemp = TodayTemp && Math.max(...TodayTemp);
   const minTodayTemp = TodayTemp && Math.min(...TodayTemp);
 
-  //흐림/비/맑음에 따른 홈 화면 배경 변경을 위한 날씨 아이콘 메시지 store에 저장
+  // 날씨 아이콘 메시지 store에 저장
   if (currentForecast) {
     setWeather(currentForecast.iconMessage);
   }
@@ -72,7 +71,7 @@ export function HomePage() {
 
   const handleToggleBookmark = () => {};
 
-  //임시데이터
+  // 임시데이터
   const fileMetadata = [
     { id: 1, imageUrl: '/sample1.jpg' },
     { id: 2, imageUrl: '/sample2.jpg' },
@@ -80,66 +79,59 @@ export function HomePage() {
   ];
 
   return (
-    <>
-      <div className="flex flex-col h-full">
-        <div className="flex mb-[20px] justify-between px-4 h-[44px] items-center">
-          {RegionData && <RegionTab {...RegionData} />}
-          <Icon
-            onClick={() => isAuthCheck(() => navigate('/my/alarm'))}
-            name="bell"
-            width={24}
-            height={24}
-            alt="알람"
-          />
-        </div>
-        <div className="mx-5">
-          <div className="mb-[20px]">
-            {WeatherData && currentForecast && maxTodayTemp && minTodayTemp && (
-              <WeatherBox
-                forecast={currentForecast}
-                weatherMessage={WeatherData.weatherMessage}
-                maxTodayTemp={maxTodayTemp}
-                minTodayTemp={minTodayTemp}
-              />
-            )}
-          </div>
-          <div className="flex flex-wrap gap-[12px] mb-5">
-            {Categories?.content?.map(Category => {
-              return (
-                <CategoryChip
-                  key={Category.id}
-                  categoryName={Category.categoryName}
-                  onClick={() => isAuthCheck(() => onSelectChip(Category.categoryName))}
-                  isActive={selectCategory === Category.categoryName}
-                />
-              );
-            })}
-          </div>
-        </div>
-        <MainCarousel
-          slides={fileMetadata.map(item => (
-            <div
-              key={item.id}
-              className="relative w-full h-full flex flex-col justify-center items-center bg-grayScale-30 rounded-lg"
-            >
-              <img
-                src={item.imageUrl}
-                alt={item.imageUrl}
-                className="w-full px-5 h-full object-contain bg-grayScale-10"
-                draggable={false}
-              />
-              <Icon
-                name="white-bookmark"
-                width={48}
-                height={48}
-                alt="북마크"
-                className="absolute top-4 right-4 z-10"
-                onClick={() => isAuthCheck(() => handleToggleBookmark)}
-              />
-            </div>
-          ))}
-        />
+    <div className="flex flex-col h-full">
+      <div className="flex mb-[20px] justify-between px-4 h-[44px] items-center">
+        {RegionData && <RegionTab {...RegionData} />}
+        <Icon name="bell" width={24} height={24} alt="알람" />
       </div>
-    </>
+
+      <div className="mx-5">
+        <div className="mb-[20px]">
+          {WeatherData && currentForecast && maxTodayTemp && minTodayTemp && (
+            <WeatherBox
+              forecast={currentForecast}
+              weatherMessage={WeatherData.weatherMessage}
+              maxTodayTemp={maxTodayTemp}
+              minTodayTemp={minTodayTemp}
+            />
+          )}
+        </div>
+
+        <div className="flex flex-wrap gap-[12px] mb-5">
+          {Categories?.content?.map(Category => (
+            <CategoryChip
+              key={Category.id}
+              categoryName={Category.categoryName}
+              onClick={() => isAuthCheck(() => onSelectChip(Category.categoryName))}
+              isActive={selectCategory === Category.categoryName}
+            />
+          ))}
+        </div>
+      </div>
+
+      <MainCarousel
+        slides={fileMetadata.map(item => (
+          <div
+            key={item.id}
+            className="relative w-full h-full flex flex-col justify-center items-center bg-grayScale-30 rounded-lg"
+          >
+            <img
+              src={item.imageUrl}
+              alt={item.imageUrl}
+              className="w-full px-5 h-full object-contain bg-grayScale-10"
+              draggable={false}
+            />
+            <Icon
+              name="white-bookmark"
+              width={48}
+              height={48}
+              alt="북마크"
+              className="absolute top-4 right-4 z-10"
+              onClick={() => isAuthCheck(() => handleToggleBookmark())}
+            />
+          </div>
+        ))}
+      />
+    </div>
   );
 }

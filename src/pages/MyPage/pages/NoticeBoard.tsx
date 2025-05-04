@@ -9,6 +9,12 @@ const notices = [
     isNew: true,
   },
   {
+    id: 8,
+    title: '[공지] 커뮤니티 가이드라인 안내',
+    date: '2025. 04. 04. 10:15',
+    isNew: true,
+  },
+  {
     id: 2,
     title: '[업데이트] 개인정보 열람 및 수정에 대한 안내',
     date: '2025. 04. 10. 10:00',
@@ -18,7 +24,7 @@ const notices = [
     id: 3,
     title: '[안내] 앱 성능 개선 업데이트 안내',
     date: '2025. 04. 09. 15:30',
-    isNew: true,
+    isNew: false,
   },
   {
     id: 4,
@@ -30,48 +36,13 @@ const notices = [
     id: 5,
     title: '[안내] 위치기반 서비스 개선 안내',
     date: '2025. 04. 07. 09:30',
-    isNew: true,
-  },
-  {
-    id: 6,
-    title: '[업데이트] 검색 기능 개선 완료',
-    date: '2025. 04. 06. 14:20',
     isNew: false,
   },
-  {
-    id: 7,
-    title: '[안내] 프로필 설정 기능 추가',
-    date: '2025. 04. 05. 16:45',
-    isNew: false,
-  },
-  {
-    id: 8,
-    title: '[공지] 커뮤니티 가이드라인 안내',
-    date: '2025. 04. 04. 10:15',
-    isNew: false,
-  },
+
   {
     id: 9,
     title: '[안내] 알림 설정 기능 개선',
     date: '2025. 04. 03. 13:50',
-    isNew: false,
-  },
-  {
-    id: 10,
-    title: '[업데이트] 온도 측정 알고리즘 개선',
-    date: '2025. 04. 02. 09:20',
-    isNew: false,
-  },
-  {
-    id: 11,
-    title: '[안내] 데이터 동기화 속도 개선',
-    date: '2025. 04. 01. 11:30',
-    isNew: false,
-  },
-  {
-    id: 12,
-    title: '[공지] 春 시즌 업데이트 안내',
-    date: '2025. 03. 31. 15:00',
     isNew: false,
   },
 ];

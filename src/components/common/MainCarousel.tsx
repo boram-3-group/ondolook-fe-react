@@ -82,7 +82,7 @@ const MainCarousel = ({ slides }: MainCarouselProps) => {
           <div
             key={index}
             style={{
-              // height: '100%',
+              height: '100%',
               width: containerWidth * 0.9,
               marginRight: 10,
               flexShrink: 0,
@@ -92,9 +92,7 @@ const MainCarousel = ({ slides }: MainCarouselProps) => {
           </div>
         ))}
       </div>
-
-      {/* Dot navigation */}
-      <div className="h-[40px] flex justify-between">
+      <div className="flex justify-between">
         <Icon name="home" width={48} height={48} className="ml-9" alt="홈" />
         <div className="flex justify-center items-center gap-2 mt-4">
           {slides.map((_, index) => (

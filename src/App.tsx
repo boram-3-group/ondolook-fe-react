@@ -127,7 +127,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className={`app ${isIOS ? 'ios-safe-area' : ''}`}>
+      <div className="app">
         <div className="web-side__banner">
           <div className="web-side__banner__content">
             <img className="web-side__logo" src="/service-logo@x3.png" alt="oservice-logo.png" />
