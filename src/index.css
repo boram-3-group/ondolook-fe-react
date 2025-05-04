@@ -15,7 +15,7 @@
     height: 100dvh;
     overscroll-behavior: none;
     @media all and (display-mode: standalone) {
-      height: 100dvh;
+      height: 100vh;
     }
   }
   
