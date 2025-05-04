@@ -15,19 +15,18 @@ export function HomeLayout() {
   const [backgroundImage, setBackgroundImage] = useState('/bg-sunny.svg');
   useEffect(() => {
     setBackgroundImage(weatherBackgroundMap[weather] || '/bg-sunny.svg');
+
+    const $mobileContent = document.querySelector('.mobile-content');
+    if ($mobileContent) {
+      ($mobileContent as HTMLElement).style.backgroundImage = `url(${backgroundImage})`;
+      ($mobileContent as HTMLElement).style.backgroundSize = 'cover';
+      ($mobileContent as HTMLElement).style.backgroundPosition = 'center';
+      ($mobileContent as HTMLElement).style.backgroundRepeat = 'no-repeat';
+    }
   }, [weather]);
 
-  console.log('backgroundImage', backgroundImage);
-
   return (
-    <div
-      className="w-full h-screen"
-      style={{
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-      }}
-    >
+    <div className="w-full h-screen">
       <Outlet />
     </div>
   );
