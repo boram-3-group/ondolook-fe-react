@@ -17,7 +17,7 @@ export interface RegionResponse {
 export interface OutfitPayload {
   lat: number;
   lon: number;
-  eventType: number;
+  eventType: number | undefined;
   gender: string;
 }
 

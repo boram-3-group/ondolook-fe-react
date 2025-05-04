@@ -29,7 +29,7 @@ export function HomeLayout() {
         ($mobileContent as HTMLElement).style.backgroundImage = '';
       }
     };
-  }, [weather]);
+  }, [weather, backgroundImage]);
 
   return (
     <div className="w-full h-full">
