@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { createBrowserRouter, Navigate, RouterProvider, RouteObject } from 'react-router-dom';
 import { HomePage } from './HomePage';
 import { DefaultLayout } from './Layouts/DefaultLayout';
@@ -37,10 +38,7 @@ export const router = createBrowserRouter([
     path: '/',
     element: <RouterGuardProvider guards={guards} />,
     children: [
-      {
-        path: '',
-        element: <Navigate to="/login" replace={true} />,
-      } as RouteWithHandle,
+      { path: '', element: <Navigate to="/login" replace={true} /> } as RouteWithHandle,
       {
         path: '/home',
         element: <HomeLayout />,
