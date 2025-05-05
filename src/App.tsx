@@ -126,7 +126,12 @@ function App() {
 
     const isKakaoInApp = /KAKAOTALK/i.test(navigator.userAgent);
     if (isKakaoInApp) {
-      console.log('카카오 인앱브라우저에서 실행 중');
+      if (isKakaoInApp) {
+        const targetUrl = 'https://odolook.click/';
+        window.location.replace(
+          `kakaotalk://web/openExternal?url=${encodeURIComponent(targetUrl)}`
+        );
+      }
     }
     setupSafeAreaListener();
     setTimeout(() => {
