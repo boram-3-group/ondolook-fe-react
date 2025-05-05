@@ -3,14 +3,24 @@ import { useUserStore } from '../../store/useUserStore';
 import { useNavigate } from 'react-router-dom';
 
 export const MyPage = () => {
-  const { user } = useUserStore();
+  const { user, socialType } = useUserStore();
   const navigate = useNavigate();
 
   return (
     <div className="flex flex-col px-4 mt-8 w-full min-h-full bg-white">
       <div className="flex flex-col gap-1 mb-8">
-        <span className="leading-[150%] text-[#000] text-[20px] font-bold ">온도룩</span>
-        <span className="text-gray-600">{user?.username || ''}</span>
+        <span className="leading-[150%] text-[#000] text-[20px] font-bold ">
+          {user?.nickname || ''}
+        </span>
+
+        <span className="text-gray-600 flex items-center gap-1">
+          {socialType && socialType === 'kakao' ? (
+            <Icon name="icon-kakao-logo" width={16} height={16} className="mt-1" />
+          ) : (
+            <Icon name="icon-google-logo" width={16} height={16} className="mt-1" />
+          )}
+          {user?.username || ''}
+        </span>
       </div>
 
       <div className="flex flex-col items-start gap-2 self-stretch rounded-xl bg-gray-50 p-4 mb-4">
