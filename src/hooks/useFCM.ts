@@ -37,7 +37,6 @@ export const useFCM = () => {
           return;
         }
 
-        // 일반 사파리에서는 FCM 토큰 요청하지 않음
         if (isIOS) {
           console.log('iOS 기기에서는 웹 푸시 알림을 지원하지 않습니다.');
           return;
