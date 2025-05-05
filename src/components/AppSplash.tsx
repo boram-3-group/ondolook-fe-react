@@ -31,12 +31,13 @@ export function AppSplash({ duration = 2000, fadeDuration = 700 }: AppSplashProp
     <>
       {!hidden && (
         <div
-          className={`absolute inset-0 z-[9999] flex items-center justify-center bg-white pointer-events-none transition-opacity ${
-            fadeOut ? 'opacity-0' : 'opacity-100'
-          }`}
+          className={`absolute inset-0 z-[9999] flex items-center
+            justify-center bg-white pointer-events-none transition-opacity ${
+              fadeOut ? 'opacity-0' : 'opacity-100'
+            }`}
           style={{ transitionDuration: `${fadeDuration}ms` }}
         >
-          <img src="/splash-icon.png" alt="splash" />
+          <img src="/splash-icon.png" alt="splash" className="w-[215px] h-[98px]" />
         </div>
       )}
     </>

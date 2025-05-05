@@ -30,7 +30,7 @@ export const OnBoardPage = () => {
   }, [navigate, checkLogin]);
 
   return (
-    <div className="w-full max-w-xl mx-auto pt-[53px]">
+    <div className="w-full max-w-xl mx-auto pt-[clamp(10px,6vh,53px)]">
       <Carousel
         slides={images.map(item => (
           <div className="relative w-full justify-center flex flex-col items-center">
@@ -44,11 +44,11 @@ export const OnBoardPage = () => {
                 <span key={idx}>{msg}</span>
               ))}
             </p>
-            <div className="w-full max-w-[375px] aspect-[375/310] mt-5">
+            <div className="w-full max-w-[375px] max-h-[310px] h-[clamp(30vh,40vh,310px)] aspect-[375/310] mt-5">
               <img
                 src={item.src}
                 alt={item.alt}
-                className="w-full h-full object-contain"
+                className="w-full max-h-[310px] h-[clamp(30vh,40vh,310px)] object-contain"
                 draggable={false}
               />
             </div>
