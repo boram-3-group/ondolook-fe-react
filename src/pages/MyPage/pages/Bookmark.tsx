@@ -47,8 +47,8 @@ const Bookmark = () => {
   };
 
   return (
-    <div className="p-5 pb-24 w-full h-full">
-      <div className="flex justify-between items-center mb-3 ">
+    <div className="p-5 pb-24 w-full h-screen flex flex-col">
+      <div className="flex justify-between items-center mb-3">
         <h1 className="text-[14px] font-medium leading-[150%] text-[#8E8E8E]">나의 북마크</h1>
         <button className="text-blue-500 text-base" onClick={toggleEditMode}>
           {isEditMode ? '완료' : '편집'}
@@ -59,37 +59,39 @@ const Bookmark = () => {
           {isEditMode ? `선택 ${selectedItems.length}개` : `북마크 ${bookmarks.length}개`}
         </span>
       </div>
-      <div className="grid grid-cols-2 gap-[13px] h-full items-center mb-3 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:none] pb-24">
-        {bookmarks.map(item => (
-          <div
-            key={item.id}
-            className={`relative rounded-xl overflow-hidden bg-[#F5F5F7] h-[156px] flex items-center justify-center transition-colors duration-150 ${selectedItems.includes(item.id) && isEditMode ? 'bg-[rgba(0,0,0,0.12)]' : ''}`}
-          >
-            <div className="w-[80px] h-[120px] bg-[#E0E0E0] rounded-lg flex items-center justify-center text-[#B0B0B0] text-xs">
-              이미지
+      <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:none]">
+        <div className="grid grid-cols-2 gap-[13px] items-center mb-3">
+          {bookmarks.map(item => (
+            <div
+              key={item.id}
+              className={`relative rounded-xl overflow-hidden bg-[#F5F5F7] h-[156px] flex items-center justify-center transition-colors duration-150 ${selectedItems.includes(item.id) && isEditMode ? 'bg-[rgba(0,0,0,0.12)]' : ''}`}
+            >
+              <div className="w-[80px] h-[120px] bg-[#E0E0E0] rounded-lg flex items-center justify-center text-[#B0B0B0] text-xs">
+                이미지
+              </div>
+              {isEditMode && (
+                <button
+                  onClick={() => toggleSelect(item.id)}
+                  className={`absolute top-2.5 right-2.5 w-6 h-6 rounded-full border-2 border-[#E0E0E0] bg-white flex items-center justify-center shadow-sm ${selectedItems.includes(item.id) ? 'border-blue-500' : ''}`}
+                >
+                  {selectedItems.includes(item.id) && (
+                    <svg
+                      className="w-4 h-4 text-blue-500"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  )}
+                </button>
+              )}
             </div>
-            {isEditMode && (
-              <button
-                onClick={() => toggleSelect(item.id)}
-                className={`absolute top-2.5 right-2.5 w-6 h-6 rounded-full border-2 border-[#E0E0E0] bg-white flex items-center justify-center shadow-sm ${selectedItems.includes(item.id) ? 'border-blue-500' : ''}`}
-              >
-                {selectedItems.includes(item.id) && (
-                  <svg
-                    className="w-4 h-4 text-blue-500"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                )}
-              </button>
-            )}
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
       {isEditMode && (
         <button
