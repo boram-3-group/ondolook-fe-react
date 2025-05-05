@@ -1,7 +1,16 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useEffect } from 'react';
 import { Switch } from '../../../components/common/Switch';
 import SelectBox from '../../../components/common/SelectBox';
 import { Icon } from '../../../components/common/Icon';
+import {
+  getAlarmSettings,
+  saveAlarmSettings,
+  updateSystemStorageNotificationPermission,
+  requestNotificationPermission,
+  checkNotificationPermission,
+} from '../../../core/helper';
+import toast from 'react-hot-toast';
+
 interface Option {
   value: string;
   label: string;
@@ -20,6 +29,23 @@ const AlramSettings = () => {
   const [minutes, setMinutes] = useState<string>('59');
   const [selectedSchedule, setSelectedSchedule] = useState<string>('daily');
   const [hasChanges, setHasChanges] = useState<boolean>(false);
+
+  useEffect(() => {
+    const settings = getAlarmSettings();
+    const hasPermission = checkNotificationPermission();
+
+    // If alarm is enabled but no permission, disable it
+    if (settings.isAlarmEnabled && !hasPermission) {
+      setIsAlarmEnabled(false);
+      setHasChanges(true);
+    } else {
+      setIsAlarmEnabled(settings.isAlarmEnabled);
+    }
+
+    setHours(settings.hours);
+    setMinutes(settings.minutes);
+    setSelectedSchedule(settings.selectedSchedule);
+  }, []);
 
   const handleHoursChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/[^0-9]/g, '');
@@ -42,14 +68,36 @@ const AlramSettings = () => {
     setHasChanges(true);
   };
 
-  const handleAlarmToggle = (checked: boolean) => {
+  const handleAlarmToggle = async (checked: boolean) => {
+    if (checked) {
+      const isGranted = await requestNotificationPermission();
+      if (!isGranted) {
+        toast.error('알림 권한이 필요합니다. 브라우저 설정에서 알림을 허용해주세요.', {
+          position: 'top-center',
+          duration: 3000,
+        });
+        return;
+      }
+    }
+
     setIsAlarmEnabled(checked);
     setHasChanges(true);
   };
 
   const handleSave = () => {
-    // TODO: Implement save logic
+    const settings = {
+      isAlarmEnabled,
+      hours,
+      minutes,
+      selectedSchedule,
+    };
+    saveAlarmSettings(settings);
+    updateSystemStorageNotificationPermission(isAlarmEnabled);
     setHasChanges(false);
+    toast.success('알림 설정이 저장되었습니다.', {
+      position: 'top-center',
+      duration: 2000,
+    });
   };
 
   return (
