@@ -18,6 +18,7 @@ import { toast, Toaster } from 'react-hot-toast';
 function App() {
   const queryClient = new QueryClient();
   const [showNotificationModal, setShowNotificationModal] = useState(false);
+  const [showGeolocationModal, setShowGeolocationModal] = useState(false);
   const { checkLogin } = useUserStore();
 
   const {
@@ -66,15 +67,15 @@ function App() {
   };
 
   const checkNotificationPermission = async () => {
-    if (notificationPermission === 'granted') {
-      console.log('✅ 시스템 알림 권한 있음');
-      await handleTokenAndSave();
-      return true;
-    }
+    const savedPermission = localStorage.getItem('notification-permission');
+    const currentPermission = savedPermission || Notification.permission;
 
-    if (notificationPermission === 'denied') {
-      console.log('❌ 알림 권한 거부됨');
-      return false;
+    if (currentPermission === 'denied' || currentPermission === 'granted') {
+      if (currentPermission === 'granted') {
+        console.log('✅ 시스템 알림 권한 있음');
+        await handleTokenAndSave();
+      }
+      return currentPermission === 'granted';
     }
 
     console.log('ℹ️ 권한 미요청 상태');
@@ -86,45 +87,61 @@ function App() {
     return false;
   };
 
-  function requestGeolocationPermission() {
-    return new Promise((resolve, reject) => {
-      if (!navigator.geolocation) {
-        reject('Geolocation is not supported');
-        return;
-      }
-
-      navigator.geolocation.getCurrentPosition(
-        position => {
-          console.log('위치 정보:', position.coords);
-          setCurrentLocation(position.coords);
-          resolve(position.coords);
-        },
-        error => {
-          console.error('위치 권한 거부 또는 오류:', error);
-          reject(error);
-        }
-      );
-    });
-  }
-
-  async function initGeolocation() {
+  const requestGeolocationPermission = async (): Promise<void> => {
     try {
-      const coords = (await requestGeolocationPermission()) as GeolocationCoordinates;
+      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+      });
+
+      console.log('위치 정보:', position.coords);
+      setCurrentLocation(position.coords);
       setGeolocationPermission('granted');
-      alert(`위도: ${coords.latitude}, 경도: ${coords.longitude}`);
-    } catch (err) {
+      localStorage.setItem('geolocation-permission', 'granted');
+    } catch (error) {
+      console.error('위치 권한 거부 또는 오류:', error);
       setGeolocationPermission('denied');
-      alert('위치 정보를 사용할 수 없습니다.');
+      localStorage.setItem('geolocation-permission', 'denied');
     }
-  }
+  };
+
+  const checkGeolocationPermission = async () => {
+    const savedPermission = localStorage.getItem('geolocation-permission');
+    const currentPermission = savedPermission || 'prompt';
+
+    if (currentPermission === 'denied' || currentPermission === 'granted') {
+      if (currentPermission === 'granted') {
+        console.log('✅ 위치 권한 있음');
+        // 위치 정보 다시 가져오기
+        try {
+          const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject);
+          });
+          setCurrentLocation(position.coords);
+        } catch (error) {
+          console.error('위치 정보 가져오기 실패:', error);
+        }
+      }
+      return currentPermission === 'granted';
+    }
+
+    console.log('ℹ️ 위치 권한 미요청 상태');
+
+    if (!isPC) {
+      setShowGeolocationModal(true);
+    }
+
+    return false;
+  };
 
   useEffect(() => {
     setTimeout(async () => {
       const isLoggedIn = await checkLogin();
       if (!isLoggedIn) {
-        checkNotificationPermission();
-        requestGeolocationPermission();
-        // hot toast 초기화
+        const notificationGranted = await checkNotificationPermission();
+        if (notificationGranted) {
+          // 알림 권한이 허용된 경우에만 위치 권한 요청
+          await checkGeolocationPermission();
+        }
       }
     }, 0);
 
@@ -190,6 +207,13 @@ function App() {
           isOpen={showNotificationModal}
           onClose={() => setShowNotificationModal(false)}
           onRequestPermission={requestNotificationPermission}
+        />
+        <NotificationPermissionModal
+          isOpen={showGeolocationModal}
+          onClose={() => setShowGeolocationModal(false)}
+          onRequestPermission={requestGeolocationPermission}
+          title="위치 권한 요청"
+          description="Ondolook에서 정확한 날씨 정보를 제공받으시려면 위치 권한이 필요합니다. 위치 정보를 통해 더 정확한 날씨 정보를 받아보세요!"
         />
       </div>
     </QueryClientProvider>

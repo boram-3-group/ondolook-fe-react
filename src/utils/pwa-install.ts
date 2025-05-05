@@ -1,6 +1,10 @@
 let deferredPrompt: any;
 
 export const initializePWAInstall = () => {
+  // 모바일 환경에서만 설치 안내를 띄움
+  if (!/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+    return;
+  }
   window.addEventListener('beforeinstallprompt', e => {
     e.preventDefault();
     deferredPrompt = e;

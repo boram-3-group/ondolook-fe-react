@@ -22,18 +22,24 @@ export function HomePage() {
     setSelectCategory(Category);
   }, []);
 
-  useGeolocation();
-  const { lat, lon } = useLocationStore();
-  const { isAuthCheck } = useAuth();
-  const setWeather = useWeatherStore(state => state.setWeather);
-
   useEffect(() => {
+    const hasSeenSplash = sessionStorage.getItem('hasSeenSplash');
     const hasVisited = sessionStorage.getItem('hasVisited');
-    if (!hasVisited) {
+    if (!hasVisited && !hasSeenSplash) {
+      setTimeout(() => {
+        toast.success('온도룩에 오신 것을 환영합니다! 🎉');
+        sessionStorage.setItem('hasVisited', 'true');
+      }, 2000);
+    } else if (!hasVisited) {
       toast.success('온도룩에 오신 것을 환영합니다! 🎉');
       sessionStorage.setItem('hasVisited', 'true');
     }
   }, []);
+
+  useGeolocation();
+  const { lat, lon } = useLocationStore();
+  const { isAuthCheck } = useAuth();
+  const setWeather = useWeatherStore(state => state.setWeather);
 
   const shouldFetch = lat !== 0 && lon !== 0;
 
