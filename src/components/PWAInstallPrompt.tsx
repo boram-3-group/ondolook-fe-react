@@ -29,7 +29,10 @@ const PWAInstallPrompt = () => {
 
   useEffect(() => {
     // PC 브라우저에서는 프롬프트 표시하지 않음
-    if (isPC) return;
+    if (isPC) {
+      setShowPrompt(false);
+      return;
+    }
 
     // PWA로 실행 중인지 확인
     const isPWA =
@@ -38,6 +41,7 @@ const PWAInstallPrompt = () => {
       document.referrer.includes('android-app://');
 
     if (isPWA) {
+      setShowPrompt(false);
       return; // PWA로 실행 중이면 프롬프트 표시하지 않음
     }
 
@@ -48,6 +52,7 @@ const PWAInstallPrompt = () => {
 
     // 모바일이 아니거나 인앱 브라우저면 프롬프트 표시하지 않음
     if (!isMobile || isInApp) {
+      setShowPrompt(false);
       return;
     }
 

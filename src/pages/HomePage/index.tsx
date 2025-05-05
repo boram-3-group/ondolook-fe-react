@@ -13,6 +13,7 @@ import useWeatherStore from '../../store/useWeatherStore';
 import MainCarousel from '../../components/common/MainCarousel';
 import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 export function HomePage() {
   const [selectCategory, setSelectCategory] = useState('비즈니스');
@@ -25,6 +26,14 @@ export function HomePage() {
   const { lat, lon } = useLocationStore();
   const { isAuthCheck } = useAuth();
   const setWeather = useWeatherStore(state => state.setWeather);
+
+  useEffect(() => {
+    const hasVisited = sessionStorage.getItem('hasVisited');
+    if (!hasVisited) {
+      toast.success('온도룩에 오신 것을 환영합니다! 🎉');
+      sessionStorage.setItem('hasVisited', 'true');
+    }
+  }, []);
 
   const shouldFetch = lat !== 0 && lon !== 0;
 

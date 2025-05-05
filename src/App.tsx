@@ -11,14 +11,13 @@ import { getFCMToken } from './firebase';
 import { useSystem } from './store/useSystem';
 import { saveTokenToNotion } from './core/notion';
 import { isSafari } from './core/constants';
-import { useNotion } from './hooks/useNotion';
-import { setupSafeAreaListener, updateSafeAreaInsets } from './utils/browser';
+import { updateSafeAreaInsets } from './utils/browser';
 import { useUserStore } from './store/useUserStore';
+import { toast, Toaster } from 'react-hot-toast';
 
 function App() {
   const queryClient = new QueryClient();
   const [showNotificationModal, setShowNotificationModal] = useState(false);
-  const { getExistToken } = useNotion();
   const { checkLogin } = useUserStore();
 
   const {
@@ -125,7 +124,7 @@ function App() {
       if (!isLoggedIn) {
         checkNotificationPermission();
         requestGeolocationPermission();
-        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        // hot toast 초기화
       }
     }, 0);
 
@@ -148,10 +147,43 @@ function App() {
           </div>
         </div>
         <div className="mobile-content">
-          {/* <AppSplash duration={2000}> */}
           <Routes />
+          <AppSplash duration={2000} />
+          <Toaster
+            position="top-center"
+            containerStyle={{
+              position: 'fixed',
+              top: 'calc(env(safe-area-inset-top) + 20px)',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: '100%',
+              maxWidth: '428px',
+              zIndex: 9999,
+              pointerEvents: 'none',
+            }}
+            toastOptions={{
+              style: {
+                background: '#4D97FF',
+                color: '#FFFFFF',
+                borderRadius: '12px',
+                padding: '8px 12px',
+                fontSize: '16px',
+                fontWeight: '500',
+                lineHeight: '24px',
+                textAlign: 'center',
+                boxShadow: '0 4px 12px rgba(77, 151, 255, 0.3)',
+                maxWidth: 'calc(100% - 32px)',
+                margin: '0 auto',
+                pointerEvents: 'auto',
+              },
+              iconTheme: {
+                primary: '#FFFFFF',
+                secondary: '#4D97FF',
+              },
+            }}
+          />
+          {/* </AppSplash> */}
           {/* <NotificationTest />
-          </AppSplash>
           <PWAInstallPrompt /> */}
         </div>
         <NotificationPermissionModal

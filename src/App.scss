@@ -48,6 +48,8 @@
     background-color: #ffffff;
     overflow: hidden;
     position: relative;
+    isolation: isolate;
+    contain: layout style paint;
   }
 
   @media screen and (min-width: 1024px) {

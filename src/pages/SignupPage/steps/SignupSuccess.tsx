@@ -1,6 +1,8 @@
 import { Button } from '../../../components/common/Button';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useUserStore } from '../../../store/useUserStore';
+import { toast } from 'react-hot-toast';
+import { useEffect } from 'react';
 
 const SignupSuccess = () => {
   const [params] = useSearchParams();
@@ -16,6 +18,10 @@ const SignupSuccess = () => {
       navigate('/login/form');
     }
   };
+
+  useEffect(() => {
+    toast.success(`${nickname}님, 환영합니다! 🎉`);
+  }, [nickname]);
 
   return (
     <>
