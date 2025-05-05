@@ -9,7 +9,6 @@ import { useEffect, useState } from 'react';
 import { NotificationPermissionModal } from './components/NotificationPermissionModal';
 import { getFCMToken } from './firebase';
 import { useSystem } from './store/useSystem';
-import { saveTokenToNotion } from './core/notion';
 import { isSafari } from './core/constants';
 import { updateSafeAreaInsets } from './utils/browser';
 import { useUserStore } from './store/useUserStore';
@@ -38,13 +37,6 @@ function App() {
     try {
       const token = await getFCMToken();
       // notion 토큰
-
-      saveTokenToNotion(token, {
-        isIOS,
-        isSafari,
-        isPWA,
-      });
-
       setFcmToken(token);
     } catch (error) {
       console.error('Firebase 토큰 요청 중 오류:', error);
@@ -136,7 +128,6 @@ function App() {
   useEffect(() => {
     setTimeout(async () => {
       const isLoggedIn = await checkLogin();
-      console.log('isLoggedIn', isLoggedIn);
       if (!isLoggedIn) {
         const notificationGranted = await checkNotificationPermission();
         if (notificationGranted) {

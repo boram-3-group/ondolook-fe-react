@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { getFCMToken, onMessageListener } from '../firebase';
-import { saveTokenToNotion } from '../core/notion';
 import { isSafari } from '../core/constants';
 import { useSystem } from '../store/useSystem';
 // 타입스크립트 타입 체크 해제
@@ -29,7 +28,6 @@ export const useFCM = () => {
           try {
             const token = await getFCMToken();
             if (token) {
-              await saveTokenToNotion(token, { isIOS, isSafari, isPWA });
               setToken(token);
               console.log('iOS PWA FCM 토큰:', token);
             }

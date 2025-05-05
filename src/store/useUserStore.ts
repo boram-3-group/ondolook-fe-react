@@ -10,14 +10,14 @@ export interface User {
   id?: string;
   username: string;
   password: string;
-  gender: string;
-  birthDate: string;
+  gender?: string;
+  birthDate?: string;
   loginType?: string;
-  email: string;
-  agreedToTerms: boolean;
-  agreedToPrivacy: boolean;
-  agreedToMarketing: boolean;
-  nickname: string;
+  email?: string;
+  agreedToTerms?: boolean;
+  agreedToPrivacy?: boolean;
+  agreedToMarketing?: boolean;
+  nickname?: string;
   deviceId?: string;
 }
 
@@ -41,7 +41,7 @@ export interface UserStore {
   logout: () => Promise<void>;
   oauthRedirect: (provider: 'kakao' | 'google') => void;
   loginWithSocial: (payload: { device: 'kakao' | 'google' }) => Promise<AxiosResponse>;
-  loginWithForm: (payload: { username: string; password: string }) => Promise<AxiosResponse>;
+  loginWithForm: (payload: { username: string; password: string }) => Promise<{ access: string }>;
   setSignupForm: (data: Partial<SignUpResponse>) => void;
   checkLogin: () => Promise<boolean>;
 }
@@ -159,18 +159,14 @@ export const useUserStore = create<UserStore>()(
               password,
             });
 
-            if (response.status === 200) {
-              console.log('responseresponseresponse', response);
-              if (response.data) {
-                const { access } = response.data;
-                get().setAccessToken(access);
-                get().setLoginType('email');
-                get().setUser({
-                  username,
-                  password,
-                  ...response.data,
-                });
-              }
+            if (response.access) {
+              const { access } = response;
+              get().setAccessToken(access);
+              get().setLoginType('email');
+              get().setUser({
+                username,
+                password,
+              });
               return true;
             }
           }
