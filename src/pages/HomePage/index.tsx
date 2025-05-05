@@ -29,6 +29,10 @@ export function HomePage() {
   const shouldFetch = lat !== 0 && lon !== 0;
 
   const { data: Categories, isLoading: CategoriesLoading } = useFetchCategory();
+  const selectCategoryData = Categories?.content.find(
+    Category => Category.categoryName === selectCategory
+  );
+  const selectCategoryId = selectCategoryData?.id;
 
   const { data: RegionData, isLoading: RegionDataLoading } = useFetchRegion(
     { lat: 37.498095, lon: 127.02761 },
@@ -65,7 +69,7 @@ export function HomePage() {
   const { data: OutfitData, isLoading: OutfitDataLoading } = useFetchOutfit({
     lat: 37.498095,
     lon: 127.02761,
-    eventType: 1,
+    eventType: selectCategoryId,
     gender: 'MALE',
   });
 

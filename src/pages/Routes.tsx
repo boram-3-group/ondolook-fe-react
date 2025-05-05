@@ -23,6 +23,7 @@ import Policy from './MyPage/pages/Policy';
 import { HomeLayout } from './Layouts/HomeLayout';
 import { RouterGuardProvider } from './RouterGuardProvider';
 import { guards } from './router-guard';
+import { WeatherDetail } from './HomePage/pages/WeatherDetail';
 
 type RouteWithHandle = RouteObject & {
   handle?: {
@@ -42,6 +43,11 @@ export const router = createBrowserRouter([
         path: '/home',
         element: <HomeLayout />,
         children: [{ path: '', element: <HomePage /> }],
+      } as RouteWithHandle,
+      {
+        path: '/weather',
+        element: <DefaultLayout />,
+        children: [{ path: '', element: <WeatherDetail /> }],
       } as RouteWithHandle,
       {
         path: '/login',

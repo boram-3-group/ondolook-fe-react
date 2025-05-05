@@ -1,3 +1,4 @@
+import { Icon } from '../../../components/common/Icon';
 import WeatherIcon from '../../../components/common/WeatherIcon';
 import { Forecast } from '../type';
 
@@ -30,8 +31,10 @@ export const WeatherBox = ({
             />
             <span className="text-Body1">{forecast.iconMessage}</span>
           </div>
-          <div className="flex text-Detail text-grayScale-60 gap-[8px]">
-            <div className="">{minTodayTemp}°</div>
+          <div className="flex text-Detail text-grayScale-60 ">
+            <Icon className="mt-1" name="min-temparrow" width={12} height={12} alt="최저기온" />
+            <div className="mr-2">{minTodayTemp}°</div>
+            <Icon className="mt-1" name="max-temparrow" width={12} height={12} alt="최고기온" />
             <div className="">{maxTodayTemp}°</div>
           </div>
         </div>
