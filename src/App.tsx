@@ -14,11 +14,13 @@ import { isSafari } from './core/constants';
 import { RouterGuardProvider } from './pages/RouterGuardProvider';
 import { useNotion } from './hooks/useNotion';
 import { setupSafeAreaListener, updateSafeAreaInsets } from './utils/browser';
+import { useUserStore } from './store/useUserStore';
 
 function App() {
   const queryClient = new QueryClient();
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const { getExistToken } = useNotion();
+  const { checkLogin } = useUserStore();
 
   const {
     isPWA,
@@ -119,26 +121,16 @@ function App() {
   }
 
   useEffect(() => {
-    console.log('PWA', isPWA);
-    console.log('PC', isPC);
-    console.log('Mobile', isMobile);
-    console.log('IOS', isIOS);
-
-    const isKakaoInApp = /KAKAOTALK/i.test(navigator.userAgent);
-    if (isKakaoInApp) {
-      if (isKakaoInApp) {
-        const targetUrl = 'https://odolook.click/';
-        window.location.replace(
-          `kakaotalk://web/openExternal?url=${encodeURIComponent(targetUrl)}`
-        );
+    setTimeout(async () => {
+      const isLoggedIn = await checkLogin();
+      if (!isLoggedIn) {
+        checkNotificationPermission();
+        requestGeolocationPermission();
+        getExistToken();
       }
-    }
-    setupSafeAreaListener();
-    setTimeout(() => {
-      checkNotificationPermission();
-      requestGeolocationPermission();
     }, 0);
 
+    // cleanup
     return () => {
       window.removeEventListener('resize', updateSafeAreaInsets);
       window.removeEventListener('orientationchange', updateSafeAreaInsets);

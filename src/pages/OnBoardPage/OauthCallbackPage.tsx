@@ -5,7 +5,7 @@ import { useUserStore } from '../../store/useUserStore';
 export const OauthCallbackPage = () => {
   const [params] = useSearchParams();
   const navigate = useNavigate();
-  const { loginWithSocial, setUser, setAccessToken, user } = useUserStore();
+  const { loginWithSocial, setUser, setAccessToken } = useUserStore();
 
   useEffect(() => {
     const stateId = params.get('stateId');
@@ -17,13 +17,11 @@ export const OauthCallbackPage = () => {
 
         if (response.status === 200) {
           const { profile, access } = response.data;
-          console.log('profile', profile);
           setUser(profile);
-          console.log('user', user);
           setAccessToken(access);
+
           if (profile.gender && profile.birthDate && profile.nickname) {
             navigate('/home');
-            console.log('소셜 로그인 성공');
             return;
           }
         }

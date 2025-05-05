@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, PersistStorage } from 'zustand/middleware';
 import { api } from '../core/axios';
 import { getUserDeviceId } from '../core/helper';
 import { SignUpResponse } from '../pages/SignupPage/type';
@@ -17,21 +17,41 @@ export interface User {
   agreedToPrivacy: boolean;
   agreedToMarketing: boolean;
   nickname: string;
+  deviceId?: string;
 }
+
+type LoginType = 'social' | 'email' | null;
+type SocialType = 'kakao' | 'google' | null;
 
 export interface UserStore {
   user: User | null;
   loading: boolean;
   error: string | null;
   accessToken: string | null;
+  deviceId: string | null;
+  loginType: LoginType;
+  socialType: SocialType;
   setUser: (user: User | null) => void;
   setAccessToken: (token: string | null) => void;
+  setDeviceId: (id: string | null) => void;
+  setLoginType: (type: LoginType) => void;
+  setSocialType: (type: SocialType) => void;
   isLoggedIn: () => boolean;
   logout: () => Promise<void>;
   oauthRedirect: (provider: 'kakao' | 'google') => void;
   loginWithSocial: (payload: { device: 'kakao' | 'google' }) => Promise<AxiosResponse>;
+  loginWithForm: (payload: { username: string; password: string }) => Promise<AxiosResponse>;
   setSignupForm: (data: Partial<SignUpResponse>) => void;
+  checkLogin: () => Promise<boolean>;
 }
+
+type PersistedUserStore = {
+  user: User | null;
+  accessToken: string | null;
+  deviceId: string | null;
+  loginType: LoginType;
+  socialType: SocialType;
+};
 
 export const useUserStore = create<UserStore>()(
   persist(
@@ -40,16 +60,25 @@ export const useUserStore = create<UserStore>()(
       loading: false,
       error: null,
       accessToken: null,
+      deviceId: null,
+      loginType: null,
+      socialType: null,
 
       setUser: user => {
         console.log('user', user);
         set({ user });
       },
       setAccessToken: token => set({ accessToken: token }),
-      isLoggedIn: () => !!get().user && !!get().accessToken,
+      setDeviceId: id => set({ deviceId: id }),
+      setLoginType: type => set({ loginType: type }),
+      setSocialType: type => set({ socialType: type }),
+      isLoggedIn: () =>
+        !!get().user && !!get().accessToken && (!!get().deviceId || get().loginType === 'email'),
       logout: async () => {
         try {
-          set({ user: null, accessToken: null });
+          set({ user: null, accessToken: null, deviceId: null, loginType: null });
+          localStorage.clear();
+          sessionStorage.clear();
         } catch (err: unknown) {
           console.error('로그아웃 실패:', err);
         }
@@ -65,6 +94,7 @@ export const useUserStore = create<UserStore>()(
 
       oauthRedirect: provider => {
         const deviceId = getUserDeviceId();
+        set({ deviceId, loginType: 'social' });
         const currentDomain = window.location.origin;
         const callbackUrl = encodeURIComponent(
           `${currentDomain}/login/oauth-callback?stateId=${deviceId}&provider=${provider}`
@@ -74,10 +104,11 @@ export const useUserStore = create<UserStore>()(
         }/oauth/oidc/${provider}?callbackUrl=${callbackUrl}`;
       },
 
-      loginWithSocial: async ({ device }) => {
+      loginWithSocial: async ({ device }: { device: 'kakao' | 'google' }) => {
         try {
+          set({ socialType: device });
           set({ loading: true, error: null });
-          const deviceId = getUserDeviceId();
+          const deviceId = get().deviceId || getUserDeviceId();
           const response = await api.service.post(`/oauth/issue/${deviceId}`, null, {
             headers: { 'X-DEVICE-ID': device },
             withCredentials: true,
@@ -90,12 +121,79 @@ export const useUserStore = create<UserStore>()(
           set({ loading: false });
         }
       },
+
+      loginWithForm: async ({ username, password }) => {
+        try {
+          set({ loading: true, error: null });
+          const response = await api.service.post('/api/v1/auth/login', {
+            username,
+            password,
+          });
+          set({ loginType: 'email' });
+          return response;
+        } finally {
+          set({ loading: false });
+        }
+      },
+
+      checkLogin: async () => {
+        try {
+          const { deviceId, loginType } = get();
+
+          if (deviceId) {
+            const response = await get().loginWithSocial({
+              device: get().socialType as 'kakao' | 'google',
+            });
+
+            if (response.status === 200) {
+              const { profile, access } = response.data;
+              set({ user: profile, accessToken: access });
+              return true;
+            }
+          } else if (loginType === 'email') {
+            // 이메일 로그인 체크
+            const response = await api.service.get('/api/v1/auth/check', {
+              withCredentials: true,
+            });
+
+            if (response.status === 200) {
+              const { profile, access } = response.data;
+              set({ user: profile, accessToken: access });
+              return true;
+            }
+          }
+          return false;
+        } catch (err) {
+          console.error('로그인 체크 실패:', err);
+          return false;
+        }
+      },
     }),
     {
       name: 'user-storage',
+      storage: {
+        getItem: name => {
+          const value = localStorage.getItem(name) || sessionStorage.getItem(name);
+          return value ? JSON.parse(value) : null;
+        },
+        setItem: (name, value) => {
+          if (window.matchMedia('(display-mode: standalone)').matches) {
+            localStorage.setItem(name, JSON.stringify(value));
+          } else {
+            sessionStorage.setItem(name, JSON.stringify(value));
+          }
+        },
+        removeItem: name => {
+          localStorage.removeItem(name);
+          sessionStorage.removeItem(name);
+        },
+      } as PersistStorage<PersistedUserStore>,
       partialize: state => ({
         user: state.user,
         accessToken: state.accessToken,
+        deviceId: state.deviceId,
+        loginType: state.loginType,
+        socialType: state.socialType,
       }),
     }
   )
