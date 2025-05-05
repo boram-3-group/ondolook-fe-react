@@ -35,8 +35,8 @@ class Service {
     );
   }
 
-  public get<R = any>(url: string, params?: any): Promise<AxiosResponse<R>> {
-    return this.axiosInstance.get<R>(url, { params });
+  public get<R = any>(url: string, params?: any, options?: any): Promise<AxiosResponse<R>> {
+    return this.axiosInstance.get<R>(url, { params, ...options });
   }
 
   public post<R = any>(url: string, data?: any, options?: any): Promise<AxiosResponse<R>> {

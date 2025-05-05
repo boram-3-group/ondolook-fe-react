@@ -13,6 +13,8 @@ import { saveTokenToNotion } from './core/notion';
 import { isSafari } from './core/constants';
 import { RouterGuardProvider } from './pages/RouterGuardProvider';
 import { useNotion } from './hooks/useNotion';
+import { setupSafeAreaListener, updateSafeAreaInsets } from './utils/browser';
+
 function App() {
   const queryClient = new QueryClient();
   const [showNotificationModal, setShowNotificationModal] = useState(false);
@@ -122,9 +124,20 @@ function App() {
     console.log('Mobile', isMobile);
     console.log('IOS', isIOS);
 
-    checkNotificationPermission();
-    requestGeolocationPermission();
-    getExistToken();
+    const isKakaoInApp = /KAKAOTALK/i.test(navigator.userAgent);
+    if (isKakaoInApp) {
+      console.log('카카오 인앱브라우저에서 실행 중');
+    }
+    setupSafeAreaListener();
+    setTimeout(() => {
+      checkNotificationPermission();
+      requestGeolocationPermission();
+    }, 0);
+
+    return () => {
+      window.removeEventListener('resize', updateSafeAreaInsets);
+      window.removeEventListener('orientationchange', updateSafeAreaInsets);
+    };
   }, []);
 
   return (
