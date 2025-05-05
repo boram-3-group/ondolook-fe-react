@@ -44,6 +44,7 @@
     height: 100%;
     max-width: 428px;
     padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
     background-color: #ffffff;
     overflow: hidden;
     position: relative;
