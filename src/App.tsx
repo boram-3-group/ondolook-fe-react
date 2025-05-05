@@ -12,10 +12,11 @@ import { useSystem } from './store/useSystem';
 import { saveTokenToNotion } from './core/notion';
 import { isSafari } from './core/constants';
 import { RouterGuardProvider } from './pages/RouterGuardProvider';
-
+import { useNotion } from './hooks/useNotion';
 function App() {
   const queryClient = new QueryClient();
   const [showNotificationModal, setShowNotificationModal] = useState(false);
+  const { getExistToken } = useNotion();
 
   const {
     isPWA,
@@ -123,6 +124,7 @@ function App() {
 
     checkNotificationPermission();
     requestGeolocationPermission();
+    getExistToken();
   }, []);
 
   return (
