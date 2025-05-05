@@ -10,6 +10,7 @@ interface RouterGuard {
 export const guards = {
   beforeEnter: async ({ to, next, store }: RouterGuard) => {
     const isLoggedIn = store.userStore.isLoggedIn();
+    console.log('to : ', to);
     if (to === '/my/bookmark') {
       if (!isLoggedIn) {
         next(false);

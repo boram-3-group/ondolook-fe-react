@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Carousel from '../../components/common/Carousel';
 import { Button } from '../../components/common/Button';
 import { Icon } from '../../components/common/Icon';
 import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '../../store/useUserStore';
+
 export const OnBoardPage = () => {
-  const { oauthRedirect } = useUserStore();
+  const { oauthRedirect, checkLogin } = useUserStore();
   const images = [
     ['날씨에 맞는', '코디를 추천해요!'],
     ['일정에 맞게', '코디를 알려드려요!'],
@@ -17,6 +18,16 @@ export const OnBoardPage = () => {
   }));
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      const isLoggedIn = await checkLogin();
+      if (isLoggedIn) {
+        navigate('/home');
+      }
+    };
+    checkLoginStatus();
+  }, [navigate, checkLogin]);
 
   return (
     <div className="w-full max-w-xl mx-auto pt-[53px]">
@@ -62,7 +73,7 @@ export const OnBoardPage = () => {
           className="w-1/2"
           onClick={() => navigate('/login/form')}
         >
-          온도로 로그인
+          온도록 로그인
         </Button>
       </div>
       <div className="my-5 flex items-center px-5">

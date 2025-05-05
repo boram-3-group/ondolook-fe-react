@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import CategoryChip from './_components/CategoryChip';
 import { RegionTab } from './_components/RegionTab';
 import { useGeolocation } from '../../hooks/useGeolocation';
@@ -61,10 +61,11 @@ export function HomePage() {
   const maxTodayTemp = TodayTemp && Math.max(...TodayTemp);
   const minTodayTemp = TodayTemp && Math.min(...TodayTemp);
 
-  // 날씨 아이콘 메시지 store에 저장
-  if (currentForecast) {
-    setWeather(currentForecast.iconMessage);
-  }
+  useEffect(() => {
+    if (currentForecast) {
+      setWeather(currentForecast.iconMessage);
+    }
+  }, [currentForecast, setWeather]);
 
   const { data: OutfitData, isLoading: OutfitDataLoading } = useFetchOutfit({
     lat: 37.498095,

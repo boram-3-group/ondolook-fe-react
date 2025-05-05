@@ -11,7 +11,6 @@ import { getFCMToken } from './firebase';
 import { useSystem } from './store/useSystem';
 import { saveTokenToNotion } from './core/notion';
 import { isSafari } from './core/constants';
-import { RouterGuardProvider } from './pages/RouterGuardProvider';
 import { useNotion } from './hooks/useNotion';
 import { setupSafeAreaListener, updateSafeAreaInsets } from './utils/browser';
 import { useUserStore } from './store/useUserStore';
@@ -126,7 +125,7 @@ function App() {
       if (!isLoggedIn) {
         checkNotificationPermission();
         requestGeolocationPermission();
-        getExistToken();
+        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
       }
     }, 0);
 
