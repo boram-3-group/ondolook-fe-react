@@ -136,6 +136,7 @@ function App() {
   useEffect(() => {
     setTimeout(async () => {
       const isLoggedIn = await checkLogin();
+      console.log('isLoggedIn', isLoggedIn);
       if (!isLoggedIn) {
         const notificationGranted = await checkNotificationPermission();
         if (notificationGranted) {

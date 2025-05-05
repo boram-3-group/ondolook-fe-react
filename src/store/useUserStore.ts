@@ -4,6 +4,7 @@ import { api } from '../core/axios';
 import { getUserDeviceId } from '../core/helper';
 import { SignUpResponse } from '../pages/SignupPage/type';
 import { AxiosResponse } from 'axios';
+import { login } from '../pages/LoginPage/apis';
 
 export interface User {
   id?: string;
@@ -125,26 +126,7 @@ export const useUserStore = create<UserStore>()(
       loginWithForm: async ({ username, password }) => {
         try {
           set({ loading: true, error: null });
-          const response = await api.service.post(
-            '/api/v1/auth/login',
-            {
-              username,
-              password,
-            },
-            {
-              withCredentials: true,
-            }
-          );
-
-          if (response.data) {
-            const { profile, access } = response.data;
-            set({
-              user: profile,
-              accessToken: access,
-              loginType: 'email',
-            });
-          }
-
+          const response = await login({ username, password });
           return response;
         } finally {
           set({ loading: false });
@@ -153,9 +135,9 @@ export const useUserStore = create<UserStore>()(
 
       checkLogin: async () => {
         try {
-          const { deviceId, loginType } = get();
+          const { loginType } = get();
 
-          if (deviceId) {
+          if (loginType === 'social') {
             const response = await get().loginWithSocial({
               device: get().socialType as 'kakao' | 'google',
             });
@@ -167,13 +149,28 @@ export const useUserStore = create<UserStore>()(
             }
           } else if (loginType === 'email') {
             // 이메일 로그인 체크
-            const response = await api.service.get('/api/v1/auth/check', {
-              withCredentials: true,
+            const username = get().user?.username;
+            const password = get().user?.password;
+
+            if (!username || !password) return false;
+
+            const response = await get().loginWithForm({
+              username,
+              password,
             });
 
             if (response.status === 200) {
-              const { profile, access } = response.data;
-              set({ user: profile, accessToken: access });
+              console.log('responseresponseresponse', response);
+              if (response.data) {
+                const { access } = response.data;
+                get().setAccessToken(access);
+                get().setLoginType('email');
+                get().setUser({
+                  username,
+                  password,
+                  ...response.data,
+                });
+              }
               return true;
             }
           }
