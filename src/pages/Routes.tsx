@@ -24,6 +24,7 @@ import { HomeLayout } from './Layouts/HomeLayout';
 import { RouterGuardProvider } from './RouterGuardProvider';
 import { guards } from './router-guard';
 import { WeatherDetail } from './HomePage/pages/WeatherDetail';
+import { AccountInfoSettings } from './MyPage/pages/AccountInfoSettings';
 
 type RouteWithHandle = RouteObject & {
   handle?: {
@@ -200,6 +201,14 @@ export const router = createBrowserRouter([
             element: <AlramSettings />,
             handle: {
               title: '알림 설정',
+              isShowBack: true,
+            },
+          } as RouteWithHandle,
+          {
+            path: 'account-settings',
+            element: <AccountInfoSettings />,
+            handle: {
+              title: '계정 설정',
               isShowBack: true,
             },
           } as RouteWithHandle,

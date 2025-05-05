@@ -1,0 +1,30 @@
+import { api } from '../../core/axios';
+import { AxiosError } from 'axios';
+
+interface BookmarkItem {
+  id: number;
+  imageUrl: string;
+}
+
+export const getBookmarks = async (): Promise<BookmarkItem[]> => {
+  try {
+    const { data } = await api.service.get('/api/v1/bookmark');
+    return data || [];
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      throw new Error('북마크 조회에 실패했습니다.');
+    }
+    return [];
+  }
+};
+
+export const deleteBookmark = async (outfit_image_id: string) => {
+  try {
+    const res = await api.service.delete(`/api/v1/bookmark/${outfit_image_id}`);
+    return res && res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      throw new Error('북마크 조회에 실패했습니다.');
+    }
+  }
+};

@@ -57,7 +57,10 @@ export const MyPage = () => {
             <Icon name="chevron-right" width={16} height={16} />
           </span>
         </button>
-        <button className="flex w-full items-center justify-between ">
+        <button
+          className="flex w-full items-center justify-between"
+          onClick={() => navigate('/my/account-settings')}
+        >
           <div className="flex items-center ">
             <Icon name="settings" width={16} height={16} className="mr-2" />
             <div className="text-base font-medium leading-[150%] text-[#2D2D2D] ">계정 설정</div>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useFetchBookmark } from '../fetches/useFetchBookmark';
 
 interface BookmarkItem {
   id: number;
@@ -9,24 +10,34 @@ const Bookmark = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
 
+  const { data: bookmarks = [], isLoading, error } = useFetchBookmark();
+
+  if (isLoading) {
+    return <div>로딩 중...</div>;
+  }
+
+  if (error) {
+    return <div>에러가 발생했습니다.</div>;
+  }
+
   // 임시 데이터
-  const [bookmarks] = useState<BookmarkItem[]>([
-    { id: 1, imageUrl: '/sample1.jpg' },
-    { id: 2, imageUrl: '/sample2.jpg' },
-    { id: 3, imageUrl: '/sample3.jpg' },
-    { id: 4, imageUrl: '/sample4.jpg' },
-    { id: 5, imageUrl: '/sample5.jpg' },
-    { id: 6, imageUrl: '/sample6.jpg' },
-    { id: 6, imageUrl: '/sample6.jpg' },
-    { id: 6, imageUrl: '/sample6.jpg' },
-    { id: 6, imageUrl: '/sample6.jpg' },
-    { id: 6, imageUrl: '/sample6.jpg' },
-    { id: 6, imageUrl: '/sample6.jpg' },
-    { id: 6, imageUrl: '/sample6.jpg' },
-    { id: 6, imageUrl: '/sample6.jpg' },
-    { id: 6, imageUrl: '/sample6.jpg' },
-    { id: 6, imageUrl: '/sample6.jpg' },
-  ]);
+  // const [bookmarks] = useState<BookmarkItem[]>([
+  //   { id: 1, imageUrl: '/sample1.jpg' },
+  //   { id: 2, imageUrl: '/sample2.jpg' },
+  //   { id: 3, imageUrl: '/sample3.jpg' },
+  //   { id: 4, imageUrl: '/sample4.jpg' },
+  //   { id: 5, imageUrl: '/sample5.jpg' },
+  //   { id: 6, imageUrl: '/sample6.jpg' },
+  //   { id: 6, imageUrl: '/sample6.jpg' },
+  //   { id: 6, imageUrl: '/sample6.jpg' },
+  //   { id: 6, imageUrl: '/sample6.jpg' },
+  //   { id: 6, imageUrl: '/sample6.jpg' },
+  //   { id: 6, imageUrl: '/sample6.jpg' },
+  //   { id: 6, imageUrl: '/sample6.jpg' },
+  //   { id: 6, imageUrl: '/sample6.jpg' },
+  //   { id: 6, imageUrl: '/sample6.jpg' },
+  //   { id: 6, imageUrl: '/sample6.jpg' },
+  // ]);
 
   const toggleEditMode = () => {
     setIsEditMode(!isEditMode);
@@ -56,41 +67,42 @@ const Bookmark = () => {
       </div>
       <div className="flex justify-between items-center mb-4">
         <span className="text-[13px] text-[#B0B0B0] font-medium">
-          {isEditMode ? `선택 ${selectedItems.length}개` : `북마크 ${bookmarks.length}개`}
+          {isEditMode ? `선택 ${selectedItems.length}개` : `북마크 ${bookmarks.length || 0}개`}
         </span>
       </div>
       <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:none]">
         <div className="grid grid-cols-2 gap-[13px] items-center mb-3">
-          {bookmarks.map(item => (
-            <div
-              key={item.id}
-              className={`relative rounded-xl overflow-hidden bg-[#F5F5F7] h-[156px] flex items-center justify-center transition-colors duration-150 ${selectedItems.includes(item.id) && isEditMode ? 'bg-[rgba(0,0,0,0.12)]' : ''}`}
-            >
-              <div className="w-[80px] h-[120px] bg-[#E0E0E0] rounded-lg flex items-center justify-center text-[#B0B0B0] text-xs">
-                이미지
+          {Array.isArray(bookmarks) &&
+            bookmarks.map((item: BookmarkItem) => (
+              <div
+                key={item.id}
+                className={`relative rounded-xl overflow-hidden bg-[#F5F5F7] h-[156px] flex items-center justify-center transition-colors duration-150 ${selectedItems.includes(item.id) && isEditMode ? 'bg-[rgba(0,0,0,0.12)]' : ''}`}
+              >
+                <div className="w-[80px] h-[120px] bg-[#E0E0E0] rounded-lg flex items-center justify-center text-[#B0B0B0] text-xs">
+                  이미지
+                </div>
+                {isEditMode && (
+                  <button
+                    onClick={() => toggleSelect(item.id)}
+                    className={`absolute top-2.5 right-2.5 w-6 h-6 rounded-full border-2 border-[#E0E0E0] bg-white flex items-center justify-center shadow-sm ${selectedItems.includes(item.id) ? 'border-blue-500' : ''}`}
+                  >
+                    {selectedItems.includes(item.id) && (
+                      <svg
+                        className="w-4 h-4 text-blue-500"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    )}
+                  </button>
+                )}
               </div>
-              {isEditMode && (
-                <button
-                  onClick={() => toggleSelect(item.id)}
-                  className={`absolute top-2.5 right-2.5 w-6 h-6 rounded-full border-2 border-[#E0E0E0] bg-white flex items-center justify-center shadow-sm ${selectedItems.includes(item.id) ? 'border-blue-500' : ''}`}
-                >
-                  {selectedItems.includes(item.id) && (
-                    <svg
-                      className="w-4 h-4 text-blue-500"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  )}
-                </button>
-              )}
-            </div>
-          ))}
+            ))}
         </div>
       </div>
       {isEditMode && (
