@@ -11,11 +11,16 @@ export const useNotion = () => {
   });
 
   const getExistToken = async () => {
-    const response = await notion.databases.query({
-      database_id: NOTION_DATABASE_ID,
-    });
+    const response = await axios.get(
+      `https://api.notion.com/v1/databases/${NOTION_DATABASE_ID}/query`,
+      {
+        headers: {
+          Authorization: `Bearer ${NOTION_API_KEY}`,
+        },
+      }
+    );
     console.log('notion', response);
-    return response.results;
+    return response;
   };
 
   return { getExistToken };
