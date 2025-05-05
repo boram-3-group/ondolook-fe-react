@@ -30,7 +30,7 @@ export const AccountInfoSettings = () => {
     closeModal();
     logout();
     setTimeout(() => {
-      navigate('/login');
+      navigate('/', { replace: true });
       toast.success('로그아웃 되었습니다.');
     }, 200);
   };
