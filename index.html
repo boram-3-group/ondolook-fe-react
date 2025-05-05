@@ -50,6 +50,16 @@
         });
       }
     }
+
+    const isKakaoInApp = /KAKAOTALK/i.test(navigator.userAgent);
+    if (isKakaoInApp) {
+      if (isKakaoInApp) {
+        const targetUrl = 'https://odolook.click/';
+        window.location.replace(
+          `kakaotalk://web/openExternal?url=${encodeURIComponent(targetUrl)}`
+        );
+      }
+    }
   </script>
 </head>
 
