@@ -34,9 +34,9 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header className={`h-[44px] px-4 flex items-center ${justify} relative`}>
-      {isShowBack && (
+      {hasButtons && (
         <div className="flex-1 grid" onClick={onBack}>
-          <Icon className="flex-grow" name="chevron-left" width={24} height={24} />
+          {isShowBack && <Icon className="flex-grow" name="chevron-left" width={24} height={24} />}
         </div>
       )}
       {title && (
@@ -46,9 +46,11 @@ export const Header: React.FC<HeaderProps> = ({
           </span>
         </div>
       )}
-      {isShowForward && (
+      {hasButtons && (
         <div className="flex-1 grid justify-items-end" onClick={onForward}>
-          <Icon className="self-end" name="chevron-right" width={24} height={24} />
+          {isShowForward && (
+            <Icon className="self-end" name="chevron-right" width={24} height={24} />
+          )}
         </div>
       )}
     </header>
