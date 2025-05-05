@@ -15,6 +15,7 @@ export const login = async ({ username, password }: LoginFormValues) => {
         headers: {
           'X-DEVICE-ID': deviceId,
         },
+        withCredentials: true,
       }
     );
     return res && res.data;

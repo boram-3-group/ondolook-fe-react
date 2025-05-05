@@ -125,11 +125,26 @@ export const useUserStore = create<UserStore>()(
       loginWithForm: async ({ username, password }) => {
         try {
           set({ loading: true, error: null });
-          const response = await api.service.post('/api/v1/auth/login', {
-            username,
-            password,
-          });
-          set({ loginType: 'email' });
+          const response = await api.service.post(
+            '/api/v1/auth/login',
+            {
+              username,
+              password,
+            },
+            {
+              withCredentials: true,
+            }
+          );
+
+          if (response.data) {
+            const { profile, access } = response.data;
+            set({
+              user: profile,
+              accessToken: access,
+              loginType: 'email',
+            });
+          }
+
           return response;
         } finally {
           set({ loading: false });
@@ -173,19 +188,14 @@ export const useUserStore = create<UserStore>()(
       name: 'user-storage',
       storage: {
         getItem: name => {
-          const value = localStorage.getItem(name) || sessionStorage.getItem(name);
+          const value = localStorage.getItem(name);
           return value ? JSON.parse(value) : null;
         },
         setItem: (name, value) => {
-          if (window.matchMedia('(display-mode: standalone)').matches) {
-            localStorage.setItem(name, JSON.stringify(value));
-          } else {
-            sessionStorage.setItem(name, JSON.stringify(value));
-          }
+          localStorage.setItem(name, JSON.stringify(value));
         },
         removeItem: name => {
           localStorage.removeItem(name);
-          sessionStorage.removeItem(name);
         },
       } as PersistStorage<PersistedUserStore>,
       partialize: state => ({
