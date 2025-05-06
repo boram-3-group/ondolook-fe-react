@@ -1,5 +1,6 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { getBookmarks, deleteBookmark } from '../apis';
+import { getBookmarks, deleteBookmark, addBookmark } from '../apis';
+import { string } from 'zod';
 
 interface BookmarkItem {
   id: number;
@@ -19,11 +20,21 @@ export const useDeleteBookmark = () => {
     mutationFn: deleteBookmark,
   });
 
+  const deleteBookmarkById = async (outfit_image_id: string) => {
+    await mutateAsync(outfit_image_id);
+  };
+
   const deleteBookmarks = async (outfit_image_ids: string[]) => {
     for (const outfit_image_id of outfit_image_ids) {
       await mutateAsync(outfit_image_id);
     }
   };
 
-  return { deleteBookmarks, isLoading: isPending, error };
+  return { deleteBookmarkById, deleteBookmarks, isLoading: isPending, error };
+};
+
+export const useAddBookmark = () => {
+  return useMutation({
+    mutationFn: (outfit_image_id: string) => addBookmark(outfit_image_id),
+  });
 };

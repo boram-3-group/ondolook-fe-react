@@ -73,7 +73,7 @@ export const OnBoardPage = () => {
           className="w-1/2"
           onClick={() => navigate('/login/form')}
         >
-          온도록 로그인
+          온도룩 로그인
         </Button>
       </div>
       <div className="my-5 flex items-center px-5">
@@ -97,7 +97,12 @@ export const OnBoardPage = () => {
       </div>
       <div className="mt-5 text-center text-sm">
         <span className="text-gray-500">계정이 없으신가요? </span>
-        <button className="text-black font-semibold hover:underline">회원가입 하기</button>
+        <button
+          onClick={() => navigate('/signup')}
+          className="text-black font-semibold hover:underline"
+        >
+          회원가입 하기
+        </button>
       </div>
     </div>
   );

@@ -24,7 +24,18 @@ export const deleteBookmark = async (outfit_image_id: string) => {
     return res && res.data;
   } catch (error) {
     if (error instanceof AxiosError) {
-      throw new Error('북마크 조회에 실패했습니다.');
+      throw new Error('북마크 삭제에 실패했습니다.');
+    }
+  }
+};
+
+export const addBookmark = async (outfit_image_id: string) => {
+  try {
+    const res = await api.service.post(`/api/v1/bookmark/${outfit_image_id}`);
+    return res && res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      throw new Error('북마크 추가에 실패했습니다.');
     }
   }
 };

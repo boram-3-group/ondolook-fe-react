@@ -14,6 +14,7 @@ import MainCarousel from '../../components/common/MainCarousel';
 import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import { useAddBookmark, useDeleteBookmark } from '../MyPage/fetches/useFetchBookmark';
 
 export function HomePage() {
   const [selectCategory, setSelectCategory] = useState('비즈니스');
@@ -91,13 +92,28 @@ export function HomePage() {
     gender: Usergender || 'MALE',
   });
 
-  const handleToggleBookmark = () => {};
+  const { deleteBookmarkById } = useDeleteBookmark();
+  const { mutate: addBookmarkById } = useAddBookmark();
+
+  const handleToggleBookmark = ({
+    outfitImageId,
+    isIdBookmark,
+  }: {
+    outfitImageId: string;
+    isIdBookmark: boolean;
+  }) => {
+    if (!isIdBookmark) {
+      addBookmarkById(outfitImageId);
+    } else {
+      deleteBookmarkById(outfitImageId);
+    }
+  };
 
   // 임시데이터
   const fileMetadata = [
-    { id: 1, imageUrl: '/sample1.jpg' },
-    { id: 2, imageUrl: '/sample2.jpg' },
-    { id: 3, imageUrl: '/sample3.jpg' },
+    { id: '1', imageUrl: '/sample1.jpg', isBookmark: false },
+    { id: '2', imageUrl: '/sample2.jpg', isBookmark: true },
+    { id: '3', imageUrl: '/sample3.jpg', isBookmark: false },
   ];
 
   return (
@@ -147,12 +163,19 @@ export function HomePage() {
               draggable={false}
             />
             <Icon
-              name="white-bookmark"
+              name={!item.isBookmark ? 'white-bookmark' : 'blue-bookmark'}
               width={48}
               height={48}
               alt="북마크"
               className="absolute top-4 right-4 z-10"
-              onClick={() => isAuthCheck(() => handleToggleBookmark())}
+              onClick={() =>
+                isAuthCheck(() =>
+                  handleToggleBookmark({
+                    outfitImageId: item.id,
+                    isIdBookmark: item.isBookmark,
+                  })
+                )
+              }
             />
           </div>
         ))}
