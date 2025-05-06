@@ -25,6 +25,7 @@ import { RouterGuardProvider } from './RouterGuardProvider';
 import { guards } from './router-guard';
 import { WeatherDetail } from './HomePage/pages/WeatherDetail';
 import { AccountInfoSettings } from './MyPage/pages/AccountInfoSettings';
+import { AgreedToLocation } from './SignupPage/pages/AgreedToLocation';
 
 type RouteWithHandle = RouteObject & {
   handle?: {
@@ -98,7 +99,15 @@ export const router = createBrowserRouter([
             element: <AgreedToPrivacy />,
             handle: {
               isShowBack: true,
-              title: '개인정보 처리 방침',
+              title: '개인정보처리방침',
+            },
+          },
+          {
+            path: 'agreedToLocation',
+            element: <AgreedToLocation />,
+            handle: {
+              isShowBack: true,
+              title: '위치기반서비스',
             },
           },
         ],

@@ -44,6 +44,7 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
   const password = useUserStore(state => state.user?.password);
   const agreedToTerms = useUserStore(state => state.user?.agreedToTerms);
   const agreedToPrivacy = useUserStore(state => state.user?.agreedToPrivacy);
+  const agreedToLocation = useUserStore(state => state.user?.agreedToLocation);
   const agreedToMarketing = useUserStore(state => state.user?.agreedToMarketing);
   const email = useUserStore(state => state.user?.email);
   const setSignupForm = useUserStore(state => state.setSignupForm);
@@ -74,6 +75,7 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
       email: email || '',
       agreedToTerms: agreedToTerms ?? false,
       agreedToPrivacy: agreedToPrivacy ?? false,
+      agreedToLocation: agreedToLocation ?? false,
       agreedToMarketing: agreedToMarketing ?? false,
       loginType: socialType || 'PC',
       ...profileData,

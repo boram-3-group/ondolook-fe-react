@@ -17,6 +17,7 @@ export interface User {
   agreedToTerms?: boolean;
   agreedToPrivacy?: boolean;
   agreedToMarketing?: boolean;
+  agreedToLocation?: boolean;
   nickname?: string;
   deviceId?: string;
 }

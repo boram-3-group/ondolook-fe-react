@@ -12,6 +12,7 @@ export const signup = async ({
   email,
   agreedToTerms,
   agreedToPrivacy,
+  agreedToLocation,
   agreedToMarketing,
 }: SignUpResponse) => {
   try {
@@ -24,6 +25,7 @@ export const signup = async ({
       email,
       agreedToTerms,
       agreedToPrivacy,
+      agreedToLocation,
       agreedToMarketing,
     });
     return res && res.data;

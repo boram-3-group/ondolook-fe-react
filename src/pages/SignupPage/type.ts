@@ -6,6 +6,7 @@ export type AgreeFormResponse = {
   agreedToTerms: boolean;
   agreedToPrivacy: boolean;
   agreedToMarketing: boolean;
+  agreedToLocation: boolean;
 };
 
 export type AccountFormResponse = {

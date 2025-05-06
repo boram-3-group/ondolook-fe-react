@@ -15,6 +15,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { useAddBookmark, useDeleteBookmark } from '../MyPage/fetches/useFetchBookmark';
+import { AgreeForm } from '../SignupPage/_components/AgreeForm';
 
 export function HomePage() {
   const [selectCategory, setSelectCategory] = useState('비즈니스');

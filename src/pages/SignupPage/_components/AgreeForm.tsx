@@ -14,6 +14,7 @@ export const AgreeForm = ({ onNext }: moveNextProps) => {
   const agreeList = [
     { id: 'agreedToTerms', prefix: '(필수)', label: '서비스 이용약관 동의', link: true },
     { id: 'agreedToPrivacy', prefix: '(필수)', label: '개인정보 수집 및 이용 동의', link: true },
+    { id: 'agreedToLocation', prefix: '(필수)', label: '위치기반서비스 이용약관', link: true },
     { id: 'agreedToMarketing', prefix: '(선택)', label: '마케팅 수신 동의' },
   ];
 
@@ -29,7 +30,9 @@ export const AgreeForm = ({ onNext }: moveNextProps) => {
   const allIds = agreeList.map(item => item.id);
   const isAllChecked = AgreedList.length === agreeList.length;
   const isRequiredChecked =
-    AgreedList.includes('agreedToTerms') && AgreedList.includes('agreedToPrivacy');
+    AgreedList.includes('agreedToTerms') &&
+    AgreedList.includes('agreedToPrivacy') &&
+    AgreedList.includes('agreedToLocation');
 
   const onAllCheck = () => {
     if (isAllChecked) {
@@ -43,6 +46,7 @@ export const AgreeForm = ({ onNext }: moveNextProps) => {
     setSignupForm({
       agreedToTerms: AgreedList.includes('agreedToTerms'),
       agreedToPrivacy: AgreedList.includes('agreedToPrivacy'),
+      agreedToLocation: AgreedList.includes('agreedToLocation'),
       agreedToMarketing: AgreedList.includes('agreedToMarketing'),
     });
     onNext();
