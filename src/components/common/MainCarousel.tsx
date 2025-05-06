@@ -2,6 +2,8 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Icon } from './Icon';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
+import { useModal } from '../../hooks/useModal';
+import { Modal } from './Modal';
 
 type MainCarouselProps = {
   slides: React.ReactNode[];
@@ -14,7 +16,8 @@ const MainCarousel = ({ slides }: MainCarouselProps) => {
   const [dragStartX, setDragStartX] = useState<number | null>(null);
   const [dragOffset, setDragOffset] = useState(0);
   const navigate = useNavigate();
-  const { isAuthCheck } = useAuth();
+  const { isAuth } = useAuth();
+  const { isOpen, openModal, closeModal, content } = useModal();
 
   const updateWidth = () => {
     if (containerRef.current) {
@@ -108,7 +111,16 @@ const MainCarousel = ({ slides }: MainCarouselProps) => {
           ))}
         </div>
         <Icon
-          onClick={() => isAuthCheck(() => navigate('/my'))}
+          onClick={() => {
+            if (!isAuth()) {
+              openModal({
+                title: '나만의 코디, 나중에 또 보려면?',
+                message: '로그인하면 저장한 코디를 한눈에 볼 수 있어요',
+              });
+            } else {
+              navigate('/my');
+            }
+          }}
           name="mypage"
           width={48}
           height={48}
@@ -116,6 +128,18 @@ const MainCarousel = ({ slides }: MainCarouselProps) => {
           alt="마이페이지"
         />
       </div>
+      {isOpen && (
+        <Modal
+          isOpen={isOpen}
+          closeModal={closeModal}
+          onMove={() => {
+            closeModal();
+            navigate('/login');
+          }}
+          title={content.title}
+          message={content.message}
+        />
+      )}
     </div>
   );
 };

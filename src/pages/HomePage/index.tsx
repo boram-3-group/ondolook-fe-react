@@ -15,7 +15,8 @@ import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { useAddBookmark, useDeleteBookmark } from '../MyPage/fetches/useFetchBookmark';
-import { AgreeForm } from '../SignupPage/_components/AgreeForm';
+import { useModal } from '../../hooks/useModal';
+import { Modal } from '../../components/common/Modal';
 
 export function HomePage() {
   const [selectCategory, setSelectCategory] = useState('비즈니스');
@@ -38,9 +39,11 @@ export function HomePage() {
     }
   }, []);
 
+  const { isOpen, openModal, closeModal, content } = useModal();
+
   useGeolocation();
   const { lat, lon } = useLocationStore();
-  const { isAuthCheck } = useAuth();
+  const { isAuth } = useAuth();
   const setWeather = useWeatherStore(state => state.setWeather);
 
   const shouldFetch = lat !== 0 && lon !== 0;
@@ -126,7 +129,16 @@ export function HomePage() {
           width={24}
           height={24}
           alt="알람"
-          onClick={() => isAuthCheck(() => navigate('/my/alarm'))}
+          onClick={() => {
+            if (!isAuth()) {
+              openModal({
+                title: '놓치지 않게 미리 알려드려요!',
+                message: '알림 설정은 로그인 후에 가능해요',
+              });
+            } else {
+              navigate('/my/alarm');
+            }
+          }}
         />
       </div>
       <div className="mx-5">
@@ -145,7 +157,16 @@ export function HomePage() {
             <CategoryChip
               key={Category.id}
               categoryName={Category.categoryName}
-              onClick={() => isAuthCheck(() => onSelectChip(Category.categoryName))}
+              onClick={() => {
+                if (!isAuth()) {
+                  openModal({
+                    title: '맞춤 일정 코디, 궁금하신가요?',
+                    message: '내 일정에 맞는 코디를 보려면 로그인이 필요해요',
+                  });
+                } else {
+                  onSelectChip(Category.categoryName);
+                }
+              }}
               isActive={selectCategory === Category.categoryName}
             />
           ))}
@@ -168,19 +189,36 @@ export function HomePage() {
               width={48}
               height={48}
               alt="북마크"
-              className="absolute top-4 right-4 z-10"
-              onClick={() =>
-                isAuthCheck(() =>
+              className="absolute top-4 right-4 z-10 cursor-pointer"
+              onClick={() => {
+                if (!isAuth()) {
+                  openModal({
+                    title: '맘에 드는 코디, 나중에 또 보려면?',
+                    message: '로그인하면 코디를 저장할 수 있어요!',
+                  });
+                } else {
                   handleToggleBookmark({
                     outfitImageId: item.id,
                     isIdBookmark: item.isBookmark,
-                  })
-                )
-              }
+                  });
+                }
+              }}
             />
           </div>
         ))}
       />
+      {isOpen && (
+        <Modal
+          isOpen={isOpen}
+          closeModal={closeModal}
+          onMove={() => {
+            closeModal();
+            navigate('/login');
+          }}
+          title={content.title}
+          message={content.message}
+        />
+      )}
     </div>
   );
 }

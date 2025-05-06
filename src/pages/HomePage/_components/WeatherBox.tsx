@@ -31,7 +31,7 @@ export const WeatherBox = ({
             />
             <span className="text-Body1">{forecast.iconMessage}</span>
           </div>
-          <div className="flex text-Detail text-grayScale-60 ">
+          <div className="flex text-[13px] leading-[150%] font-normal tracking-[0] text-grayScale-50">
             <Icon className="mt-1" name="min-temparrow" width={12} height={12} alt="최저기온" />
             <div className="mr-2">{minTodayTemp}°</div>
             <Icon className="mt-1" name="max-temparrow" width={12} height={12} alt="최고기온" />
