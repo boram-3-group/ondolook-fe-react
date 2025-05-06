@@ -76,6 +76,8 @@ export function HomePage() {
   const maxTodayTemp = TodayTemp && Math.max(...TodayTemp);
   const minTodayTemp = TodayTemp && Math.min(...TodayTemp);
 
+  const Usergender = JSON.parse(localStorage.getItem('user-storage') || '{}')?.state?.user?.gender;
+
   useEffect(() => {
     if (currentForecast) {
       setWeather(currentForecast.iconMessage);
@@ -85,8 +87,8 @@ export function HomePage() {
   const { data: OutfitData, isLoading: OutfitDataLoading } = useFetchOutfit({
     lat: 37.498095,
     lon: 127.02761,
-    eventType: selectCategoryId,
-    gender: 'MALE',
+    eventType: selectCategoryId || 1,
+    gender: Usergender || 'MALE',
   });
 
   const handleToggleBookmark = () => {};

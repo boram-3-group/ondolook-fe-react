@@ -6,6 +6,7 @@ import { FormLayout } from '../../components/common/FormLayout';
 import { useFetchLogin } from './fetches/useLogin';
 import { LoginFormValues } from './type';
 import { useUserStore } from '../../store/useUserStore';
+import { getUserProfile } from './apis';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -18,17 +19,20 @@ const LoginPage = () => {
     login(
       { username, password },
       {
-        onSuccess: data => {
+        onSuccess: async data => {
           const accessToken = data.access;
           setAccessToken(accessToken);
           setLoginType('email');
           setSocialType(null);
-          setUser({
-            username,
-            password,
-            ...data,
-          });
-          navigate('/home');
+          try {
+            const userInfo = await getUserProfile();
+            setUser({
+              ...userInfo,
+            });
+            navigate('/home');
+          } catch (err) {
+            console.error('사용자 정보 요청 실패', err);
+          }
         },
         onError: error => {
           console.error('로그인실패', error);
