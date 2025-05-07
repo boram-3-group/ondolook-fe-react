@@ -21,14 +21,21 @@ export interface OutfitPayload {
   gender: string;
 }
 
-export interface fileResponse {
-  fileId: string;
+export interface fileMetaData {
+  fileId: number;
   originalFilename: string;
   contentType: string;
-  fileMetadata: string;
   size: number;
   presignedUrl: string;
-  uploadedAt: Date;
+  uploadedAt: string;
+}
+
+export interface fileResponse {
+  id: string;
+  title: string;
+  description: string;
+  metadata: fileMetaData;
+  bookmarked: boolean;
 }
 
 export interface OutfitResponse {

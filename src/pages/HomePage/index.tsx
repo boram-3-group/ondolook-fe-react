@@ -43,6 +43,7 @@ export function HomePage() {
 
   useGeolocation();
   const { lat, lon } = useLocationStore();
+
   const { isAuth } = useAuth();
   const setWeather = useWeatherStore(state => state.setWeather);
 
@@ -55,15 +56,15 @@ export function HomePage() {
   const selectCategoryId = selectCategoryData?.id;
 
   const { data: RegionData, isLoading: RegionDataLoading } = useFetchRegion(
-    { lat: 37.498095, lon: 127.02761 },
+    { lat, lon },
     {
       enabled: shouldFetch,
     }
   );
 
   const { data: WeatherData, isLoading: WeatherDataLoading } = useFetchWeather({
-    lat: 37.498095,
-    lon: 127.02761,
+    lat,
+    lon,
   });
 
   // 현재 시간
@@ -90,11 +91,13 @@ export function HomePage() {
   }, [currentForecast, setWeather]);
 
   const { data: OutfitData, isLoading: OutfitDataLoading } = useFetchOutfit({
-    lat: 37.498095,
-    lon: 127.02761,
+    lat,
+    lon,
     eventType: selectCategoryId || 1,
-    gender: Usergender || 'MALE',
+    gender: Usergender || 'FEMALE',
   });
+
+  const fileMetadata = OutfitData?.fileMetadata;
 
   const { deleteBookmarkById } = useDeleteBookmark();
   const { mutate: addBookmarkById } = useAddBookmark();
@@ -112,13 +115,6 @@ export function HomePage() {
       deleteBookmarkById(outfitImageId);
     }
   };
-
-  // 임시데이터
-  const fileMetadata = [
-    { id: '1', imageUrl: '/sample1.jpg', isBookmark: false },
-    { id: '2', imageUrl: '/sample2.jpg', isBookmark: true },
-    { id: '3', imageUrl: '/sample3.jpg', isBookmark: false },
-  ];
 
   return (
     <div className="flex flex-col h-full ">
@@ -172,41 +168,44 @@ export function HomePage() {
           ))}
         </div>
       </div>
-      <MainCarousel
-        slides={fileMetadata.map(item => (
-          <div
-            key={item.id}
-            className="relative w-full h-full flex flex-col justify-center items-center bg-grayScale-30 rounded-lg"
-          >
-            <img
-              src={item.imageUrl}
-              alt={item.imageUrl}
-              className="w-full px-5 h-full object-contain bg-grayScale-10"
-              draggable={false}
-            />
-            <Icon
-              name={!item.isBookmark ? 'white-bookmark' : 'blue-bookmark'}
-              width={48}
-              height={48}
-              alt="북마크"
-              className="absolute top-4 right-4 z-10 cursor-pointer"
-              onClick={() => {
-                if (!isAuth()) {
-                  openModal({
-                    title: '맘에 드는 코디, 나중에 또 보려면?',
-                    message: '로그인하면 코디를 저장할 수 있어요!',
-                  });
-                } else {
-                  handleToggleBookmark({
-                    outfitImageId: item.id,
-                    isIdBookmark: item.isBookmark,
-                  });
-                }
-              }}
-            />
-          </div>
-        ))}
-      />
+      {fileMetadata && (
+        <MainCarousel
+          slides={fileMetadata.map(item => (
+            <div
+              key={item.id}
+              className="relative w-full h-full flex flex-col justify-center items-center bg-grayScale-30 rounded-lg"
+            >
+              <img
+                loading="lazy"
+                src={item.metadata.presignedUrl}
+                alt={item.metadata.presignedUrl}
+                className="w-full px-5 h-full object-contain bg-grayScale-10"
+                draggable={false}
+              />
+              <Icon
+                name={!item.bookmarked ? 'white-bookmark' : 'blue-bookmark'}
+                width={48}
+                height={48}
+                alt="북마크"
+                className="absolute top-4 right-4 z-10 cursor-pointer"
+                onClick={() => {
+                  if (!isAuth()) {
+                    openModal({
+                      title: '맘에 드는 코디, 나중에 또 보려면?',
+                      message: '로그인하면 코디를 저장할 수 있어요!',
+                    });
+                  } else {
+                    handleToggleBookmark({
+                      outfitImageId: item.id,
+                      isIdBookmark: item.bookmarked,
+                    });
+                  }
+                }}
+              />
+            </div>
+          ))}
+        />
+      )}
       {isOpen && (
         <Modal
           isOpen={isOpen}
