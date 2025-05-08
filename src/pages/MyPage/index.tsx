@@ -102,7 +102,7 @@ export const MyPage = () => {
           <span className="text-xs font-medium leading-[150%] text-[#8E8E8E]">고객지원</span>
           <button className="flex w-full items-center justify-between mt-3">
             <div className="flex items-center">
-              <Icon name="annotation-dots" width={16} height={16} />
+              <Icon name="annotation-dots" width={16} height={16} className="mr-2" />
               <div className="text-[18px] font-medium leading-[150%] text-[#2D2D2D]">
                 의견 남기기
               </div>
