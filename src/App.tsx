@@ -13,15 +13,12 @@ import { isSafari } from './core/constants';
 import { updateSafeAreaInsets } from './utils/browser';
 import { useUserStore } from './store/useUserStore';
 import { toast, Toaster } from 'react-hot-toast';
-import { useLocation } from 'react-router-dom';
-import { pageview } from './utils/analytics';
 
 function App() {
   const queryClient = new QueryClient();
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [showGeolocationModal, setShowGeolocationModal] = useState(false);
   const { checkLogin } = useUserStore();
-  const location = useLocation();
 
   const {
     isPWA,
@@ -146,10 +143,6 @@ function App() {
       window.removeEventListener('orientationchange', updateSafeAreaInsets);
     };
   }, []);
-
-  useEffect(() => {
-    pageview(location.pathname);
-  }, [location]);
 
   return (
     <QueryClientProvider client={queryClient}>
