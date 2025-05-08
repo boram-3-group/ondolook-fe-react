@@ -1,15 +1,22 @@
 import { api } from '../../core/axios';
 import { AxiosError } from 'axios';
 
-interface BookmarkItem {
+export interface BookmarkItem {
   id: number;
-  imageUrl: string;
+  outfitImage: {
+    id: number;
+    title: string;
+    description: string;
+    metadata: {
+      presignedUrl: string;
+    };
+  };
 }
 
 export const getBookmarks = async (): Promise<BookmarkItem[]> => {
   try {
     const { data } = await api.service.get('/api/v1/bookmark');
-    return data || [];
+    return data.content || [];
   } catch (error) {
     if (error instanceof AxiosError) {
       throw new Error('북마크 조회에 실패했습니다.');

@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { useFetchBookmark } from '../fetches/useFetchBookmark';
-
-interface BookmarkItem {
-  id: number;
-  imageUrl: string;
-}
+import type { BookmarkItem } from '../apis';
 
 const Bookmark = () => {
   const [isEditMode, setIsEditMode] = useState(false);
@@ -19,25 +15,6 @@ const Bookmark = () => {
   if (error) {
     return <div>에러가 발생했습니다.</div>;
   }
-
-  // 임시 데이터
-  // const [bookmarks] = useState<BookmarkItem[]>([
-  //   { id: 1, imageUrl: '/sample1.jpg' },
-  //   { id: 2, imageUrl: '/sample2.jpg' },
-  //   { id: 3, imageUrl: '/sample3.jpg' },
-  //   { id: 4, imageUrl: '/sample4.jpg' },
-  //   { id: 5, imageUrl: '/sample5.jpg' },
-  //   { id: 6, imageUrl: '/sample6.jpg' },
-  //   { id: 6, imageUrl: '/sample6.jpg' },
-  //   { id: 6, imageUrl: '/sample6.jpg' },
-  //   { id: 6, imageUrl: '/sample6.jpg' },
-  //   { id: 6, imageUrl: '/sample6.jpg' },
-  //   { id: 6, imageUrl: '/sample6.jpg' },
-  //   { id: 6, imageUrl: '/sample6.jpg' },
-  //   { id: 6, imageUrl: '/sample6.jpg' },
-  //   { id: 6, imageUrl: '/sample6.jpg' },
-  //   { id: 6, imageUrl: '/sample6.jpg' },
-  // ]);
 
   const toggleEditMode = () => {
     setIsEditMode(!isEditMode);
@@ -76,19 +53,26 @@ const Bookmark = () => {
             bookmarks.map((item: BookmarkItem) => (
               <div
                 key={item.id}
-                className={`relative rounded-xl overflow-hidden bg-[#F5F5F7] h-[156px] flex items-center justify-center transition-colors duration-150 ${selectedItems.includes(item.id) && isEditMode ? 'bg-[rgba(0,0,0,0.12)]' : ''}`}
+                className={`relative rounded-xl overflow-hidden
+                          bg-[#F5F5F7] h-[220px] flex items-center justify-center
+                          transition-colors duration-150`}
               >
-                <div className="w-[80px] h-[120px] bg-[#E0E0E0] rounded-lg flex items-center justify-center text-[#B0B0B0] text-xs">
-                  이미지
-                </div>
+                <img
+                  src={item.outfitImage.metadata.presignedUrl}
+                  alt={item.outfitImage.title}
+                  className="w-full h-full object-contain rounded-lg"
+                />
+                {selectedItems.includes(item.id) && isEditMode && (
+                  <div className="absolute inset-0 bg-[rgba(0,0,0,0.12)] rounded-lg transition-opacity duration-200 ease-in-out" />
+                )}
                 {isEditMode && (
                   <button
                     onClick={() => toggleSelect(item.id)}
-                    className={`absolute top-2.5 right-2.5 w-6 h-6 rounded-full border-2 border-[#E0E0E0] bg-white flex items-center justify-center shadow-sm ${selectedItems.includes(item.id) ? 'border-blue-500' : ''}`}
+                    className={`absolute top-2.5 right-2.5 w-6 h-6 rounded-full border-2 border-[#E0E0E0] bg-white flex items-center justify-center shadow-sm transition-all duration-200 ease-in-out ${selectedItems.includes(item.id) ? 'border-blue-500' : ''}`}
                   >
                     {selectedItems.includes(item.id) && (
                       <svg
-                        className="w-4 h-4 text-blue-500"
+                        className="w-4 h-4 text-blue-500 transition-opacity duration-200 ease-in-out"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
