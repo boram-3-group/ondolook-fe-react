@@ -33,13 +33,13 @@ export const MyPage = () => {
             onClick={() => navigate('/my/bookmark')}
           >
             <div className="flex items-center">
-              <Icon name="bookmark" width={16} height={16} className="mr-2" />
+              <Icon name="bookmark" width={18} height={18} className="mr-2" />
               <div className="text-[18px] font-medium leading-[150%] text-[#2D2D2D]">
                 나의 북마크
               </div>
             </div>
             <span>
-              <Icon name="chevron-right" width={16} height={16} />
+              <Icon name="chevron-right" width={18} height={18} />
             </span>
           </button>
           <button
@@ -47,11 +47,11 @@ export const MyPage = () => {
             onClick={() => navigate('/my/notice')}
           >
             <div className="flex items-center">
-              <Icon name="announcement" width={16} height={16} className="mr-2" />
+              <Icon name="announcement" width={18} height={18} className="mr-2" />
               <div className="text-[18px] font-medium leading-[150%] text-[#2D2D2D]">공지사항</div>
             </div>
             <span>
-              <Icon name="chevron-right" width={16} height={16} />
+              <Icon name="chevron-right" width={18} height={18} />
             </span>
           </button>
         </div>
@@ -63,13 +63,13 @@ export const MyPage = () => {
             onClick={() => navigate('/my/user-info')}
           >
             <div className="flex items-center">
-              <Icon name="edit" width={16} height={16} />
+              <Icon name="edit" width={18} height={18} />
               <div className="text-[18px] font-medium leading-[150%] text-[#2D2D2D]">
                 회원 정보 설정
               </div>
             </div>
             <span>
-              <Icon name="chevron-right" width={16} height={16} />
+              <Icon name="chevron-right" width={18} height={18} />
             </span>
           </button>
           <button
@@ -77,11 +77,11 @@ export const MyPage = () => {
             onClick={() => navigate('/my/account-settings')}
           >
             <div className="flex items-center ">
-              <Icon name="settings" width={16} height={16} className="mr-2" />
+              <Icon name="settings" width={18} height={18} className="mr-2" />
               <div className="text-[18px] font-medium leading-[150%] text-[#2D2D2D]">계정 설정</div>
             </div>
             <span>
-              <Icon name="chevron-right" width={16} height={16} />
+              <Icon name="chevron-right" width={18} height={18} />
             </span>
           </button>
           <button
@@ -89,11 +89,11 @@ export const MyPage = () => {
             onClick={() => navigate('/my/alarm')}
           >
             <div className="flex items-center">
-              <Icon name="bell" width={16} height={16} className="mr-2" />
+              <Icon name="bell" width={18} height={18} className="mr-2" />
               <div className="text-[18px] font-medium leading-[150%] text-[#2D2D2D]">알림 설정</div>
             </div>
             <span>
-              <Icon name="chevron-right" width={16} height={16} />
+              <Icon name="chevron-right" width={18} height={18} />
             </span>
           </button>
         </div>
@@ -102,13 +102,13 @@ export const MyPage = () => {
           <span className="text-xs font-medium leading-[150%] text-[#8E8E8E]">고객지원</span>
           <button className="flex w-full items-center justify-between mt-3">
             <div className="flex items-center">
-              <Icon name="annotation-dots" width={16} height={16} className="mr-2" />
+              <Icon name="annotation-dots" width={18} height={18} className="mr-2" />
               <div className="text-[18px] font-medium leading-[150%] text-[#2D2D2D]">
                 의견 남기기
               </div>
             </div>
             <span>
-              <Icon name="chevron-right" width={16} height={16} />
+              <Icon name="chevron-right" width={18} height={18} />
             </span>
           </button>
           <button
@@ -116,13 +116,13 @@ export const MyPage = () => {
             onClick={() => navigate('/my/policy')}
           >
             <div className="flex items-center">
-              <Icon name="alert-circle" width={16} height={16} className="mr-2" />
+              <Icon name="alert-circle" width={18} height={18} className="mr-2" />
               <div className="text-[18px] font-medium leading-[150%] text-[#2D2D2D]">
                 약관 및 정책
               </div>
             </div>
             <span>
-              <Icon name="chevron-right" width={16} height={16} />
+              <Icon name="chevron-right" width={18} height={18} />
             </span>
           </button>
         </div>
