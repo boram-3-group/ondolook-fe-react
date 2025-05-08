@@ -1,18 +1,13 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { getBookmarks, deleteBookmark, addBookmark } from '../apis';
-import { string } from 'zod';
-
-interface BookmarkItem {
-  id: number;
-  imageUrl: string;
-}
+import { getBookmarks, deleteBookmark, addBookmark, BookmarkItem } from '../apis';
 
 export const useFetchBookmark = () => {
   const { data, isLoading, error } = useQuery<BookmarkItem[]>({
     queryKey: ['bookmarks'],
     queryFn: getBookmarks,
   });
-  return { data: data || [], isLoading, error };
+
+  return { data, isLoading, error };
 };
 
 export const useDeleteBookmark = () => {
@@ -30,7 +25,7 @@ export const useDeleteBookmark = () => {
     }
   };
 
-  return { deleteBookmarkById, deleteBookmarks, isLoading: isPending, error };
+  return { deleteBookmarkById, deleteBookmarks, isPending, error };
 };
 
 export const useAddBookmark = () => {
