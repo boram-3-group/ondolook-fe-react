@@ -14,37 +14,41 @@ export const MyPage = () => {
             {user?.nickname || ''}
           </span>
 
-          <span className="text-gray-600 flex items-center gap-1">
+          <span className="text-gray-600 flex items-center gap-1 font-[14px]">
             {socialType && socialType === 'kakao' ? (
-              <Icon name="icon-kakao-logo" width={16} height={16} className="mt-1" />
+              <Icon name="icon-kakao-logo" width={16} height={16} />
+            ) : socialType && socialType === 'google' ? (
+              <Icon name="icon-google-logo" width={16} height={16} />
             ) : (
-              <Icon name="icon-google-logo" width={16} height={16} className="mt-1" />
+              ''
             )}
             {user?.username || ''}
           </span>
         </div>
 
-        <div className="flex flex-col items-start gap-2 self-stretch rounded-xl bg-gray-50 p-4 mb-4">
-          <div className="text-xs font-medium leading-[150%] text-[#8E8E8E] ">활동 및 소식</div>
+        <div className="flex flex-col items-start self-stretch rounded-xl bg-gray-50 p-4 mb-4">
+          <div className="text-xs font-medium leading-[150%] text-[#8E8E8E]">활동 및 소식</div>
           <button
-            className="flex w-full items-center justify-between "
+            className="flex w-full items-center justify-between mt-2"
             onClick={() => navigate('/my/bookmark')}
           >
             <div className="flex items-center">
               <Icon name="bookmark" width={16} height={16} className="mr-2" />
-              <div className="text-base font-medium leading-[150%] text-[#2D2D2D]">나의 북마크</div>
+              <div className="text-[18px] font-medium leading-[150%] text-[#2D2D2D]">
+                나의 북마크
+              </div>
             </div>
             <span>
               <Icon name="chevron-right" width={16} height={16} />
             </span>
           </button>
           <button
-            className="flex w-full items-center justify-between"
+            className="flex w-full items-center justify-between mt-3"
             onClick={() => navigate('/my/notice')}
           >
             <div className="flex items-center">
               <Icon name="announcement" width={16} height={16} className="mr-2" />
-              <div className="text-base font-medium leading-[150%] text-[#2D2D2D] ">공지사항</div>
+              <div className="text-[18px] font-medium leading-[150%] text-[#2D2D2D]">공지사항</div>
             </div>
             <span>
               <Icon name="chevron-right" width={16} height={16} />
@@ -52,15 +56,15 @@ export const MyPage = () => {
           </button>
         </div>
 
-        <div className="flex flex-col items-start gap-2 self-stretch rounded-xl bg-gray-50 p-4 mb-4">
-          <span className="text-xs font-medium leading-[150%] text-[#8E8E8E] ">설정</span>
+        <div className="flex flex-col items-start self-stretch rounded-xl bg-gray-50 p-4 mb-4">
+          <span className="text-xs font-medium leading-[150%] text-[#8E8E8E] mb-2">설정</span>
           <button
             className="flex w-full items-center justify-between"
             onClick={() => navigate('/my/user-info')}
           >
             <div className="flex items-center">
-              <Icon name="edit" width={16} height={16} className="mr-2" />
-              <div className="text-base font-medium leading-[150%] text-[#2D2D2D] ">
+              <Icon name="edit" width={16} height={16} />
+              <div className="text-[18px] font-medium leading-[150%] text-[#2D2D2D]">
                 회원 정보 설정
               </div>
             </div>
@@ -69,24 +73,24 @@ export const MyPage = () => {
             </span>
           </button>
           <button
-            className="flex w-full items-center justify-between"
+            className="flex w-full items-center justify-between mt-2"
             onClick={() => navigate('/my/account-settings')}
           >
             <div className="flex items-center ">
               <Icon name="settings" width={16} height={16} className="mr-2" />
-              <div className="text-base font-medium leading-[150%] text-[#2D2D2D] ">계정 설정</div>
+              <div className="text-[18px] font-medium leading-[150%] text-[#2D2D2D]">계정 설정</div>
             </div>
             <span>
               <Icon name="chevron-right" width={16} height={16} />
             </span>
           </button>
           <button
-            className="flex w-full items-center justify-between"
+            className="flex w-full items-center justify-between mt-3"
             onClick={() => navigate('/my/alarm')}
           >
             <div className="flex items-center">
               <Icon name="bell" width={16} height={16} className="mr-2" />
-              <div className="text-base font-medium leading-[150%] text-[#2D2D2D] ">알림 설정</div>
+              <div className="text-[18px] font-medium leading-[150%] text-[#2D2D2D]">알림 설정</div>
             </div>
             <span>
               <Icon name="chevron-right" width={16} height={16} />
@@ -94,12 +98,12 @@ export const MyPage = () => {
           </button>
         </div>
 
-        <div className="flex flex-col items-start gap-2 self-stretch rounded-xl bg-gray-50 p-4">
-          <span className="text-xs font-medium leading-[150%] text-[#8E8E8E] ">고객지원</span>
-          <button className="flex w-full items-center justify-between ">
+        <div className="flex flex-col items-start self-stretch rounded-xl bg-gray-50 p-4">
+          <span className="text-xs font-medium leading-[150%] text-[#8E8E8E]">고객지원</span>
+          <button className="flex w-full items-center justify-between mt-3">
             <div className="flex items-center">
-              <Icon name="annotation-dots" width={16} height={16} className="mr-2" />
-              <div className="text-base font-medium leading-[150%] text-[#2D2D2D] ">
+              <Icon name="annotation-dots" width={16} height={16} />
+              <div className="text-[18px] font-medium leading-[150%] text-[#2D2D2D]">
                 의견 남기기
               </div>
             </div>
@@ -108,12 +112,12 @@ export const MyPage = () => {
             </span>
           </button>
           <button
-            className="flex w-full items-center justify-between"
+            className="flex w-full items-center justify-between mt-3"
             onClick={() => navigate('/my/policy')}
           >
             <div className="flex items-center">
               <Icon name="alert-circle" width={16} height={16} className="mr-2" />
-              <div className="text-base font-medium leading-[150%] text-[#2D2D2D] ">
+              <div className="text-[18px] font-medium leading-[150%] text-[#2D2D2D]">
                 약관 및 정책
               </div>
             </div>
