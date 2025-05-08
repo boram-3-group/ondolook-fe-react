@@ -10,7 +10,7 @@ const CategoryChip = ({ onClick, categoryName, isActive }: CategoryChipProps) =>
   return (
     <>
       <button
-        className={`flex-1 px-[14px] py-[6px] items-center rounded-[30px] text-[16px] font-[500] ${isActive ? 'bg-primary-70 text-white' : 'bg-grayScale-0 text-grayScale-50'}`}
+        className={`flex-1 px-[13px] py-[6px] items-center rounded-[30px] text-[16px] font-[500] ${isActive ? 'bg-primary-70 text-white' : 'bg-grayScale-0 text-grayScale-50'}`}
         onClick={onClick}
       >
         {categoryName}
