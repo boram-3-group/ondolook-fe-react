@@ -1,15 +1,6 @@
-type ModalProps = {
-  isOpen: boolean;
-  closeModal: () => void;
-  onMove: () => void;
-  title: string;
-  message: string;
-  firstText?: string;
-  secondText?: string;
-};
+import { ModalProps, useModalStore } from '../../store/useModalStore';
 
 export const Modal = ({
-  isOpen,
   closeModal,
   onMove,
   title,
@@ -17,7 +8,8 @@ export const Modal = ({
   firstText = '로그인 하기',
   secondText = '그냥 둘러보기',
 }: ModalProps) => {
-  if (!isOpen) return null;
+  const currentModal = useModalStore(state => state.currentModal);
+  if (!currentModal) return null;
   return (
     <>
       <div

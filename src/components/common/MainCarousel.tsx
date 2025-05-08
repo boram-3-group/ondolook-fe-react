@@ -2,8 +2,8 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Icon } from './Icon';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { useModal } from '../../hooks/useModal';
 import { Modal } from './Modal';
+import { useModalStore } from '../../store/useModalStore';
 
 type MainCarouselProps = {
   slides: React.ReactNode[];
@@ -17,7 +17,10 @@ const MainCarousel = ({ slides }: MainCarouselProps) => {
   const [dragOffset, setDragOffset] = useState(0);
   const navigate = useNavigate();
   const { isAuth } = useAuth();
-  const { isOpen, openModal, closeModal, content } = useModal();
+
+  const pushModal = useModalStore(state => state.pushModal);
+  const popModal = useModalStore(state => state.popModal);
+  const currentModal = useModalStore(state => state.currentModal);
 
   const updateWidth = () => {
     if (containerRef.current) {
@@ -113,9 +116,13 @@ const MainCarousel = ({ slides }: MainCarouselProps) => {
         <Icon
           onClick={() => {
             if (!isAuth()) {
-              openModal({
-                title: '나만의 코디, 나중에 또 보려면?',
-                message: '로그인하면 저장한 코디를 한눈에 볼 수 있어요',
+              pushModal({
+                type: 'mypage',
+                onMove: () => {
+                  popModal();
+                  navigate('/login');
+                },
+                closeModal: popModal,
               });
             } else {
               navigate('/my');
@@ -128,16 +135,15 @@ const MainCarousel = ({ slides }: MainCarouselProps) => {
           alt="마이페이지"
         />
       </div>
-      {isOpen && (
+      {currentModal && (
         <Modal
-          isOpen={isOpen}
-          closeModal={closeModal}
-          onMove={() => {
-            closeModal();
-            navigate('/login');
-          }}
-          title={content.title}
-          message={content.message}
+          closeModal={currentModal.closeModal}
+          onMove={currentModal.onMove}
+          title={currentModal.title}
+          message={currentModal.message}
+          firstText={currentModal.firstText}
+          secondText={currentModal.secondText}
+          type={currentModal.type}
         />
       )}
     </div>
