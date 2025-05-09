@@ -64,7 +64,7 @@ export const MyPage = () => {
           >
             <div className="flex items-center">
               <Icon name="edit" width={18} height={18} />
-              <div className="text-[18px] font-medium leading-[150%] text-[#2D2D2D]">
+              <div className="text-[18px] font-medium leading-[150%] text-[#2D2D2D] ml-2">
                 회원 정보 설정
               </div>
             </div>

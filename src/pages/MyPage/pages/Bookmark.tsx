@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
-import { useFetchBookmark } from '../fetches/useFetchBookmark';
+import { useFetchBookmark, useDeleteBookmark } from '../fetches/useFetchBookmark';
 import type { BookmarkItem } from '../apis';
+import { Icon } from '../../../components/common/Icon';
 
 const Bookmark = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
 
-  const { data: bookmarks = [], isLoading, error } = useFetchBookmark();
+  const { data: bookmarks = [], isLoading } = useFetchBookmark();
+  const { deleteBookmarks } = useDeleteBookmark();
 
   if (isLoading) {
     return <div>로딩 중...</div>;
-  }
-
-  if (error) {
-    return <div>에러가 발생했습니다.</div>;
   }
 
   const toggleEditMode = () => {
@@ -29,14 +27,16 @@ const Bookmark = () => {
     }
   };
 
-  const handleDelete = () => {
-    // 선택된 아이템 삭제 로직 구현
-    console.log('Delete items:', selectedItems);
+  const handleDelete = async () => {
+    if (selectedItems.length === 0) return;
+    await deleteBookmarks(selectedItems.map(String));
+    setSelectedItems([]);
+    setIsEditMode(false);
   };
 
   return (
-    <div className="p-5 pb-24 w-full h-screen flex flex-col">
-      <div className="flex justify-between items-center mb-3">
+    <div className="p-4 pb-20 w-full h-screen flex flex-col">
+      <div className="flex justify-between items-center mb-5">
         <h1 className="text-[14px] font-medium leading-[150%] text-[#8E8E8E]">나의 북마크</h1>
         <button className="text-blue-500 text-base" onClick={toggleEditMode}>
           {isEditMode ? '완료' : '편집'}
@@ -47,14 +47,26 @@ const Bookmark = () => {
           {isEditMode ? `선택 ${selectedItems.length}개` : `북마크 ${bookmarks.length || 0}개`}
         </span>
       </div>
-      <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:none]">
+      <div
+        className={`flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:none] ${Array.isArray(bookmarks) && bookmarks.length === 0 ? 'flex items-center justify-center h-full' : ''}`}
+      >
         <div className="grid grid-cols-2 gap-[13px] items-center mb-3">
-          {Array.isArray(bookmarks) &&
+          {Array.isArray(bookmarks) && bookmarks.length === 0 ? (
+            <div className="col-span-2 flex flex-col items-center justify-center w-full h-auto">
+              <Icon name="bookmark" width={64} height={64} className="opacity-20" />
+              <div className="mt-6 text-center text-[#8E8E8E] text-[18px] font-semibold leading-[150%] font-['Pretendard']">
+                맘에 드는 코디를
+                <br />
+                북마크에 담아보세요!
+              </div>
+            </div>
+          ) : (
+            Array.isArray(bookmarks) &&
             bookmarks.map((item: BookmarkItem) => (
               <div
                 key={item.id}
                 className={`relative rounded-xl overflow-hidden
-                          bg-[#F5F5F7] h-[220px] flex items-center justify-center
+                          bg-[#F5F5F7] h-[200px] flex items-center justify-center
                           transition-colors duration-150`}
               >
                 <img
@@ -86,25 +98,29 @@ const Bookmark = () => {
                   </button>
                 )}
               </div>
-            ))}
+            ))
+          )}
         </div>
       </div>
       {isEditMode && (
-        <button
-          onClick={handleDelete}
-          disabled={selectedItems.length === 0}
-          className={`absolute left-1/2 bottom-5 -translate-x-1/2 w-[calc(100%-40px)] h-14 rounded-lg transition-colors duration-150
+        <div className="flex justify-center items-center mt-4">
+          <button
+            onClick={handleDelete}
+            disabled={selectedItems.length === 0}
+            className={`w-full h-14 rounded-lg 
+            transition-colors duration-150
             ${selectedItems.length === 0 ? 'bg-[#E0E0E0]' : 'bg-[#4D97FF]'}
           `}
-        >
-          <span
-            className={`block w-full text-center text-[16px] font-medium
+          >
+            <span
+              className={`block w-full text-center text-[16px] font-medium
               ${selectedItems.length === 0 ? 'text-[#8E8E8E]' : 'text-white'}
             `}
-          >
-            코디 삭제
-          </span>
-        </button>
+            >
+              코디 삭제
+            </span>
+          </button>
+        </div>
       )}
     </div>
   );
