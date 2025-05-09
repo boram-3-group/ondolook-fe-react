@@ -15,8 +15,8 @@ import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { useAddBookmark, useDeleteBookmark } from '../MyPage/fetches/useFetchBookmark';
-import { useModal } from '../../hooks/useModal';
 import { Modal } from '../../components/common/Modal';
+import { useModalStore } from '../../store/useModalStore';
 
 export function HomePage() {
   const [selectCategory, setSelectCategory] = useState('비즈니스');
@@ -39,7 +39,9 @@ export function HomePage() {
     }
   }, []);
 
-  const { isOpen, openModal, closeModal, content } = useModal();
+  const pushModal = useModalStore(state => state.pushModal);
+  const popModal = useModalStore(state => state.popModal);
+  const currentModal = useModalStore(state => state.currentModal);
 
   useGeolocation();
   const { lat, lon } = useLocationStore();
@@ -127,9 +129,13 @@ export function HomePage() {
           alt="알람"
           onClick={() => {
             if (!isAuth()) {
-              openModal({
-                title: '놓치지 않게 미리 알려드려요!',
-                message: '알림 설정은 로그인 후에 가능해요',
+              pushModal({
+                type: 'alarm',
+                onMove: () => {
+                  popModal();
+                  navigate('/login');
+                },
+                closeModal: popModal,
               });
             } else {
               navigate('/my/alarm');
@@ -155,9 +161,13 @@ export function HomePage() {
               categoryName={Category.categoryName}
               onClick={() => {
                 if (!isAuth()) {
-                  openModal({
-                    title: '맞춤 일정 코디, 궁금하신가요?',
-                    message: '내 일정에 맞는 코디를 보려면 로그인이 필요해요',
+                  pushModal({
+                    type: 'category',
+                    onMove: () => {
+                      popModal();
+                      navigate('/login');
+                    },
+                    closeModal: popModal,
                   });
                 } else {
                   onSelectChip(Category.categoryName);
@@ -190,9 +200,13 @@ export function HomePage() {
                 className="absolute top-4 right-4 z-10 cursor-pointer"
                 onClick={() => {
                   if (!isAuth()) {
-                    openModal({
-                      title: '맘에 드는 코디, 나중에 또 보려면?',
-                      message: '로그인하면 코디를 저장할 수 있어요!',
+                    pushModal({
+                      type: 'bookmark',
+                      onMove: () => {
+                        popModal();
+                        navigate('/login');
+                      },
+                      closeModal: popModal,
                     });
                   } else {
                     handleToggleBookmark({
@@ -206,16 +220,15 @@ export function HomePage() {
           ))}
         />
       )}
-      {isOpen && (
+      {currentModal && (
         <Modal
-          isOpen={isOpen}
-          closeModal={closeModal}
-          onMove={() => {
-            closeModal();
-            navigate('/login');
-          }}
-          title={content.title}
-          message={content.message}
+          closeModal={currentModal.closeModal}
+          onMove={currentModal.onMove}
+          title={currentModal.title}
+          message={currentModal.message}
+          firstText={currentModal.firstText}
+          secondText={currentModal.secondText}
+          type={currentModal.type}
         />
       )}
     </div>
