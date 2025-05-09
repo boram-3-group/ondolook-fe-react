@@ -13,6 +13,8 @@ import { isSafari } from './core/constants';
 import { updateSafeAreaInsets } from './utils/browser';
 import { useUserStore } from './store/useUserStore';
 import { toast, Toaster } from 'react-hot-toast';
+import ModalProvider from './core/modalProvider';
+import { modalManager } from './core/modal.tsx';
 
 function App() {
   const queryClient = new QueryClient();
@@ -156,7 +158,9 @@ function App() {
           </div>
         </div>
         <div className="mobile-content">
-          <Routes />
+          <ModalProvider>
+            <Routes />
+          </ModalProvider>
           <AppSplash duration={2000} />
           <Toaster
             position="top-center"
