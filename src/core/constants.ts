@@ -35,4 +35,8 @@ export const ModalContents: Record<string, { title: string; message: string }> =
     title: '삭제하기',
     message: '선택하신 코디를 삭제하시겠어요?',
   },
+  secession: {
+    title: '탈퇴하기',
+    message: '정말로 탈퇴하시겠어요?',
+  },
 };

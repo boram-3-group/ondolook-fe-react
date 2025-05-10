@@ -2,18 +2,20 @@ importScripts('https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js'
 importScripts('https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging-compat.js');
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyD5QJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQ',
-  authDomain: 'ondolook.firebaseapp.com',
-  projectId: 'ondolook',
-  storageBucket: 'ondolook.appspot.com',
-  messagingSenderId: '123456789012',
-  appId: '1:123456789012:web:abcdefghijklmnopqrstuv',
-  measurementId: 'G-ABCDEFGHIJ',
+  apiKey: import.meta.env.VITE_APP_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_APP_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_FIREBASE_APP_ID,
 };
 
 firebase.initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging();
+
+// Safari 체크
+const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
 // 백그라운드 메시지 처리
 messaging.onBackgroundMessage(payload => {
@@ -31,6 +33,10 @@ messaging.onBackgroundMessage(payload => {
         title: '앱 열기',
       },
     ],
+    // Safari에서 알림이 제대로 표시되도록 추가 옵션
+    tag: 'ondolook-notification',
+    renotify: true,
+    requireInteraction: true,
   };
 
   // 알림 표시

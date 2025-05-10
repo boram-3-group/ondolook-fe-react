@@ -136,7 +136,13 @@ export const MyPage = () => {
           onClick={() => navigate('/home')}
           className="cursor-pointer"
         />
-        <Icon name="mypage" width={48} height={48} className="cursor-pointer" alt="마이페이지" />
+        <Icon
+          name="mypage-selected"
+          width={48}
+          height={48}
+          className="cursor-pointer"
+          alt="마이페이지"
+        />
       </div>
     </div>
   );

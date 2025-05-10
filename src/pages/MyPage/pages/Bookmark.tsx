@@ -88,21 +88,19 @@ const Bookmark = () => {
                 {isEditMode && (
                   <button
                     onClick={() => toggleSelect(item.outfitImage.id)}
-                    className={`absolute top-2.5 right-2.5 w-6 h-6 rounded-full border-2
-                       border-[#E0E0E0] bg-white flex items-center justify-center shadow-sm
+                    className={`absolute top-2.5 right-2.5 w-6 h-6 rounded-full border-[#E0E0E0] bg-white flex items-center justify-center p-0 leading-none shadow-sm
                        transition-all duration-200 ease-in-out ${selectedItems.includes(item.outfitImage.id) ? 'border-blue-500' : ''}`}
                   >
                     {selectedItems.includes(item.outfitImage.id) && (
-                      <svg
-                        className="w-4 h-4 text-blue-500 transition-opacity duration-200 ease-in-out"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="3"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <polyline points="20 6 9 17 4 12" />
+                      <svg className="w-6 h-6 block" viewBox="0 0 32 32" fill="none">
+                        <circle cx="16" cy="16" r="16" fill="#4090FF" />
+                        <path
+                          d="M24 10L13 22L7 16"
+                          stroke="white"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
                       </svg>
                     )}
                   </button>

@@ -48,6 +48,8 @@ import rain_snow from '../../assets/icons/rain-snow.png';
 import rain from '../../assets/icons/rain.png';
 import snow from '../../assets/icons/snow.png';
 import ondo_logo_small from '../../assets/icons/ondo-logo-small.png';
+import home_selected from '../../assets/icons/home-selected.svg';
+import mypage_selected from '../../assets/icons/mypage-selected.svg';
 
 type IconName =
   | 'alert-circle'
@@ -66,6 +68,7 @@ type IconName =
   | 'location'
   | 'home'
   | 'mypage'
+  | 'mypage-selected'
   | 'blue-check'
   | 'white-check'
   | 'small-button'
@@ -95,7 +98,8 @@ type IconName =
   | 'rain-snow'
   | 'rain'
   | 'snow'
-  | 'ondo-logo-small';
+  | 'ondo-logo-small'
+  | 'home-selected';
 
 const iconMap: Record<IconName, any> = {
   'alert-circle': alert_circle,
@@ -144,6 +148,8 @@ const iconMap: Record<IconName, any> = {
   rain: rain,
   snow: snow,
   'ondo-logo-small': ondo_logo_small,
+  'home-selected': home_selected,
+  'mypage-selected': mypage_selected,
 };
 
 interface IconProps {

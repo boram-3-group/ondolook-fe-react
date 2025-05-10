@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 const noticeDetails: Record<string, { title: string; date: string; content: string }> = {
   '1': {
     title: '[안내] 서비스 소개',
-    date: '2025. 04. 20. 13:30',
+    date: '2025. 05. 11. 13:30',
     content: `안녕하세요,
 
 '오늘 뭐입지?'가 고민인 당신을 위한 서비스 온도룩입니다.
@@ -25,10 +25,8 @@ const noticeDetails: Record<string, { title: string; date: string; content: stri
   },
   '2': {
     title: '[공지] 커뮤니티 가이드라인 안내',
-    date: '2025. 04. 04. 10:15',
-    content: `[안내] 알림 설정 안내 공지문 (iOS / Android)
-
-코디 추천 알림을 받고 싶으신가요?
+    date: '2025. 05. 11. 10:15',
+    content: `코디 추천 알림을 받고 싶으신가요?
 그렇다면 아래 안내 사항을 따라보세요!
 
 [iOS 사용자 안내]
@@ -70,9 +68,13 @@ const NoticeBoardDetails: React.FC = () => {
       <div className="px-5 pt-2">
         <div className="sticky top-0 bg-white pb-2">
           <div className="text-[#000] text-lg font-semibold mb-5">{notice.title}</div>
-          <div className="text-[#8E8E8E] text-xs font-normal mb-5">{notice.date}</div>
+          <div className="text-[#8E8E8E] text-xs font-normal mb-3">{notice.date}</div>
         </div>
-        <div className="text-[#555] text-base font-medium whitespace-pre-line overflow-y-auto max-h-[calc(100vh-180px)] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div
+          className="text-[#555] text-base font-medium whitespace-pre-line
+         overflow-y-auto max-h-[calc(100vh-180px)] [&::-webkit-scrollbar]:hidden
+          [-ms-overflow-style:none] [scrollbar-width:none] pb-14"
+        >
           {notice.content}
         </div>
       </div>
