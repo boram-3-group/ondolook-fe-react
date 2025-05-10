@@ -67,13 +67,13 @@ export const useUserStore = create<UserStore>()(
       socialType: null,
 
       setUser: user => {
-        console.log('user', user);
         set({ user });
       },
       setAccessToken: token => set({ accessToken: token }),
       setDeviceId: id => set({ deviceId: id }),
       setLoginType: type => set({ loginType: type }),
       setSocialType: type => set({ socialType: type }),
+
       isLoggedIn: () =>
         !!get().user && !!get().accessToken && (!!get().deviceId || get().loginType === 'email'),
       logout: async () => {
@@ -174,6 +174,8 @@ export const useUserStore = create<UserStore>()(
           return false;
         } catch (err) {
           console.error('로그인 체크 실패:', err);
+          get().logout();
+          window.location.href = '/login';
           return false;
         }
       },

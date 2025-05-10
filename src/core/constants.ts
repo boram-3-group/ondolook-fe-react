@@ -27,4 +27,8 @@ export const ModalContents: Record<string, { title: string; message: string }> =
     title: '로그인해야 확인 가능해요.',
     message: '로그인을 해주세요.',
   },
+  'delete-Bookmark': {
+    title: '삭제하기',
+    message: '선택하신 코디를 삭제하시겠어요?',
+  },
 };

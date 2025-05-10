@@ -100,7 +100,6 @@ const modal = useModal();
 
 // modalManager => provider 에서 인스턴스 생성해서 -> 뿌려주기
 
-//예시
 /*
 modalManager.show({
   id: '1',
@@ -122,5 +121,4 @@ modalManager.show({
   secondText: '두번째 버튼',
   onFirstClick: () => {},
   onSecondClick: () => {},
-});
-*/
+});*/

@@ -2,6 +2,7 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { serviceUrl } from './constants';
 import { useUserStore } from '../store/useUserStore';
+import toast from 'react-hot-toast';
 
 class Service {
   private axiosInstance: AxiosInstance;
@@ -29,6 +30,8 @@ class Service {
       error => {
         if (error.response?.status === 401) {
           useUserStore.getState().logout();
+          toast.error('로그인이 필요합니다.');
+          location.href = '/login';
         }
         return Promise.reject(error);
       }
@@ -47,8 +50,8 @@ class Service {
     return this.axiosInstance.put<R>(url, data, options);
   }
 
-  public delete<R = any>(url: string, data?: any, options?: any): Promise<AxiosResponse<R>> {
-    return this.axiosInstance.delete<R>(url, { data, ...options });
+  public delete<R = any>(url: string, data?: any): Promise<AxiosResponse<R>> {
+    return this.axiosInstance.delete<R>(url, data ? { data } : undefined);
   }
 }
 
