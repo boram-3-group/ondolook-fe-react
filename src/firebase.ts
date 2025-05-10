@@ -32,6 +32,7 @@ export const getFCMToken = async (): Promise<string> => {
       serviceWorkerRegistration: await navigator.serviceWorker.getRegistration(),
     });
 
+    console.log('currentTokencurrentToken', currentToken);
     if (currentToken) {
       console.log('FCM Token obtained successfully:', currentToken);
       return currentToken;

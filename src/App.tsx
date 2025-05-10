@@ -39,6 +39,7 @@ function App() {
     try {
       const token = await getFCMToken();
       // notion 토큰
+      console.log('token', token);
       setFcmToken(token);
     } catch (error) {
       console.error('Firebase 토큰 요청 중 오류:', error);
