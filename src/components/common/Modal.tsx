@@ -1,4 +1,5 @@
 import { ModalProps, useModalStore } from '../../store/useModalStore';
+import { useEffect, useState } from 'react';
 
 export const Modal = ({
   closeModal,
@@ -9,13 +10,23 @@ export const Modal = ({
   secondText = '그냥 둘러보기',
 }: ModalProps) => {
   const currentModal = useModalStore(state => state.currentModal);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    if (currentModal) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
+    }
+  }, [currentModal]);
+
   if (!currentModal) return null;
   return (
     <>
       <div
-        className={
-          'fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-200 bg-black bg-opacity-50 opacity-100'
-        }
+        className={`fixed inset-0 z-50 flex items-center justify-center transition-all duration-150 bg-black ${
+          isVisible ? 'bg-opacity-50 opacity-100' : 'bg-opacity-0 opacity-0'
+        }`}
         onClick={closeModal}
       >
         <div

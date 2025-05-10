@@ -80,7 +80,6 @@ export const verifyEmailCode = async ({ email, code }: VerifyEmailValue) => {
 
 export const updateUserInfo = async (user: SignUpResponse) => {
   try {
-    console.log('user', user);
     const res = await api.service.put<User>(`/api/v1/user/${user.id}`, user);
     return res && res.data;
   } catch (error) {

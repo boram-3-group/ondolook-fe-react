@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useFetchBookmark, useDeleteBookmark } from '../fetches/useFetchBookmark';
 import type { BookmarkItem } from '../apis';
 import { Icon } from '../../../components/common/Icon';
+import { Modal } from '../../../components/common/Modal';
+import { useModalStore } from '../../../store/useModalStore';
+import toast from 'react-hot-toast';
 
 const Bookmark = () => {
   const [isEditMode, setIsEditMode] = useState(false);
@@ -9,6 +12,10 @@ const Bookmark = () => {
 
   const { data: bookmarks = [], isLoading } = useFetchBookmark();
   const { deleteBookmarks } = useDeleteBookmark();
+
+  const pushModal = useModalStore(state => state.pushModal);
+  const popModal = useModalStore(state => state.popModal);
+  const currentModal = useModalStore(state => state.currentModal);
 
   if (isLoading) {
     return <div>로딩 중...</div>;
@@ -32,6 +39,7 @@ const Bookmark = () => {
     await deleteBookmarks(selectedItems.map(String));
     setSelectedItems([]);
     setIsEditMode(false);
+    toast.success('코디가 삭제되었습니다.');
   };
 
   return (
@@ -105,7 +113,16 @@ const Bookmark = () => {
       {isEditMode && (
         <div className="flex justify-center items-center mt-4">
           <button
-            onClick={handleDelete}
+            onClick={() => {
+              pushModal({
+                type: 'delete-Bookmark',
+                onMove: () => {
+                  popModal();
+                  handleDelete();
+                },
+                closeModal: popModal,
+              });
+            }}
             disabled={selectedItems.length === 0}
             className={`w-full h-14 rounded-lg 
             transition-colors duration-150
@@ -121,6 +138,17 @@ const Bookmark = () => {
             </span>
           </button>
         </div>
+      )}
+      {currentModal && (
+        <Modal
+          closeModal={currentModal.closeModal}
+          onMove={currentModal.onMove}
+          title={currentModal.title}
+          message={currentModal.message}
+          firstText={'삭제'}
+          secondText={'취소'}
+          type={currentModal.type}
+        />
       )}
     </div>
   );
