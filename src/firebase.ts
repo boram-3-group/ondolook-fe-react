@@ -17,12 +17,23 @@ const messaging = getMessaging(app);
 // 웹 푸시 토큰을 가져오는 함수
 export const getFCMToken = async (): Promise<string> => {
   try {
+    // Safari 체크
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+    if (isSafari) {
+      // Safari에서는 서비스 워커 등록이 필요
+      const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+      console.log('Safari Service Worker registered:', registration);
+    }
+
     const currentToken = await getToken(messaging, {
       vapidKey:
-        'BGPsb4h4k38AFSzw82uLy0x5HaB3L7idUwokMW0A8V-EXwCdmBkJuOsdYU-wAKEUThXAlEKUNKlPLH6jKFSbyOE', // Firebase Console에서 발급받은 VAPID 키
-      // serviceWorkerRegistration: swRegistration,
+        'BGPsb4h4k38AFSzw82uLy0x5HaB3L7idUwokMW0A8V-EXwCdmBkJuOsdYU-wAKEUThXAlEKUNKlPLH6jKFSbyOE',
+      serviceWorkerRegistration: await navigator.serviceWorker.getRegistration(),
     });
+
     if (currentToken) {
+      console.log('FCM Token obtained successfully:', currentToken);
       return currentToken;
     } else {
       console.log('FCM 토큰을 가져올 수 없습니다. 알림 권한을 확인하세요.');

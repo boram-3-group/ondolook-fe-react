@@ -22,6 +22,9 @@ export const useFCM = () => {
   useEffect(() => {
     const requestPermission = async () => {
       try {
+        // Safari 체크
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
         // iOS PWA에서는 FCM 토큰 요청 시도
         if (isIOS && isStandalone) {
           console.log('iOS PWA에서 FCM 토큰 요청 시도');
@@ -37,11 +40,27 @@ export const useFCM = () => {
           return;
         }
 
-        if (isIOS) {
+        if (isIOS && !isStandalone) {
           console.log('iOS 기기에서는 웹 푸시 알림을 지원하지 않습니다.');
           return;
         }
 
+        // Safari에서의 처리
+        if (isSafari) {
+          const permission = await Notification.requestPermission();
+          if (permission === 'granted') {
+            try {
+              const token = await getFCMToken();
+              setToken(token);
+              console.log('Safari FCM 토큰:', token);
+            } catch (error) {
+              console.error('Safari FCM 토큰 요청 실패:', error);
+            }
+          }
+          return;
+        }
+
+        // 일반 브라우저 처리
         const permission = await Notification.requestPermission();
         if (permission === 'granted') {
           const token = await getFCMToken();
@@ -53,7 +72,7 @@ export const useFCM = () => {
     };
 
     requestPermission();
-  }, []);
+  }, [isIOS, isPWA]);
 
   useEffect(() => {
     const setupMessageListener = async () => {
