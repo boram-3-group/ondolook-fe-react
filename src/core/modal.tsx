@@ -97,19 +97,11 @@ const useModal = () => {
 };
 
 const modal = useModal();
-modal.show({
-  id: '1',
-  type: 'default',
-  title: '알림',
-  message: '알림 메시지',
-  firstText: '첫번째 버튼',
-  secondText: '두번째 버튼',
-  onFirstClick: () => {},
-  onSecondClick: () => {},
-});
 
 // modalManager => provider 에서 인스턴스 생성해서 -> 뿌려주기
 
+//예시
+/*
 modalManager.show({
   id: '1',
   type: 'default',
@@ -131,3 +123,4 @@ modalManager.show({
   onFirstClick: () => {},
   onSecondClick: () => {},
 });
+*/

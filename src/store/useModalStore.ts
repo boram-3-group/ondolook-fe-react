@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { ModalContents } from '../core/constants';
-import ModalInstance from '../core/modal.tsx';
 //pushModal() 에서 넘겨받을 데이터
 export type pushModalProps = {
   closeModal: () => void;
@@ -21,7 +20,6 @@ export type ModalProps = {
 };
 
 type ModalStore = {
-  modalQueue: ModalInstance[]; // modal이 저장되는 큐
   queue: ModalProps[]; // modal이 저장되는 큐
   currentModal: ModalProps | null; // 현재 떠야하는 modal
   pushModal: (modal: pushModalProps) => void; // modal 추가
@@ -29,7 +27,6 @@ type ModalStore = {
 };
 
 export const useModalStore = create<ModalStore>((set, get) => ({
-  modalQueue: [],
   queue: [],
   currentModal: null,
   pushModal: modal => {
