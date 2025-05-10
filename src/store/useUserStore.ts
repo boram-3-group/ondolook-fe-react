@@ -124,6 +124,11 @@ export const useUserStore = create<UserStore>()(
         }
       },
 
+      onCheckLoginExpired: async () => {
+        const response = await api.service.post('/api/v1/auth/reissue');
+        return response;
+      },
+
       loginWithForm: async ({ username, password }) => {
         try {
           set({ loading: true, error: null });

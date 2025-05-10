@@ -74,7 +74,8 @@ function App() {
 
     console.log('ℹ️ 권한 미요청 상태');
 
-    if (!isPC) {
+    // PWA에서만 알림 권한 요청
+    if (isPWA) {
       setShowNotificationModal(true);
     }
 
@@ -196,8 +197,7 @@ function App() {
             }}
           />
           {/* </AppSplash> */}
-          {/* <NotificationTest />
-          <PWAInstallPrompt /> */}
+          {/* <NotificationTest /> */}
         </div>
         <NotificationPermissionModal
           isOpen={showNotificationModal}
