@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormLayout } from '../../components/common/FormLayout';
 import { Input } from '../../components/common/Input';
 import { Button } from '../../components/common/Button';
@@ -20,12 +20,19 @@ const ResetPasswordPage = () => {
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [isTimerStart, setIsTimerStart] = useState(false);
   const [verifyError, setVerifyError] = useState('');
+  const [sendEmailError, setSendEmailError] = useState('');
+  const [timerKey, setTimerKey] = useState(0); // Timer 재시작용
+  const [isExpired, setIsExpired] = useState(false);
   const navigate = useNavigate();
 
   const username = watch('username');
   const email = watch('email');
   const code = watch('code');
   const isEmailValid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+  useEffect(() => {
+    setSendEmailError('');
+    setVerifyError('');
+  }, [email, code]);
 
   const onSubmit = () => {
     if (!isCodeSent) {
@@ -35,6 +42,26 @@ const ResetPasswordPage = () => {
           onSuccess: () => {
             setIsCodeSent(true);
             setIsTimerStart(true);
+          },
+          onError: error => {
+            setSendEmailError('등록되지 않은 계정입니다');
+            console.error('로그인실패', error);
+          },
+        }
+      );
+    } else if (isExpired) {
+      // 타이머 만료 후 재전송
+      sendResetEmail(
+        { username, email },
+        {
+          onSuccess: () => {
+            setSendEmailError('');
+            setTimerKey(prev => prev + 1);
+            setIsExpired(false);
+          },
+          onError: error => {
+            setSendEmailError('등록되지 않은 계정입니다.');
+            console.error('재전송 실패', error);
           },
         }
       );
@@ -55,6 +82,12 @@ const ResetPasswordPage = () => {
     }
   };
 
+  const getButtonLabel = () => {
+    if (isCodeSent && isExpired) return '재전송';
+    if (isCodeSent) return '인증 확인';
+    return '인증번호 받기';
+  };
+
   return (
     <>
       <FormLayout title={`아이디와 이메일을 인증해주세요.`}>
@@ -70,6 +103,7 @@ const ResetPasswordPage = () => {
           </div>
           <div className="flex flex-col gap-[16px]">
             <Input type="text" placeholder="이메일을 입력해주세요" {...register('email')}></Input>
+            {sendEmailError && <p className="text-Detail text-danger-50">{sendEmailError}</p>}
             <div className="relative">
               <Input
                 type="text"
@@ -80,7 +114,7 @@ const ResetPasswordPage = () => {
               />
               {isTimerStart && (
                 <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                  <Timer />
+                  <Timer key={timerKey} onExpire={() => setIsExpired(true)} />
                 </div>
               )}
               {verifyError && <p className="text-Detail text-danger-50 mt-2">{verifyError}</p>}
@@ -94,7 +128,7 @@ const ResetPasswordPage = () => {
               type="submit"
               disabled={!isEmailValid}
             >
-              {isCodeSent ? '인증 확인' : '인증번호 받기'}
+              {getButtonLabel()}
             </Button>
           </div>
           <div className="underline mt-[24px] text-LabelLink text-grayScale-50">

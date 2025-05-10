@@ -68,11 +68,7 @@ const AccountForm = ({ onNext }: moveNextProps) => {
           <div className="flex flex-col gap-[10px]">
             <div className="flex flex-col gap-2">
               <label className="text-Body2">아이디</label>
-              <Input
-                type="text"
-                placeholder="영문, 숫자를 포함한 6~12자"
-                {...register('username')}
-              />
+              <Input type="text" placeholder="영문, 숫자 포함 6~12자" {...register('username')} />
               {errors.username ? (
                 <p className="text-Detail text-danger-50">{errors.username.message}</p>
               ) : (

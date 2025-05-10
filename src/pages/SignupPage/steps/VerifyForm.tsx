@@ -24,6 +24,8 @@ const VerifyForm = ({ onNext }: moveNextProps) => {
   const [isTimerStart, setIsTimerStart] = useState(false);
   const [sendEmailError, setSendEmailError] = useState('');
   const [verifyError, setVerifyError] = useState('');
+  const [timerKey, setTimerKey] = useState(0); // Timer 재시작용
+  const [isExpired, setIsExpired] = useState(false);
   const email = watch('email');
   const code = watch('code');
   const setSignupForm = useUserStore(state => state.setSignupForm);
@@ -40,6 +42,18 @@ const VerifyForm = ({ onNext }: moveNextProps) => {
         },
         onError: (error: any) => {
           setSendEmailError(error.message);
+        },
+      });
+    } else if (isExpired) {
+      // 타이머 만료 후 재전송
+      sendEmailCode(email, {
+        onSuccess: () => {
+          setSendEmailError('');
+          setTimerKey(prev => prev + 1);
+          setIsExpired(false);
+        },
+        onError: error => {
+          console.error('재전송 실패', error);
         },
       });
     } else {
@@ -59,6 +73,12 @@ const VerifyForm = ({ onNext }: moveNextProps) => {
     }
   };
 
+  const getButtonLabel = () => {
+    if (isCodeSent && isExpired) return '재전송';
+    if (isCodeSent) return '인증 확인';
+    return '인증번호 받기';
+  };
+
   return (
     <>
       <FormLayout title={`이메일 인증을 완료해주세요.`}>
@@ -76,7 +96,7 @@ const VerifyForm = ({ onNext }: moveNextProps) => {
               />
               {isTimerStart && (
                 <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                  <Timer />
+                  <Timer key={timerKey} onExpire={() => setIsExpired(true)} />
                 </div>
               )}
               {verifyError && <p className="text-Detail text-danger-50 mt-2">{verifyError}</p>}
@@ -90,7 +110,7 @@ const VerifyForm = ({ onNext }: moveNextProps) => {
               type="submit"
               disabled={!isEmailValid}
             >
-              {isCodeSent ? '인증 확인' : '인증번호 받기'}
+              {getButtonLabel()}
             </Button>
           </div>
           <div className="underline mt-[24px] text-LabelLink text-grayScale-50">
