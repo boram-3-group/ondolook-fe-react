@@ -3,12 +3,12 @@ import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 import { useSystem } from './store/useSystem';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCSnuPnQSM1cvqcMONxOKRxGG_hM4oQHrA',
-  authDomain: 'ondolook-1b496.firebaseapp.com',
-  projectId: 'ondolook-1b496',
-  storageBucket: 'ondolook-1b496.firebasestorage.app',
-  messagingSenderId: '182182096530',
-  appId: '1:182182096530:web:8aec9ad4f2ec337243804b',
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
 // Initialize Firebase
@@ -41,28 +41,28 @@ export const getFCMToken = async (): Promise<string> => {
         window.navigator.standalone === true;
 
       // Save token to Notion via Vercel Function
-      // try {
-      //   const response = await fetch('/api/save-fcm-token', {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //     body: JSON.stringify({
-      //       token: currentToken,
-      //       environment: {
-      //         isIOS,
-      //         isSafari,
-      //         isPWA,
-      //       },
-      //     }),
-      //   });
+      try {
+        const response = await fetch('/api/save-fcm-token', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            token: currentToken,
+            environment: {
+              isIOS,
+              isSafari,
+              isPWA,
+            },
+          }),
+        });
 
-      //   if (!response.ok) {
-      //     console.error('Failed to save token to Notion');
-      //   }
-      // } catch (error) {
-      //   console.error('Error saving token to Notion:', error);
-      // }
+        if (!response.ok) {
+          console.error('Failed to save token to Notion');
+        }
+      } catch (error) {
+        console.error('Error saving token to Notion:', error);
+      }
 
       return currentToken;
     } else {
