@@ -36,6 +36,17 @@ const MainCarousel = ({ slides }: MainCarouselProps) => {
 
   const goTo = (index: number) => {
     const clamped = Math.max(0, Math.min(index, slides.length - 1));
+    if (clamped > current && !isAuth()) {
+      pushModal({
+        type: 'carousel',
+        onMove: () => {
+          popModal();
+          navigate('/login');
+        },
+        closeModal: popModal,
+      });
+      return;
+    }
     setCurrent(clamped);
   };
 

@@ -25,7 +25,10 @@ export const verifytToResetEmail = async ({ username, code }: VerifyResetMaillVa
     return res && res.data;
   } catch (error) {
     if (error instanceof AxiosError) {
-      throw new Error('비밀번호 재설정 인증 실패');
+      if (error instanceof AxiosError) {
+        const message = error.response?.data || '비밀번호 재설정 인증 실패';
+        throw new Error(message);
+      }
     }
   }
 };

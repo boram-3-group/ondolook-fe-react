@@ -53,8 +53,8 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
   const { mutate: signUp } = useFetchSignup();
   const { mutate: updateUserInfo } = useFetchUpdateUserInfo();
   const genderList = [
-    { label: '여성', value: 'FEMALE' },
     { label: '남성', value: 'MALE' },
+    { label: '여성', value: 'FEMALE' },
   ];
 
   const onSubmit = (data: ProfileFormFields) => {
@@ -136,7 +136,7 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
               <Controller
                 name="gender"
                 control={control}
-                defaultValue="MALE"
+                defaultValue=""
                 render={({ field }) => (
                   <div>
                     <label className="text-Body2">성별</label>

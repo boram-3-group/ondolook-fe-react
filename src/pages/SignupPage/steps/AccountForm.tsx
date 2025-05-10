@@ -17,8 +17,8 @@ const AccountForm = ({ onNext }: moveNextProps) => {
         .min(6, { message: '아이디는 최소 6자 이상이어야 합니다.' })
         .max(12, { message: '아이디는 최대 12자까지 가능합니다.' })
         .regex(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,12}$/,
-          '영문 대소문자와 숫자를 포함한 6~12자의 아이디를 입력해주세요.'
+          /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{6,12}$/,
+          '영문과 숫자를 포함한 6~12자의 아이디를 입력해주세요.'
         ),
       password: z
         .string()
@@ -70,7 +70,7 @@ const AccountForm = ({ onNext }: moveNextProps) => {
               <label className="text-Body2">아이디</label>
               <Input
                 type="text"
-                placeholder="영문 대소문자와 숫자를 포함한 6~12자"
+                placeholder="영문, 숫자를 포함한 6~12자"
                 {...register('username')}
               />
               {errors.username ? (
@@ -86,7 +86,7 @@ const AccountForm = ({ onNext }: moveNextProps) => {
               <label className="text-Body2">비밀번호</label>
               <Input
                 type="password"
-                placeholder="영문, 숫자 포함 8~16자"
+                placeholder="영문,숫자,특수문자 포함 8~16자"
                 {...register('password')}
               />
               {errors.password ? (

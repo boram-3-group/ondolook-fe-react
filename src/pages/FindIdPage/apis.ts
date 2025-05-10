@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { api } from '../../core/axios';
 import { SendFindIdEmailValue, VerifyFindIdEmailValue } from './type';
 
@@ -23,6 +24,9 @@ export const verifyFindIdEmailCode = async (code: string) => {
     });
     return res && res.data;
   } catch (error) {
-    throw new Error('아이디찾기 이메일 인증 실패');
+    if (error instanceof AxiosError) {
+      const message = error.response?.data || '이메일 인증 실패';
+      throw new Error(message);
+    }
   }
 };
