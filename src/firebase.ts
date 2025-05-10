@@ -41,28 +41,28 @@ export const getFCMToken = async (): Promise<string> => {
         window.navigator.standalone === true;
 
       // Save token to Notion via Vercel Function
-      try {
-        const response = await fetch('/api/save-fcm-token', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            token: currentToken,
-            environment: {
-              isIOS,
-              isSafari,
-              isPWA,
-            },
-          }),
-        });
+      // try {
+      //   const response = await fetch('/api/save-fcm-token', {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     body: JSON.stringify({
+      //       token: currentToken,
+      //       environment: {
+      //         isIOS,
+      //         isSafari,
+      //         isPWA,
+      //       },
+      //     }),
+      //   });
 
-        if (!response.ok) {
-          console.error('Failed to save token to Notion');
-        }
-      } catch (error) {
-        console.error('Error saving token to Notion:', error);
-      }
+      //   if (!response.ok) {
+      //     console.error('Failed to save token to Notion');
+      //   }
+      // } catch (error) {
+      //   console.error('Error saving token to Notion:', error);
+      // }
 
       return currentToken;
     } else {

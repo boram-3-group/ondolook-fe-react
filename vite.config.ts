@@ -81,8 +81,6 @@ export default defineConfig(() => {
       allowedHosts: ['.trycloudflare.com', 'ondolook.click'],
     },
     build: {
-      outDir: 'dist',
-      emptyOutDir: true,
       rollupOptions: {
         input: {
           main: './index.html',
