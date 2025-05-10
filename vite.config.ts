@@ -87,5 +87,10 @@ export default defineConfig(() => {
         },
       },
     },
+    routes: [
+      { src: '/api/(.*)', dest: '/api/$1' },
+      { handle: 'filesystem' },
+      { src: '/(.*)', dest: '/index.html' },
+    ],
   };
 });

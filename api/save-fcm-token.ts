@@ -1,9 +1,8 @@
 import { Client } from '@notionhq/client';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-const NOTION_API_KEY = process.env.NOTION_API_KEY;
-const NOTION_DATABASE_ID = process.env.NOTION_DATABASE_ID;
-
+const NOTION_API_KEY = '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';
+const NOTION_DATABASE_ID = '1e569181697880e8b7cae22f0cb391c4';
 if (!NOTION_API_KEY || !NOTION_DATABASE_ID) {
   throw new Error('Missing required environment variables');
 }
