@@ -30,6 +30,14 @@ const AlramSettings = () => {
   const [selectedSchedule, setSelectedSchedule] = useState<string>('daily');
   const [hasChanges, setHasChanges] = useState<boolean>(false);
 
+  // Add initial state tracking
+  const [initialState, setInitialState] = useState({
+    isAlarmEnabled: false,
+    hours: '23',
+    minutes: '59',
+    selectedSchedule: 'daily',
+  });
+
   useEffect(() => {
     const settings = getAlarmSettings();
     const hasPermission = checkNotificationPermission();
@@ -45,7 +53,28 @@ const AlramSettings = () => {
     setHours(settings.hours);
     setMinutes(settings.minutes);
     setSelectedSchedule(settings.selectedSchedule);
+
+    // Set initial state
+    setInitialState({
+      isAlarmEnabled: settings.isAlarmEnabled,
+      hours: settings.hours,
+      minutes: settings.minutes,
+      selectedSchedule: settings.selectedSchedule,
+    });
   }, []);
+
+  // Add effect to check for changes
+  useEffect(() => {
+    const currentState = {
+      isAlarmEnabled,
+      hours,
+      minutes,
+      selectedSchedule,
+    };
+
+    const hasStateChanged = JSON.stringify(currentState) !== JSON.stringify(initialState);
+    setHasChanges(hasStateChanged);
+  }, [isAlarmEnabled, hours, minutes, selectedSchedule, initialState]);
 
   const handleHoursChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/[^0-9]/g, '');
@@ -93,7 +122,11 @@ const AlramSettings = () => {
     };
     saveAlarmSettings(settings);
     updateSystemStorageNotificationPermission(isAlarmEnabled);
+
+    // Update initial state after saving
+    setInitialState(settings);
     setHasChanges(false);
+
     toast.success('알림 설정이 저장되었습니다.', {
       position: 'top-center',
       duration: 2000,
@@ -203,14 +236,15 @@ const AlramSettings = () => {
       </div>
 
       <div className="px-5 pb-4 absolute bottom-0 left-0 right-0">
-        {hasChanges && (
-          <button
-            onClick={handleSave}
-            className="w-full h-14 bg-[#4D97FF] text-white text-base font-medium rounded-lg"
-          >
-            변경하기
-          </button>
-        )}
+        <button
+          onClick={handleSave}
+          disabled={!hasChanges}
+          className={`w-full h-14 text-white text-base font-medium rounded-lg ${
+            hasChanges ? 'bg-[#4D97FF]' : 'bg-[#E5E5E5]'
+          }`}
+        >
+          변경하기
+        </button>
       </div>
     </div>
   );

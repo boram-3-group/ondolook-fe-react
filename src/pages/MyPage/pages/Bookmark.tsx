@@ -72,7 +72,7 @@ const Bookmark = () => {
             Array.isArray(bookmarks) &&
             bookmarks.map((item: BookmarkItem) => (
               <div
-                key={item.id}
+                key={item.outfitImage.id}
                 className={`relative rounded-xl overflow-hidden
                           bg-[#F5F5F7] h-[200px] flex items-center justify-center
                           transition-colors duration-150`}
@@ -82,15 +82,17 @@ const Bookmark = () => {
                   alt={item.outfitImage.title}
                   className="w-full h-full object-contain rounded-lg"
                 />
-                {selectedItems.includes(item.id) && isEditMode && (
+                {selectedItems.includes(item.outfitImage.id) && isEditMode && (
                   <div className="absolute inset-0 bg-[rgba(0,0,0,0.12)] rounded-lg transition-opacity duration-200 ease-in-out" />
                 )}
                 {isEditMode && (
                   <button
-                    onClick={() => toggleSelect(item.id)}
-                    className={`absolute top-2.5 right-2.5 w-6 h-6 rounded-full border-2 border-[#E0E0E0] bg-white flex items-center justify-center shadow-sm transition-all duration-200 ease-in-out ${selectedItems.includes(item.id) ? 'border-blue-500' : ''}`}
+                    onClick={() => toggleSelect(item.outfitImage.id)}
+                    className={`absolute top-2.5 right-2.5 w-6 h-6 rounded-full border-2
+                       border-[#E0E0E0] bg-white flex items-center justify-center shadow-sm
+                       transition-all duration-200 ease-in-out ${selectedItems.includes(item.outfitImage.id) ? 'border-blue-500' : ''}`}
                   >
-                    {selectedItems.includes(item.id) && (
+                    {selectedItems.includes(item.outfitImage.id) && (
                       <svg
                         className="w-4 h-4 text-blue-500 transition-opacity duration-200 ease-in-out"
                         viewBox="0 0 24 24"

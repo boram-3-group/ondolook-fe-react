@@ -4,45 +4,12 @@ import { useNavigate } from 'react-router-dom';
 const notices = [
   {
     id: 1,
-    title: '[안내] 소셜 로그인 버그 수정 완료',
-    date: '2025. 04. 20. 13:30',
-    isNew: true,
-  },
-  {
-    id: 8,
-    title: '[공지] 커뮤니티 가이드라인 안내',
-    date: '2025. 04. 04. 10:15',
-    isNew: true,
+    title: '[안내] 서비스 소개',
+    isNew: false,
   },
   {
     id: 2,
-    title: '[업데이트] 개인정보 열람 및 수정에 대한 안내',
-    date: '2025. 04. 10. 10:00',
-    isNew: false,
-  },
-  {
-    id: 3,
-    title: '[안내] 앱 성능 개선 업데이트 안내',
-    date: '2025. 04. 09. 15:30',
-    isNew: false,
-  },
-  {
-    id: 4,
-    title: '[공지] 서비스 이용약관 개정 안내',
-    date: '2025. 04. 08. 11:00',
-    isNew: false,
-  },
-  {
-    id: 5,
-    title: '[안내] 위치기반 서비스 개선 안내',
-    date: '2025. 04. 07. 09:30',
-    isNew: false,
-  },
-
-  {
-    id: 9,
-    title: '[안내] 알림 설정 기능 개선',
-    date: '2025. 04. 03. 13:50',
+    title: '[공지] 커뮤니티 가이드라인 안내',
     isNew: false,
   },
 ];

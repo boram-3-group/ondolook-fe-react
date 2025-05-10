@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getBookmarks, deleteBookmark, addBookmark, BookmarkItem } from '../apis';
 
 export const useFetchBookmark = () => {
@@ -11,8 +11,12 @@ export const useFetchBookmark = () => {
 };
 
 export const useDeleteBookmark = () => {
+  const queryClient = useQueryClient();
   const { mutateAsync, isPending, error } = useMutation({
     mutationFn: deleteBookmark,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['bookmarks'] });
+    },
   });
 
   const deleteBookmarkById = async (outfit_image_id: string) => {
