@@ -197,7 +197,7 @@ function App() {
             }}
           />
           {/* </AppSplash> */}
-          {/* <NotificationTest /> */}
+          <NotificationTest />
         </div>
         <NotificationPermissionModal
           isOpen={showNotificationModal}

@@ -54,7 +54,6 @@ const Secession = () => {
                 className="peer appearance-none w-5 h-5 rounded-full border border-gray-300 checked:border-blue-500 checked:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-colors"
                 style={{ minWidth: 20, minHeight: 20 }}
               />
-              {/* 체크 표시 */}
               <span
                 className="pointer-events-none absolute left-0 top-0 w-5 h-5 flex items-center justify-center"
                 style={{ display: selected === idx ? 'flex' : 'none' }}

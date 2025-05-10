@@ -3,7 +3,7 @@ import { useFCM } from '../hooks/useFCM';
 
 export const NotificationTest = () => {
   const { token, notification } = useFCM();
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     if (token) {
@@ -21,7 +21,7 @@ export const NotificationTest = () => {
   }, [notification]);
 
   return (
-    <div className="absolute top-0 right-0">
+    <div className="absolute top-0 right-0 z-[9999]">
       <button
         onClick={() => setIsVisible(!isVisible)}
         className="fixed top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-blue-600 transition-colors"
