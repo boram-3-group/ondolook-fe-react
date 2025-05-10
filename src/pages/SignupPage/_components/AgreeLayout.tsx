@@ -19,7 +19,7 @@ export const AgreeLayout = ({
   children,
 }: AgreeLayoutProps) => {
   return (
-    <div className="mx-5 max-h-[95vh] overflow-y-auto mt-[28px]">
+    <div className="mx-5 overflow-y-auto mt-[28px]" style={{ maxHeight: 'calc(100vh - 80px)' }}>
       <p className="text-Display">{title}</p>
 
       <div className="w-full my-[12px] ">
@@ -28,7 +28,7 @@ export const AgreeLayout = ({
 
       <p className="text-Title2 mt-[12px] text-grayScale-80 mb-1">{subTitle}</p>
 
-      {description && <p className="text-Body1 text-grayScale-70 mb-[28px]">{description}</p>}
+      {description && <p className="text-Body2 text-grayScale-70 mb-[28px]">{description}</p>}
 
       <div className="flex flex-col gap-[28px]">
         {Articles.map((article, idx) => (

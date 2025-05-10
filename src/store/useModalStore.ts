@@ -1,5 +1,12 @@
 import { create } from 'zustand';
 import { ModalContents } from '../core/constants';
+
+/*
+  modalProvider에서 큐에 있는 배열을 map으로 출력
+  -> 큐에 있는 모달들이 순서대로 
+  -> 그러면 usemodalstore에서 zindex를 추가할 필요가 없겠다..
+*/
+
 //pushModal() 에서 넘겨받을 데이터
 export type pushModalProps = {
   closeModal: () => void;

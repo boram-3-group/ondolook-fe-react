@@ -52,11 +52,20 @@ export const AgreeForm = ({ onNext }: moveNextProps) => {
     onNext();
   };
 
+  const targetElement = document.querySelector('.mobile-content');
+
+  if (!targetElement) return null;
+
   return ReactDOM.createPortal(
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/30">
-      <div className="w-full  max-w-[428px] mx-5 bg-white rounded-t-2xl p-5">
+    <div className="fixed inset-0 z-[1200] flex items-end justify-center bg-black/30">
+      <div className="w-full max-w-[428px] mx-5 bg-white rounded-t-2xl p-5">
         <div>
-          <CheckBox label="모두 동의합니다." checked={isAllChecked} onChange={onAllCheck} />
+          <CheckBox
+            isTitle={true}
+            label="모두 동의합니다."
+            checked={isAllChecked}
+            onChange={onAllCheck}
+          />
         </div>
 
         <div className="w-full mt-5">
@@ -90,6 +99,7 @@ export const AgreeForm = ({ onNext }: moveNextProps) => {
         </div>
       </div>
     </div>,
-    document.body
+    targetElement
+    // document.body
   );
 };

@@ -7,11 +7,13 @@ import { useFetchLogin } from './fetches/useLogin';
 import { LoginFormValues } from './type';
 import { useUserStore } from '../../store/useUserStore';
 import { getUserProfile } from './apis';
+import { useState } from 'react';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm<LoginFormValues>();
   const { setUser, setAccessToken, setLoginType, setSocialType } = useUserStore();
+  const [loginError, setLoginError] = useState('');
 
   const { mutate: login } = useFetchLogin();
 
@@ -35,6 +37,7 @@ const LoginPage = () => {
           }
         },
         onError: error => {
+          setLoginError('등록되지 않은 계정입니다.');
           console.error('로그인실패', error);
         },
       }
@@ -56,6 +59,7 @@ const LoginPage = () => {
               className="mt-4"
               {...register('password')}
             />
+            {loginError && <p className="text-Detail text-danger-50 mt-2">{loginError}</p>}
             <Button intent="primary" size="large" type="submit" className="mt-[42px] w-full">
               로그인 하기
             </Button>

@@ -7,9 +7,18 @@ type CheckBoxProps = {
   label?: string;
   link?: boolean;
   onClick?: () => void;
+  isTitle?: boolean;
 };
 
-export const CheckBox = ({ checked, onChange, label, prefix, link, onClick }: CheckBoxProps) => {
+export const CheckBox = ({
+  checked,
+  onChange,
+  label,
+  prefix,
+  link,
+  onClick,
+  isTitle = false,
+}: CheckBoxProps) => {
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-2">
@@ -29,7 +38,11 @@ export const CheckBox = ({ checked, onChange, label, prefix, link, onClick }: Ch
         >
           {prefix}
         </p>
-        <p className="text-Body2 text-grayScale-70">{label}</p>
+        <p
+          className={`${isTitle ? 'text-Body1 text-grayScale-80' : ' text-Body2 text-grayScale-70'}`}
+        >
+          {label}
+        </p>
       </div>
       <div>
         {link && (
