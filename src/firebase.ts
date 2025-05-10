@@ -57,10 +57,16 @@ export const getFCMToken = async (): Promise<string> => {
         });
 
         if (!response.ok) {
-          console.error('Failed to save token to Notion');
+          const errorData = await response.json();
+          console.error('Failed to save token to Notion:', errorData);
+          throw new Error(errorData.details || 'Failed to save token');
         }
+
+        const data = await response.json();
+        console.log('Token saved successfully:', data);
       } catch (error) {
         console.error('Error saving token to Notion:', error);
+        // 토큰 저장 실패는 FCM 토큰 발급에 영향을 주지 않도록 함
       }
 
       return currentToken;

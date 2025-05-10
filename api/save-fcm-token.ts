@@ -1,12 +1,33 @@
 import { Client } from '@notionhq/client';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-const NOTION_API_KEY = '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';
-const NOTION_DATABASE_ID = '1e569181697880e8b7cae22f0cb391c4';
+
+const NOTION_API_KEY = process.env.NOTION_API_KEY;
+const NOTION_DATABASE_ID = process.env.NOTION_DATABASE_ID;
+
+if (!NOTION_API_KEY || !NOTION_DATABASE_ID) {
+  throw new Error('Missing required environment variables');
+}
+
 const notion = new Client({
   auth: NOTION_API_KEY,
 });
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // CORS 헤더 설정
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  );
+
+  // OPTIONS 요청 처리
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -20,7 +41,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Check if token already exists
     const existingTokens = await notion.databases.query({
-      database_id: NOTION_DATABASE_ID!,
+      database_id: NOTION_DATABASE_ID,
       filter: {
         and: [
           {
@@ -39,7 +60,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Save new token
     await notion.pages.create({
-      parent: { database_id: NOTION_DATABASE_ID! },
+      parent: { database_id: NOTION_DATABASE_ID },
       properties: {
         environment: {
           rich_text: [
@@ -70,6 +91,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(200).json({ message: 'Token saved successfully' });
   } catch (error) {
     console.error('Error saving token:', error);
-    return res.status(500).json({ error: 'Failed to save token' });
+    return res.status(500).json({
+      error: 'Failed to save token',
+      details: error instanceof Error ? error.message : 'Unknown error',
+    });
   }
 }
