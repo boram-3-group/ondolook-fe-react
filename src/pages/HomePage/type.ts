@@ -70,11 +70,13 @@ export interface Forecast {
   iconMessage: string;
 }
 
+export type AirQualityGrade = 'GOOD' | 'MODERATE' | 'BAD' | 'VERY_BAD';
+
 export interface AirQuality {
   airQuality: number;
   message: string;
   iconFlag: boolean;
-  grade: string;
+  grade: AirQualityGrade;
 }
 
 export interface UvIndex {

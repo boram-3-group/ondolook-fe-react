@@ -26,6 +26,7 @@ import { guards } from './router-guard';
 import { WeatherDetail } from './HomePage/pages/WeatherDetail';
 import { AccountInfoSettings } from './MyPage/pages/AccountInfoSettings';
 import { AgreedToLocation } from './SignupPage/pages/AgreedToLocation';
+import { HomewithHeaderLayout } from './Layouts/HomewithHeaderLayout';
 
 type RouteWithHandle = RouteObject & {
   handle?: {
@@ -48,8 +49,16 @@ export const router = createBrowserRouter([
       } as RouteWithHandle,
       {
         path: '/weather',
-        element: <DefaultLayout />,
-        children: [{ path: '', element: <WeatherDetail /> }],
+        element: <HomewithHeaderLayout />,
+        children: [
+          {
+            path: '',
+            element: <WeatherDetail />,
+            handle: {
+              isShowBack: true,
+            },
+          },
+        ],
       } as RouteWithHandle,
       {
         path: '/login',

@@ -91,43 +91,34 @@ class ModalManager {
 
 export const modalManager = ModalManager.getInstance();
 
-// const useModal = () => {
-//   const modalManager = ModalManager.getInstance();
-//   return modalManager;
-// };
+const useModal = () => {
+  const modalManager = ModalManager.getInstance();
+  return modalManager;
+};
 
-// const modal = useModal();
-// modal.show({
-//   id: '1',
-//   type: 'default',
-//   title: '알림',
-//   message: '알림 메시지',
-//   firstText: '첫번째 버튼',
-//   secondText: '두번째 버튼',
-//   onFirstClick: () => {},
-//   onSecondClick: () => {},
-// });
+const modal = useModal();
 
-// // modalManager => provider 에서 인스턴스 생성해서 -> 뿌려주기
+// modalManager => provider 에서 인스턴스 생성해서 -> 뿌려주기
 
-// modalManager.show({
-//   id: '1',
-//   type: 'default',
-//   title: '알림',
-//   message: '알림 메시지',
-//   firstText: '첫번째 버튼',
-//   secondText: '두번째 버튼',
-//   onFirstClick: () => {},
-//   onSecondClick: () => {},
-// });
+/*
+modalManager.show({
+  id: '1',
+  type: 'default',
+  title: '알림',
+  message: '알림 메시지',
+  firstText: '첫번째 버튼',
+  secondText: '두번째 버튼',
+  onFirstClick: () => {},
+  onSecondClick: () => {},
+});
 
-// modalManager.show({
-//   id: '2',
-//   type: 'default',
-//   title: '알림',
-//   message: '알림 메시지',
-//   firstText: '첫번째 버튼',
-//   secondText: '두번째 버튼',
-//   onFirstClick: () => {},
-//   onSecondClick: () => {},
-// });
+modalManager.show({
+  id: '2',
+  type: 'default',
+  title: '알림',
+  message: '알림 메시지',
+  firstText: '첫번째 버튼',
+  secondText: '두번째 버튼',
+  onFirstClick: () => {},
+  onSecondClick: () => {},
+});*/

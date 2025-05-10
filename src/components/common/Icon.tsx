@@ -22,6 +22,10 @@ import white_check from '../../assets/icons/white-check.svg';
 import small_button from '../../assets/icons/small-button.svg';
 import min_temparrow from '../../assets/icons/min-temparrow.svg';
 import max_temparrow from '../../assets/icons/max-temparrow.svg';
+import air from '../../assets/icons/air.svg';
+import rainfall from '../../assets/icons/rainfall.svg';
+import uv from '../../assets/icons/uv.svg';
+import calendar from '../../assets/icons/calendar.svg';
 
 import bit_cloudy_lightning from '../../assets/icons/bit-cloudy-lightning.png';
 import bit_cloudy_moon from '../../assets/icons/bit-cloudy-moon.png';
@@ -67,6 +71,10 @@ type IconName =
   | 'small-button'
   | 'min-temparrow'
   | 'max-temparrow'
+  | 'air'
+  | 'rainfall'
+  | 'uv'
+  | 'calendar'
   | 'bit-cloudy-lightning'
   | 'bit-cloudy-moon'
   | 'bit-cloudy-sun'
@@ -111,6 +119,10 @@ const iconMap: Record<IconName, any> = {
   'small-button': small_button,
   'min-temparrow': min_temparrow,
   'max-temparrow': max_temparrow,
+  air: air,
+  rainfall: rainfall,
+  uv: uv,
+  calendar: calendar,
   'bit-cloudy-lightning': bit_cloudy_lightning,
   'bit-cloudy-moon': bit_cloudy_moon,
   'bit-cloudy-sun': bit_cloudy_sun,
