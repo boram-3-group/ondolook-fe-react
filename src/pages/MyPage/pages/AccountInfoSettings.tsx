@@ -58,7 +58,7 @@ export const AccountInfoSettings = () => {
       </button>
       <button
         className="flex w-full items-center justify-between py-5"
-        onClick={() => navigate('/my/withdraw')}
+        onClick={() => navigate('/my/secession')}
       >
         <div className="flex items-center">
           <div className="text-base font-medium leading-[150%]">탈퇴하기</div>

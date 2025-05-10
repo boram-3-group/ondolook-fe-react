@@ -110,7 +110,7 @@ const MainCarousel = ({ slides }: MainCarouselProps) => {
         ))}
       </div>
       <div className="flex justify-between h-[52px] ">
-        <Icon name="home" width={48} height={48} className="ml-9" alt="홈" />
+        <Icon name="home-selected" width={48} height={48} className="ml-9" alt="홈" />
         <div className="flex justify-center items-center gap-2 mt-4">
           {slides.map((_, index) => (
             <button

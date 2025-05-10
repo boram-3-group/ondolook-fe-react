@@ -46,3 +46,14 @@ export const addBookmark = async (outfit_image_id: string) => {
     }
   }
 };
+
+export const secessionUser = async (userId: string, reasonId: number) => {
+  try {
+    const res = await api.service.delete(`/api/v1/user/${userId}/reason-id/${reasonId}`);
+    return res && res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      throw new Error('회원 탈퇴에 실패했습니다.');
+    }
+  }
+};

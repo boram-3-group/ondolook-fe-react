@@ -27,6 +27,8 @@ import { WeatherDetail } from './HomePage/pages/WeatherDetail';
 import { AccountInfoSettings } from './MyPage/pages/AccountInfoSettings';
 import { AgreedToLocation } from './SignupPage/pages/AgreedToLocation';
 import { HomewithHeaderLayout } from './Layouts/HomewithHeaderLayout';
+import Secession from './MyPage/pages/Secession';
+import ResetPassword from './MyPage/pages/ResetPassword';
 
 type RouteWithHandle = RouteObject & {
   handle?: {
@@ -243,6 +245,22 @@ export const router = createBrowserRouter([
             element: <Policy />,
             handle: {
               title: '약관 및 정책',
+              isShowBack: true,
+            },
+          } as RouteWithHandle,
+          {
+            path: 'secession',
+            element: <Secession />,
+            handle: {
+              title: '탈퇴하기',
+              isShowBack: true,
+            },
+          } as RouteWithHandle,
+          {
+            path: 'reset-password',
+            element: <ResetPassword />,
+            handle: {
+              title: '비밀번호 변경',
               isShowBack: true,
             },
           } as RouteWithHandle,

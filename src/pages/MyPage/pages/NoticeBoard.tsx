@@ -6,11 +6,13 @@ const notices = [
     id: 1,
     title: '[안내] 서비스 소개',
     isNew: false,
+    date: '2025. 05. 11. 13:30',
   },
   {
     id: 2,
-    title: '[공지] 커뮤니티 가이드라인 안내',
+    title: '[안내] 알림 설정 안내 공지문 (iOS / Android)',
     isNew: false,
+    date: '2025. 05. 11. 10:15',
   },
 ];
 
@@ -23,7 +25,7 @@ const NoticeBoard: React.FC = () => {
         {notices.map(notice => (
           <div
             key={notice.id}
-            className="py-5 border-b border-[#F0F0F0] cursor-pointer"
+            className="py-4 border-b border-[#F0F0F0] cursor-pointer"
             onClick={() => navigate(`/my/notice/${notice.id}`)}
           >
             <div className="flex items-center justify-between mb-1">
