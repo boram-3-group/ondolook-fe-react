@@ -23,7 +23,7 @@ const VerifyForm = ({ onNext }: moveNextProps) => {
   const [isAgreeFormOpen, setIsAgreeFormOpen] = useState(false);
   const [isTimerStart, setIsTimerStart] = useState(false);
   const [sendEmailError, setSendEmailError] = useState('');
-  const [verifyError, setVerifyErrorr] = useState('');
+  const [verifyError, setVerifyError] = useState('');
   const email = watch('email');
   const code = watch('code');
   const setSignupForm = useUserStore(state => state.setSignupForm);
@@ -52,7 +52,7 @@ const VerifyForm = ({ onNext }: moveNextProps) => {
             onNext();
           },
           onError: (error: any) => {
-            setVerifyErrorr(error.message);
+            setVerifyError(error.message);
           },
         }
       );

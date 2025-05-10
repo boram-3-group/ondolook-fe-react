@@ -29,6 +29,7 @@ const FindIdPage = () => {
   const { mutate: verifyFindIdEmailCode } = useVerifyFindIdEmailCode();
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [isTimerStart, setIsTimerStart] = useState(false);
+  const [verifyError, setVerifyError] = useState('');
 
   const email = watch('email');
   const code = watch('code');
@@ -51,6 +52,9 @@ const FindIdPage = () => {
               username: data,
             },
           });
+        },
+        onError: (error: any) => {
+          setVerifyError(error.message);
         },
       });
     }
@@ -76,6 +80,7 @@ const FindIdPage = () => {
                   <Timer />
                 </div>
               )}
+              {verifyError && <p className="text-Detail text-danger-50 mt-2">{verifyError}</p>}
             </div>
           </div>
           <div className="mt-[42px]">

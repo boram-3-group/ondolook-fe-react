@@ -37,7 +37,9 @@ export const Modal = ({
           onClick={e => e.stopPropagation()}
         >
           <div className="font-bold text-xl mb-2 mt-2">{title}</div>
-          <div className="text-gray-500 text-base mb-6 whitespace-pre-line">{message}</div>
+          <div className="text-gray-500 text-base mb-6 whitespace-pre-line text-center">
+            {message}
+          </div>
           <button
             className="w-full h-12 bg-blue-500 text-white rounded-lg text-base mb-2"
             style={{ height: 48 }}

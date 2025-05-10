@@ -5,7 +5,6 @@ import { Input } from '../../components/common/Input';
 import { Button } from '../../components/common/Button';
 import { useNavigate } from 'react-router-dom';
 import { useSendResetEmail, useVerifytToResetEmail } from './fetches/useResetEmail';
-import { verifytToResetEmail } from './apis';
 import { Timer } from '../../components/common/Timer';
 
 const ResetPasswordPage = () => {
@@ -20,6 +19,7 @@ const ResetPasswordPage = () => {
   const { mutate: verifytToResetEmail } = useVerifytToResetEmail();
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [isTimerStart, setIsTimerStart] = useState(false);
+  const [verifyError, setVerifyError] = useState('');
   const navigate = useNavigate();
 
   const username = watch('username');
@@ -46,6 +46,9 @@ const ResetPasswordPage = () => {
             navigate('/reset-password/newpassword', {
               state: { username, code },
             });
+          },
+          onError: (error: any) => {
+            setVerifyError(error.message);
           },
         }
       );
@@ -80,6 +83,7 @@ const ResetPasswordPage = () => {
                   <Timer />
                 </div>
               )}
+              {verifyError && <p className="text-Detail text-danger-50 mt-2">{verifyError}</p>}
             </div>
           </div>
           <div className="mt-[42px]">

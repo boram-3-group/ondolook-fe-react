@@ -11,7 +11,7 @@ const button = cva(
         outline: 'bg-white text-gray-500 border border-gray-300 hover:bg-gray-100',
         link: 'text-primary underline hover:text-primary/80 p-0 h-auto',
         navigation: 'text-Detail',
-        disabled: 'bg-grayScale-20 text-grayScale-50 cursor-not-allowed',
+        disabled: 'bg-grayScale-20 text-grayScale-50',
       },
       size: {
         large: 'px-4 text-sm',
