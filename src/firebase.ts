@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
+import { useSystem } from './store/useSystem';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCSnuPnQSM1cvqcMONxOKRxGG_hM4oQHrA',
@@ -21,20 +22,48 @@ export const getFCMToken = async (): Promise<string> => {
     const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
     if (isSafari) {
-      // Safari에서는 서비스 워커 등록이 필요
       const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
       console.log('Safari Service Worker registered:', registration);
     }
 
+    const swRegistration = await navigator.serviceWorker.getRegistration();
     const currentToken = await getToken(messaging, {
       vapidKey:
         'BGPsb4h4k38AFSzw82uLy0x5HaB3L7idUwokMW0A8V-EXwCdmBkJuOsdYU-wAKEUThXAlEKUNKlPLH6jKFSbyOE',
-      serviceWorkerRegistration: await navigator.serviceWorker.getRegistration(),
+      serviceWorkerRegistration: swRegistration,
     });
 
-    console.log('currentTokencurrentToken', currentToken);
     if (currentToken) {
-      console.log('FCM Token obtained successfully:', currentToken);
+      // Get environment information
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+      const isPWA =
+        window.matchMedia('(display-mode: standalone)').matches ||
+        window.navigator.standalone === true;
+
+      // Save token to Notion via Vercel Function
+      try {
+        const response = await fetch('/api/save-fcm-token', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            token: currentToken,
+            environment: {
+              isIOS,
+              isSafari,
+              isPWA,
+            },
+          }),
+        });
+
+        if (!response.ok) {
+          console.error('Failed to save token to Notion');
+        }
+      } catch (error) {
+        console.error('Error saving token to Notion:', error);
+      }
+
       return currentToken;
     } else {
       console.log('FCM 토큰을 가져올 수 없습니다. 알림 권한을 확인하세요.');

@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getFCMToken, onMessageListener } from '../firebase';
-import { isSafari } from '../core/constants';
 import { useSystem } from '../store/useSystem';
-// 타입스크립트 타입 체크 해제
 
 interface FirebaseMessage {
   notification?: {
@@ -48,14 +46,16 @@ export const useFCM = () => {
         // Safari에서의 처리
         if (isSafari) {
           const permission = await Notification.requestPermission();
+
           if (permission === 'granted') {
             try {
               const token = await getFCMToken();
               setToken(token);
-              console.log('Safari FCM 토큰:', token);
             } catch (error) {
               console.error('Safari FCM 토큰 요청 실패:', error);
             }
+          } else {
+            console.log('Safari 알림 권한이 거부됨');
           }
           return;
         }
