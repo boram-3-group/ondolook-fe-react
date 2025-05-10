@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSecessionUser } from '../fetches/useSecessionUser';
 import { Modal } from '../../../components/common/Modal';
 import { useModalStore } from '../../../store/useModalStore';
-
+import { useUserStore } from '../../../store/useUserStore';
 const REASONS = [
   '자주 이용하지 않아서',
   '이용이 불편하고 버그가 많아서',
@@ -21,10 +21,11 @@ const Secession = () => {
   const pushModal = useModalStore(state => state.pushModal);
   const popModal = useModalStore(state => state.popModal);
   const currentModal = useModalStore(state => state.currentModal);
-
+  const { user } = useUserStore();
   const handleSecession = () => {
     if (selected === null) return;
-    mutate({ userId: 'me', reasonId: selected + 1 });
+    console.log(user?.id);
+    mutate({ userId: user?.id || '', reasonId: selected + 1 });
   };
 
   return (

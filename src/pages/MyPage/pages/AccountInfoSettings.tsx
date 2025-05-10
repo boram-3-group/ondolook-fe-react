@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '../../../store/useUserStore';
 import toast from 'react-hot-toast';
 export const AccountInfoSettings = () => {
-  const { logout } = useUserStore();
+  const { logout, loginType } = useUserStore();
   const navigate = useNavigate();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -37,17 +37,19 @@ export const AccountInfoSettings = () => {
 
   return (
     <div className="flex flex-col px-4 mt-8 w-full min-h-full bg-white">
-      <button
-        className="flex w-full items-center justify-between py-5 border-b border-gray-200"
-        onClick={() => navigate('/reset-password/newpassword')}
-      >
-        <div className="flex items-center">
-          <div className="text-base font-medium leading-[150%] text-[#2D2D2D]">비밀번호 변경</div>
-        </div>
-        <span>
-          <Icon name="chevron-right" width={16} height={16} />
-        </span>
-      </button>
+      {loginType === 'email' && (
+        <button
+          className="flex w-full items-center justify-between py-5 border-b border-gray-200"
+          onClick={() => navigate('/my/reset-password')}
+        >
+          <div className="flex items-center">
+            <div className="text-base font-medium leading-[150%] text-[#2D2D2D]">비밀번호 변경</div>
+          </div>
+          <span>
+            <Icon name="chevron-right" width={16} height={16} />
+          </span>
+        </button>
+      )}
       <button
         className="flex w-full items-center justify-between py-5 border-b border-gray-200"
         onClick={openModal}
@@ -57,7 +59,7 @@ export const AccountInfoSettings = () => {
         </div>
       </button>
       <button
-        className="flex w-full items-center justify-between py-5"
+        className="flex w-full items-center justify-between py-5 border-b"
         onClick={() => navigate('/my/secession')}
       >
         <div className="flex items-center">

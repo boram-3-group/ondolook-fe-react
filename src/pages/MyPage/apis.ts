@@ -57,3 +57,16 @@ export const secessionUser = async (userId: string, reasonId: number) => {
     }
   }
 };
+
+export const changeUserPassword = async (userId: string, newPassword: string) => {
+  try {
+    const res = await api.service.put(`/api/v1/user/${userId}/password`, newPassword, {
+      headers: { 'Content-Type': 'application/json' },
+    });
+    return res && res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      throw new Error('비밀번호 변경에 실패했습니다.');
+    }
+  }
+};
