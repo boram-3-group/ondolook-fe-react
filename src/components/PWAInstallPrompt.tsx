@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './PWAInstallPrompt.css';
 import { useSystem } from '../store/useSystem';
+import { useLocation } from 'react-router-dom';
 
 declare global {
   interface WindowEventMap {
@@ -26,10 +27,17 @@ const PWAInstallPrompt = () => {
   const [isIOS, setIsIOS] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
   const { isPC } = useSystem();
+  const location = useLocation();
 
   useEffect(() => {
     // PC 브라우저에서는 프롬프트 표시하지 않음
     if (isPC) {
+      setShowPrompt(false);
+      return;
+    }
+
+    // 홈페이지가 아니면 프롬프트 표시하지 않음
+    if (location.pathname !== '/home') {
       setShowPrompt(false);
       return;
     }
@@ -85,7 +93,7 @@ const PWAInstallPrompt = () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       mediaQuery.removeEventListener('change', handleDisplayModeChange);
     };
-  }, [isPC]);
+  }, [isPC, location.pathname]);
 
   const handleInstallClick = async () => {
     if (!deferredPrompt) return;
@@ -98,6 +106,34 @@ const PWAInstallPrompt = () => {
     }
     setDeferredPrompt(null);
   };
+
+  const handleDismiss = () => {
+    setShowPrompt(false);
+    // 5분 후에 다시 표시하기 위해 localStorage에 시간 저장
+    localStorage.setItem('pwaPromptDismissed', Date.now().toString());
+
+    // 5분 후에 다시 표시
+    setTimeout(
+      () => {
+        if (location.pathname === '/home') {
+          setShowPrompt(true);
+        }
+      },
+      5 * 60 * 1000
+    ); // 5분
+  };
+
+  // 마지막으로 거절한 시간 확인
+  useEffect(() => {
+    const lastDismissed = localStorage.getItem('pwaPromptDismissed');
+    if (lastDismissed) {
+      const timeSinceDismissed = Date.now() - parseInt(lastDismissed);
+      if (timeSinceDismissed < 5 * 60 * 1000) {
+        // 5분 이내면 표시하지 않음
+        setShowPrompt(false);
+      }
+    }
+  }, [location.pathname]);
 
   if (!showPrompt) return null;
 
@@ -123,7 +159,7 @@ const PWAInstallPrompt = () => {
           <div className="pwa-prompt-note">
             * 설치 후에는 홈 화면에서 Ondolook 앱 아이콘을 탭하여 실행할 수 있습니다
           </div>
-          <button className="pwa-prompt-close-button" onClick={() => setShowPrompt(false)}>
+          <button className="pwa-prompt-close-button" onClick={handleDismiss}>
             나중에 하기
           </button>
         </div>
@@ -137,7 +173,7 @@ const PWAInstallPrompt = () => {
             <button className="pwa-prompt-install-button" onClick={handleInstallClick}>
               설치하기
             </button>
-            <button className="pwa-prompt-close-button" onClick={() => setShowPrompt(false)}>
+            <button className="pwa-prompt-close-button" onClick={handleDismiss}>
               나중에 하기
             </button>
           </div>

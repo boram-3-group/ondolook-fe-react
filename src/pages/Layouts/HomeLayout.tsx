@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import useWeatherStore from '../../store/useWeatherStore';
 import { useEffect, useState } from 'react';
+import PWAInstallPrompt from '../../components/PWAInstallPrompt';
 
 export function HomeLayout() {
   const weather = useWeatherStore(state => state.weather);
@@ -32,8 +33,9 @@ export function HomeLayout() {
   }, [weather, backgroundImage]);
 
   return (
-    <div className="flex flex-col flex-1 ">
+    <div className="flex flex-col flex-1">
       <Outlet />
+      <PWAInstallPrompt />
     </div>
   );
 }
