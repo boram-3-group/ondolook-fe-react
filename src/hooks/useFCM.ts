@@ -37,6 +37,7 @@ export const useFCM = () => {
                 }
               );
               console.log('iOS PWA Service Worker registered:', registration);
+              alert('iOS PWA Service Worker 등록 완료');
             }
 
             const token = await getFCMToken();
@@ -72,6 +73,7 @@ export const useFCM = () => {
                   }
                 );
                 console.log('Safari Service Worker registered:', registration);
+                alert('Safari Service Worker 등록 완료');
               }
 
               const token = await getFCMToken();

@@ -14,12 +14,14 @@ import { useUserStore } from './store/useUserStore';
 import { toast, Toaster } from 'react-hot-toast';
 import ModalProvider from './core/modalProvider';
 import { modalManager } from './core/modal.tsx';
+import { useFCM } from './hooks/useFCM';
 
 function App() {
   const queryClient = new QueryClient();
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [showGeolocationModal, setShowGeolocationModal] = useState(false);
   const { checkLogin } = useUserStore();
+  useFCM();
 
   const {
     isPWA,
@@ -117,7 +119,6 @@ function App() {
       if (!isLoggedIn) {
         const notificationGranted = await checkNotificationPermission();
         if (notificationGranted) {
-          // 알림 권한이 허용된 경우에만 위치 권한 요청
           await checkGeolocationPermission();
         }
       }
@@ -179,8 +180,7 @@ function App() {
               },
             }}
           />
-          {/* </AppSplash> */}
-          <NotificationTest />
+          {/* <NotificationTest /> */}
         </div>
         <NotificationPermissionModal
           isOpen={showNotificationModal}
