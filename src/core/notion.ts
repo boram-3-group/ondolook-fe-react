@@ -1,10 +1,7 @@
 import { Client } from '@notionhq/client';
 
-const NOTION_API_KEY = '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';
-const NOTION_DATABASE_ID = '1e569181697880e8b7cae22f0cb391c4';
-
 const notion = new Client({
-  auth: NOTION_API_KEY,
+  auth: import.meta.env.VITE_APP_NOTION_API_KEY,
 });
 
 interface UserEnvironment {
@@ -19,11 +16,11 @@ export const saveTokenToNotion = async (
 ): Promise<void> => {
   try {
     console.log('Starting token save process...');
-    console.log('Database ID:', NOTION_DATABASE_ID);
+    console.log('Database ID:', import.meta.env.VITE_APP_NOTION_DATABASE_ID);
     console.log('Token to save:', token);
 
     const existingTokens = await notion.databases.query({
-      database_id: NOTION_DATABASE_ID,
+      database_id: import.meta.env.VITE_APP_NOTION_DATABASE_ID,
       filter: {
         and: [
           {
@@ -42,7 +39,7 @@ export const saveTokenToNotion = async (
     }
 
     await notion.pages.create({
-      parent: { database_id: NOTION_DATABASE_ID },
+      parent: { database_id: import.meta.env.VITE_APP_NOTION_DATABASE_ID },
       properties: {
         environment: {
           rich_text: [

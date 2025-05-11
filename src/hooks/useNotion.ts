@@ -1,7 +1,7 @@
 import { api } from '../core/axios';
 
-const NOTION_API_KEY = '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';
-const NOTION_DATABASE_ID = '1e569181697880e8b7cae22f0cb391c4';
+const NOTION_API_KEY = import.meta.env.VITE_APP_NOTION_API_KEY as string;
+const NOTION_DATABASE_ID = import.meta.env.VITE_APP_NOTION_DATABASE_ID as string;
 
 export const useNotion = () => {
   const getExistToken = async () => {

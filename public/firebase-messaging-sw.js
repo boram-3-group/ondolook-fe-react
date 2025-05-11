@@ -1,15 +1,18 @@
+// Firebase 설정
+const firebaseConfig = {
+  apiKey: 'VITE_APP_FIREBASE_API_KEY',
+  authDomain: 'VITE_APP_FIREBASE_AUTH_DOMAIN',
+  projectId: 'VITE_APP_FIREBASE_PROJECT_ID',
+  storageBucket: 'VITE_APP_FIREBASE_STORAGE_BUCKET',
+  messagingSenderId: 'VITE_APP_FIREBASE_MESSAGING_SENDER_ID',
+  appId: 'VITE_APP_FIREBASE_APP_ID',
+};
+
+// Firebase SDK 로드
 importScripts('https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js');
 importScripts('https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging-compat.js');
 
-const firebaseConfig = {
-  apiKey: import.meta.env.VITE_APP_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_APP_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_APP_FIREBASE_APP_ID,
-};
-
+// Firebase 초기화
 firebase.initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging();
@@ -33,23 +36,18 @@ messaging.onBackgroundMessage(payload => {
         title: '앱 열기',
       },
     ],
-    // Safari에서 알림이 제대로 표시되도록 추가 옵션
     tag: 'ondolook-notification',
     renotify: true,
     requireInteraction: true,
   };
 
-  // 알림 표시
   self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
 // 알림 클릭 이벤트 처리
 self.addEventListener('notificationclick', event => {
   console.log('알림 클릭:', event);
-
   event.notification.close();
-
-  // 알림 클릭 시 앱 열기
   event.waitUntil(
     clients.matchAll({ type: 'window' }).then(clientList => {
       for (const client of clientList) {

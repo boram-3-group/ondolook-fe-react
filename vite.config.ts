@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 import svgr from 'vite-plugin-svgr';
+import { resolve } from 'path';
 
 export default defineConfig(() => {
   return {
@@ -84,6 +85,7 @@ export default defineConfig(() => {
       rollupOptions: {
         input: {
           main: './index.html',
+          'firebase-messaging-sw': resolve(__dirname, 'public/firebase-messaging-sw.js'),
         },
       },
     },
