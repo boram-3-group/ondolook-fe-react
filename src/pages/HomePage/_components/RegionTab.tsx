@@ -6,7 +6,7 @@ export const RegionTab = ({ sggnm, sidonm }: RegionResponse) => {
     <>
       <div className="flex pt-1">
         <Icon name="location" width={24} height={24} alt="위치" />
-        <div className="text-Title1">{`${sidonm} ${sggnm}`}</div>
+        <div className="ml-2 text-Title1 -translate-y-[2px]">{`${sidonm} ${sggnm}`}</div>
       </div>
     </>
   );

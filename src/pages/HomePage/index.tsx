@@ -14,12 +14,12 @@ import MainCarousel from '../../components/common/MainCarousel';
 import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import { useAddBookmark, useDeleteBookmark } from '../MyPage/fetches/useFetchBookmark';
+import { useAddBookmarkById, useDeleteBookmarkById } from '../MyPage/fetches/useFetchBookmark';
 import { Modal } from '../../components/common/Modal';
 import { useModalStore } from '../../store/useModalStore';
 
 export function HomePage() {
-  const [selectCategory, setSelectCategory] = useState('비즈니스');
+  const [selectCategory, setSelectCategory] = useState('데일리');
   const navigate = useNavigate();
   const onSelectChip = useCallback((Category: string) => {
     setSelectCategory(Category);
@@ -95,14 +95,24 @@ export function HomePage() {
   const { data: OutfitData, isLoading: OutfitDataLoading } = useFetchOutfit({
     lat,
     lon,
-    eventType: selectCategoryId || 1,
+    eventType: selectCategoryId || 2,
     gender: Usergender || 'FEMALE',
   });
 
   const fileMetadata = OutfitData?.fileMetadata;
 
-  const { deleteBookmarkById } = useDeleteBookmark();
-  const { mutate: addBookmarkById } = useAddBookmark();
+  const { mutate: deleteBookmarkById } = useDeleteBookmarkById({
+    lat,
+    lon,
+    eventType: selectCategoryId || 2,
+    gender: Usergender || 'FEMALE',
+  });
+  const { mutate: addBookmarkById } = useAddBookmarkById({
+    lat,
+    lon,
+    eventType: selectCategoryId || 2,
+    gender: Usergender || 'FEMALE',
+  });
 
   const handleToggleBookmark = ({
     outfitImageId,
@@ -154,8 +164,8 @@ export function HomePage() {
             />
           )}
         </div>
-        <div className="flex flex-wrap gap-[12px] mb-5">
-          {Categories?.content?.map(Category => (
+        <div className="flex flex-wrap gap-[14px] mb-5">
+          {Categories?.content?.map((Category, index) => (
             <CategoryChip
               key={Category.id}
               categoryName={Category.categoryName}
@@ -183,13 +193,13 @@ export function HomePage() {
           slides={fileMetadata.map(item => (
             <div
               key={item.id}
-              className="relative w-full h-full flex flex-col justify-center items-center bg-grayScale-30 rounded-lg"
+              className="relative w-full h-full flex flex-col justify-center items-center bg-white rounded-lg"
             >
               <img
                 loading="lazy"
                 src={item.metadata.presignedUrl}
                 alt={item.metadata.presignedUrl}
-                className="w-full px-5 h-full object-contain bg-grayScale-10"
+                className="w-full px-5 h-full object-contain bg-white rounded-[20px]"
                 draggable={false}
               />
               <Icon

@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 
-export const Timer = () => {
+interface TimerProps {
+  onExpire: () => void;
+}
+
+export const Timer = ({ onExpire }: TimerProps) => {
   const [time, setTime] = useState(180);
 
   useEffect(() => {
@@ -8,6 +12,9 @@ export const Timer = () => {
       setTime(prev => {
         if (prev <= 1) {
           clearInterval(timer);
+          setTimeout(() => {
+            onExpire();
+          }, 0);
           return 0;
         }
         return prev - 1;
@@ -15,7 +22,7 @@ export const Timer = () => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [onExpire]);
 
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
@@ -23,9 +30,5 @@ export const Timer = () => {
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  return (
-    <>
-      <div className="text-primary-40 text-Body2">{formatTime(time)}</div>
-    </>
-  );
+  return <div className="text-primary-40 text-Body2">{formatTime(time)}</div>;
 };

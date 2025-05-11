@@ -58,7 +58,11 @@ const NewPassword = () => {
           <div className="flex flex-col gap-[10px]">
             <div className="flex flex-col gap-2 mt-[20px]">
               <label className="text-Body2 text-grayScale-80">새 비밀번호</label>
-              <Input type="text" placeholder="영문, 숫자 포함 8~16자" {...register('password')} />
+              <Input
+                type="text"
+                placeholder="영문, 숫자, 특수문자 포함 8~16자"
+                {...register('password')}
+              />
               {errors.password ? (
                 <p className="text-Detail text-danger-50">{errors.password.message}</p>
               ) : (
