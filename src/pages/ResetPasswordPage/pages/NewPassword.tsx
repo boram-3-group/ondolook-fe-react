@@ -33,6 +33,8 @@ const NewPassword = () => {
     formState: { errors, isValid },
   } = useForm({
     resolver: zodResolver(schema),
+    mode: 'onChange',
+    reValidateMode: 'onChange',
   });
   const { mutate: resetPassword } = useResetPassword();
 

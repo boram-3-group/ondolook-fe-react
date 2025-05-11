@@ -164,7 +164,7 @@ export function HomePage() {
             />
           )}
         </div>
-        <div className="flex flex-wrap gap-[14px] mb-5">
+        <div className="flex w-full justify-between mb-5 gap-[14px]">
           {Categories?.content?.map((Category, index) => (
             <CategoryChip
               key={Category.id}
@@ -220,7 +220,7 @@ export function HomePage() {
                     });
                   } else {
                     handleToggleBookmark({
-                      outfitImageId: item.id,
+                      outfitImageId: String(item.id),
                       isIdBookmark: item.bookmarked,
                     });
                   }

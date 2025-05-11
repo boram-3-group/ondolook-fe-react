@@ -9,7 +9,7 @@ const inputClassName = cva('w-full rounded-md', {
     },
     isDisabled: {
       true: 'bg-grayScale-20 placeholder:text-[16px] text-grayScale-50 font-[500]',
-      false: 'bg-grayScale-5 placeholder:text-Body1 text-grayScale-50',
+      false: 'bg-grayScale-5 placeholder:text-Body1 placeholder:text-grayScale-50',
     },
   },
   defaultVariants: {

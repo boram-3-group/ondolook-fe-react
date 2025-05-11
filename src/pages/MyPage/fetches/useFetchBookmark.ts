@@ -43,7 +43,7 @@ export const useDeleteBookmarkById = ({ lat, lon, eventType, gender }: OutfitPay
         return {
           ...old,
           fileMetadata: old.fileMetadata.map((file: any) =>
-            String(file.id) === outfit_image_id ? { ...file, bookmarked: false } : file
+            String(file.id) === String(outfit_image_id) ? { ...file, bookmarked: false } : file
           ),
         };
       });
@@ -52,9 +52,6 @@ export const useDeleteBookmarkById = ({ lat, lon, eventType, gender }: OutfitPay
 
     onError: (error, context: any) => {
       queryClient.setQueryData(['outfit', lat, lon, eventType, gender], context.prevData);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['outfit', lat, lon, eventType, gender] });
     },
   });
 };
@@ -67,14 +64,13 @@ export const useAddBookmarkById = ({ lat, lon, eventType, gender }: OutfitPayloa
     onMutate: async (outfit_image_id: string) => {
       await queryClient.cancelQueries({ queryKey: ['outfit', lat, lon, eventType, gender] });
       const prevData = queryClient.getQueryData(['outfit', lat, lon, eventType, gender]);
-
       queryClient.setQueryData(['outfit', lat, lon, eventType, gender], (old: any) => {
         if (!old) return old;
 
         return {
           ...old,
           fileMetadata: old.fileMetadata.map((file: any) =>
-            String(file.id) === outfit_image_id ? { ...file, bookmarked: true } : file
+            String(file.id) === String(outfit_image_id) ? { ...file, bookmarked: true } : file
           ),
         };
       });
@@ -84,9 +80,6 @@ export const useAddBookmarkById = ({ lat, lon, eventType, gender }: OutfitPayloa
 
     onError: (error, context: any) => {
       queryClient.setQueryData(['outfit', lat, lon, eventType, gender], context.prevData);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['outfit', lat, lon, eventType, gender] });
     },
   });
 };

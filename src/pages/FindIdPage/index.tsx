@@ -45,7 +45,7 @@ const FindIdPage = () => {
   }, [email, code]);
 
   const getButtonLabel = () => {
-    if (isCodeSent && isExpired) return '재전송';
+    if (isCodeSent && isExpired) return '인증번호 다시 받기';
     if (isCodeSent) return '인증 확인';
     return '인증번호 받기';
   };
