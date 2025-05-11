@@ -26,7 +26,6 @@ export const useFCM = () => {
         // iOS PWA에서는 FCM 토큰 요청 시도
         if (isStandalone) {
           console.log('iOS PWA에서 FCM 토큰 요청 시도');
-          alert('iOS PWA에서 FCM 토큰 요청 시도');
           try {
             // iOS PWA에서는 Service Worker를 먼저 등록
             if ('serviceWorker' in navigator) {
@@ -37,24 +36,17 @@ export const useFCM = () => {
                 }
               );
               console.log('iOS PWA Service Worker registered:', registration);
-              alert('iOS PWA Service Worker 등록 완료');
             }
 
             const token = await getFCMToken();
             if (token) {
               setToken(token);
               setFcmToken(token);
-              alert('iOS PWA FCM 토큰 저장 완료');
               console.log('iOS PWA FCM 토큰:', token);
             }
           } catch (error) {
             console.error('iOS PWA FCM 토큰 요청 실패:', error);
           }
-          return;
-        }
-
-        if (isIOS && !isStandalone) {
-          console.log('iOS 기기에서는 웹 푸시 알림을 지원하지 않습니다.');
           return;
         }
 
@@ -73,7 +65,6 @@ export const useFCM = () => {
                   }
                 );
                 console.log('Safari Service Worker registered:', registration);
-                alert('Safari Service Worker 등록 완료');
               }
 
               const token = await getFCMToken();

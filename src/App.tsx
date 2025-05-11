@@ -143,9 +143,9 @@ function App() {
           </div>
         </div>
         <div className="mobile-content">
-          <ModalProvider>
-            <Routes />
-          </ModalProvider>
+          {/* <ModalProvider> */}
+          <Routes />
+          {/* </ModalProvider> */}
           <AppSplash duration={2000} />
           <Toaster
             position="top-center"

@@ -61,7 +61,6 @@ export const useDeleteBookmarkById = ({ lat, lon, eventType, gender }: OutfitPay
 
 export const useAddBookmarkById = ({ lat, lon, eventType, gender }: OutfitPayload) => {
   const queryClient = useQueryClient();
-  console.log('adddddddd');
   return useMutation({
     mutationFn: (outfit_image_id: string) => addBookmark(outfit_image_id),
 
