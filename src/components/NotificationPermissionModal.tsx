@@ -27,7 +27,7 @@ export const NotificationPermissionModal = ({
   const handleConfirm = async () => {
     try {
       setIsRequesting(true);
-      await onRequestPermission();
+      onRequestPermission();
     } catch (error) {
       console.error('권한 요청 중 오류:', error);
     } finally {
@@ -62,7 +62,7 @@ export const NotificationPermissionModal = ({
             className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50"
             disabled={isRequesting}
           >
-            {isRequesting ? '요청 중...' : '확인'}
+            {'확인'}
           </button>
         </div>
       </div>

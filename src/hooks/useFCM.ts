@@ -25,8 +25,6 @@ export const useFCM = () => {
 
         // iOS PWA에서는 FCM 토큰 요청 시도
         if (isStandalone) {
-          console.log('iOS PWA에서 FCM 토큰 요청 시도');
-          alert('iOS PWA에서 FCM 토큰 요청 시도');
           try {
             // iOS PWA에서는 Service Worker를 먼저 등록
             if ('serviceWorker' in navigator) {
@@ -43,7 +41,6 @@ export const useFCM = () => {
             if (token) {
               setToken(token);
               setFcmToken(token);
-              alert('iOS PWA FCM 토큰 저장 완료');
               console.log('iOS PWA FCM 토큰:', token);
             }
           } catch (error) {

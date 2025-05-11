@@ -51,7 +51,6 @@ const AccountForm = ({ onNext }: moveNextProps) => {
 
   const onSubmit = async (data: AccountFormResponse) => {
     if (isDuplicate) {
-      alert('이미 사용 중인 아이디입니다.');
       return;
     }
 
