@@ -20,8 +20,13 @@ export const useFCM = () => {
   useEffect(() => {
     const requestPermission = async () => {
       try {
+        // Safari 체크
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
         // iOS PWA에서는 FCM 토큰 요청 시도
         if (isStandalone) {
+          console.log('iOS PWA에서 FCM 토큰 요청 시도');
+          alert('iOS PWA에서 FCM 토큰 요청 시도');
           try {
             // iOS PWA에서는 Service Worker를 먼저 등록
             if ('serviceWorker' in navigator) {
@@ -38,6 +43,7 @@ export const useFCM = () => {
             if (token) {
               setToken(token);
               setFcmToken(token);
+              alert('iOS PWA FCM 토큰 저장 완료');
               console.log('iOS PWA FCM 토큰:', token);
             }
           } catch (error) {
@@ -51,34 +57,34 @@ export const useFCM = () => {
           return;
         }
 
-        // // Safari에서의 처리
-        // if (isSafari) {
-        //   const permission = await Notification.requestPermission();
+        // Safari에서의 처리
+        if (isSafari) {
+          const permission = await Notification.requestPermission();
 
-        //   if (permission === 'granted') {
-        //     try {
-        //       // Safari에서도 Service Worker를 먼저 등록
-        //       if ('serviceWorker' in navigator) {
-        //         const registration = await navigator.serviceWorker.register(
-        //           '/firebase-messaging-sw.js',
-        //           {
-        //             scope: '/',
-        //           }
-        //         );
-        //         console.log('Safari Service Worker registered:', registration);
-        //       }
+          if (permission === 'granted') {
+            try {
+              // Safari에서도 Service Worker를 먼저 등록
+              if ('serviceWorker' in navigator) {
+                const registration = await navigator.serviceWorker.register(
+                  '/firebase-messaging-sw.js',
+                  {
+                    scope: '/',
+                  }
+                );
+                console.log('Safari Service Worker registered:', registration);
+              }
 
-        //       const token = await getFCMToken();
-        //       setToken(token);
-        //       setFcmToken(token);
-        //     } catch (error) {
-        //       console.error('Safari FCM 토큰 요청 실패:', error);
-        //     }
-        //   } else {
-        //     console.log('Safari 알림 권한이 거부됨');
-        //   }
-        //   return;
-        // }
+              const token = await getFCMToken();
+              setToken(token);
+              setFcmToken(token);
+            } catch (error) {
+              console.error('Safari FCM 토큰 요청 실패:', error);
+            }
+          } else {
+            console.log('Safari 알림 권한이 거부됨');
+          }
+          return;
+        }
 
         // 일반 브라우저 처리
         const permission = await Notification.requestPermission();
