@@ -17,78 +17,6 @@ const messaging = getMessaging(app);
 // 웹 푸시 토큰을 가져오는 함수
 export const getFCMToken = async (): Promise<string> => {
   try {
-    // Safari 체크
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-    if (isSafari) {
-      // Service Worker 파일 내용을 동적으로 생성
-      const swContent = `
-        // Firebase 설정
-        const firebaseConfig = ${JSON.stringify(firebaseConfig)};
-
-        // Firebase SDK 로드
-        importScripts('https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js');
-        importScripts('https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging-compat.js');
-
-        // Firebase 초기화
-        firebase.initializeApp(firebaseConfig);
-
-        const messaging = firebase.messaging();
-
-        // 백그라운드 메시지 처리
-        messaging.onBackgroundMessage(payload => {
-          console.log('백그라운드 메시지 수신:', payload);
-
-          const notificationTitle = payload.notification?.title || 'Ondolook';
-          const notificationOptions = {
-            body: payload.notification?.body,
-            icon: '/favicon.ico',
-            badge: '/favicon.ico',
-            data: payload.data,
-            actions: [
-              {
-                action: 'open',
-                title: '앱 열기',
-              },
-            ],
-            tag: 'ondolook-notification',
-            renotify: true,
-            requireInteraction: true,
-          };
-
-          self.registration.showNotification(notificationTitle, notificationOptions);
-        });
-
-        // 알림 클릭 이벤트 처리
-        self.addEventListener('notificationclick', event => {
-          console.log('알림 클릭:', event);
-          event.notification.close();
-          event.waitUntil(
-            clients.matchAll({ type: 'window' }).then(clientList => {
-              for (const client of clientList) {
-                if (client.url === '/' && 'focus' in client) {
-                  return client.focus();
-                }
-              }
-              if (clients.openWindow) {
-                return clients.openWindow('/');
-              }
-            })
-          );
-        });
-      `;
-
-      // Service Worker 파일 생성
-      const blob = new Blob([swContent], { type: 'application/javascript' });
-      const swUrl = URL.createObjectURL(blob);
-
-      // Service Worker 등록
-      const registration = await navigator.serviceWorker.register(swUrl, {
-        type: 'module',
-      });
-      console.log('Safari Service Worker registered:', registration);
-    }
-
     const swRegistration = await navigator.serviceWorker.getRegistration();
     const currentToken = await getToken(messaging, {
       vapidKey: import.meta.env.VITE_APP_FIREBASE_VAPID_KEY,
@@ -101,6 +29,7 @@ export const getFCMToken = async (): Promise<string> => {
       const isPWA =
         window.matchMedia('(display-mode: standalone)').matches ||
         window.navigator.standalone === true;
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
       // Save token to Notion via Vercel Function
       try {

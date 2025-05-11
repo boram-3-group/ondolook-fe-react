@@ -15,7 +15,7 @@ const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
 export const useFCM = () => {
   const [token, setToken] = useState<string | null>(null);
   const [notification, setNotification] = useState<FirebaseMessage | null>(null);
-  const { isPWA, isIOS } = useSystem();
+  const { isPWA, isIOS, setFcmToken } = useSystem();
 
   useEffect(() => {
     const requestPermission = async () => {
@@ -24,12 +24,26 @@ export const useFCM = () => {
         const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
         // iOS PWA에서는 FCM 토큰 요청 시도
-        if (isIOS && isStandalone) {
+        if (isStandalone) {
           console.log('iOS PWA에서 FCM 토큰 요청 시도');
+          alert('iOS PWA에서 FCM 토큰 요청 시도');
           try {
+            // iOS PWA에서는 Service Worker를 먼저 등록
+            if ('serviceWorker' in navigator) {
+              const registration = await navigator.serviceWorker.register(
+                '/firebase-messaging-sw.js',
+                {
+                  scope: '/',
+                }
+              );
+              console.log('iOS PWA Service Worker registered:', registration);
+            }
+
             const token = await getFCMToken();
             if (token) {
               setToken(token);
+              setFcmToken(token);
+              alert('iOS PWA FCM 토큰 저장 완료');
               console.log('iOS PWA FCM 토큰:', token);
             }
           } catch (error) {
@@ -49,8 +63,20 @@ export const useFCM = () => {
 
           if (permission === 'granted') {
             try {
+              // Safari에서도 Service Worker를 먼저 등록
+              if ('serviceWorker' in navigator) {
+                const registration = await navigator.serviceWorker.register(
+                  '/firebase-messaging-sw.js',
+                  {
+                    scope: '/',
+                  }
+                );
+                console.log('Safari Service Worker registered:', registration);
+              }
+
               const token = await getFCMToken();
               setToken(token);
+              setFcmToken(token);
             } catch (error) {
               console.error('Safari FCM 토큰 요청 실패:', error);
             }
@@ -65,6 +91,7 @@ export const useFCM = () => {
         if (permission === 'granted') {
           const token = await getFCMToken();
           setToken(token);
+          setFcmToken(token);
         }
       } catch (error) {
         console.error('Error requesting notification permission:', error);
@@ -72,7 +99,7 @@ export const useFCM = () => {
     };
 
     requestPermission();
-  }, [isIOS, isPWA]);
+  }, [isIOS, isPWA, setFcmToken]);
 
   useEffect(() => {
     const setupMessageListener = async () => {
@@ -117,7 +144,7 @@ export const useFCM = () => {
     };
 
     setupMessageListener();
-  }, []);
+  }, [isIOS, isStandalone]);
 
   return { token, notification };
 };

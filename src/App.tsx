@@ -7,7 +7,6 @@ import PWAInstallPrompt from './components/PWAInstallPrompt';
 import { NotificationTest } from './components/NotificationTest';
 import { useEffect, useState } from 'react';
 import { NotificationPermissionModal } from './components/NotificationPermissionModal';
-import { getFCMToken } from './firebase';
 import { useSystem } from './store/useSystem';
 import { isSafari } from './core/constants';
 import { updateSafeAreaInsets } from './utils/browser';
@@ -34,28 +33,12 @@ function App() {
     setGeolocationPermission,
   } = useSystem();
 
-  const handleTokenAndSave = async () => {
-    console.log('handleTokenAndSave');
-    try {
-      const token = await getFCMToken();
-      // notion 토큰
-      console.log('token', token);
-      setFcmToken(token);
-    } catch (error) {
-      console.error('Firebase 토큰 요청 중 오류:', error);
-    }
-  };
-
   const requestNotificationPermission = async (): Promise<void> => {
     console.log('requestNotificationPermission');
     try {
       const permission = await Notification.requestPermission();
       console.log('시스템 알림 권한 요청 결과:', permission);
       setNotificationPermission(permission);
-
-      if (permission === 'granted') {
-        await handleTokenAndSave();
-      }
     } catch (error) {
       console.error('알림 권한 요청 중 오류:', error);
     }
@@ -68,7 +51,6 @@ function App() {
     if (currentPermission === 'denied' || currentPermission === 'granted') {
       if (currentPermission === 'granted') {
         console.log('✅ 시스템 알림 권한 있음');
-        await handleTokenAndSave();
       }
       return currentPermission === 'granted';
     }
