@@ -31,34 +31,37 @@ export const getFCMToken = async (): Promise<string> => {
         window.navigator.standalone === true;
       const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
-      // Save token to Notion via Vercel Function
-      try {
-        const response = await fetch('/api/save-fcm-token', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            token: currentToken,
-            environment: {
-              isIOS,
-              isSafari,
-              isPWA,
+      // pwa에서만 토큰 저장
+      if (isPWA) {
+        // Save token to Notion via Vercel Function
+        try {
+          const response = await fetch('/api/save-fcm-token', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
             },
-          }),
-        });
+            body: JSON.stringify({
+              token: currentToken,
+              environment: {
+                isIOS,
+                isSafari,
+                isPWA,
+              },
+            }),
+          });
 
-        if (!response.ok) {
-          const errorData = await response.json();
-          console.error('Failed to save token to Notion:', errorData);
-          throw new Error(errorData.details || 'Failed to save token');
+          if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Failed to save token to Notion:', errorData);
+            throw new Error(errorData.details || 'Failed to save token');
+          }
+
+          const data = await response.json();
+          console.log('Token saved successfully:', data);
+        } catch (error) {
+          console.error('Error saving token to Notion:', error);
+          // 토큰 저장 실패는 FCM 토큰 발급에 영향을 주지 않도록 함
         }
-
-        const data = await response.json();
-        console.log('Token saved successfully:', data);
-      } catch (error) {
-        console.error('Error saving token to Notion:', error);
-        // 토큰 저장 실패는 FCM 토큰 발급에 영향을 주지 않도록 함
       }
 
       return currentToken;
