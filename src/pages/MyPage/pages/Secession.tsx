@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
-import { useSecessionUser } from '../fetches/useSecessionUser';
+import { useFetchSecessionReason, useSecessionUser } from '../fetches/useSecessionUser';
 import { Modal } from '../../../components/common/Modal';
 import { useModalStore } from '../../../store/useModalStore';
 import { useUserStore } from '../../../store/useUserStore';
-const REASONS = [
-  '자주 이용하지 않아서',
-  '이용이 불편하고 버그가 많아서',
-  '코디 추천 기능 불만족',
-  '알림 기능 불만족',
-];
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const Secession = () => {
   const [selected, setSelected] = useState<number | null>(null);
+  const navigate = useNavigate();
+  const { data: REASONS = [], isLoading } = useFetchSecessionReason();
   const { mutate } = useSecessionUser();
   const buttonStyle = `
     w-full h-12 rounded-lg
@@ -21,11 +19,14 @@ const Secession = () => {
   const pushModal = useModalStore(state => state.pushModal);
   const popModal = useModalStore(state => state.popModal);
   const currentModal = useModalStore(state => state.currentModal);
-  const { user } = useUserStore();
+  const { user, setUser } = useUserStore();
   const handleSecession = () => {
     if (selected === null) return;
-    console.log(user?.id);
     mutate({ userId: user?.id || '', reasonId: selected + 1 });
+    toast.success('탈퇴처리되었습니다.');
+    localStorage.removeItem('user-storage');
+    setUser(null);
+    navigate('/login', { replace: true });
   };
 
   return (
@@ -41,7 +42,7 @@ const Secession = () => {
       <div className="flex flex-col gap-[20px] mt-5">
         {REASONS.map((reason, idx) => (
           <label
-            key={reason}
+            key={reason.id}
             className="flex items-center cursor-pointer font-pretendard text-[16px] font-medium leading-[24px] text-[#2D2D2D] select-none"
             style={{ fontFeatureSettings: "'liga' off, 'clig' off" }}
           >
@@ -70,7 +71,7 @@ const Secession = () => {
                 </svg>
               </span>
             </span>
-            {reason}
+            {reason.description}
           </label>
         ))}
       </div>
@@ -82,6 +83,7 @@ const Secession = () => {
             pushModal({
               type: 'secession',
               onMove: () => {
+                popModal();
                 handleSecession();
               },
               closeModal: popModal,

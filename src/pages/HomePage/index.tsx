@@ -191,15 +191,12 @@ export function HomePage() {
       {fileMetadata && (
         <MainCarousel
           slides={fileMetadata.map(item => (
-            <div
-              key={item.id}
-              className="relative w-full h-full flex flex-col justify-center items-center bg-white rounded-lg"
-            >
+            <div key={item.id} className="relative">
               <img
                 loading="lazy"
                 src={item.metadata.presignedUrl}
                 alt={item.metadata.presignedUrl}
-                className="w-full px-5 h-full object-contain bg-white rounded-[20px]"
+                className="w-full px-5 h-full object-contain bg-white/70 rounded-[20px]"
                 draggable={false}
               />
               <Icon

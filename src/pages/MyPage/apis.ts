@@ -13,6 +13,11 @@ export interface BookmarkItem {
   };
 }
 
+export interface SecessionReasonItem {
+  id: number;
+  description: 'string';
+}
+
 export const getBookmarks = async (): Promise<BookmarkItem[]> => {
   try {
     const { data } = await api.service.get('/api/v1/bookmark');
@@ -68,5 +73,17 @@ export const changeUserPassword = async (userId: string, newPassword: string) =>
     if (error instanceof AxiosError) {
       throw new Error('비밀번호 변경에 실패했습니다.');
     }
+  }
+};
+
+export const getSecessionReason = async (): Promise<SecessionReasonItem[]> => {
+  try {
+    const { data } = await api.service.get('/api/v1/delete-reason');
+    return data || [];
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      throw new Error('탈퇴 사유 조회에 실패했습니다.');
+    }
+    return [];
   }
 };
