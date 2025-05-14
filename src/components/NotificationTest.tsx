@@ -68,6 +68,7 @@ export const NotificationTest = () => {
               className="space-y-2"
               onSubmit={async e => {
                 e.preventDefault();
+                console.log('onSubmit');
                 if (!token) {
                   setSendStatus('FCM 토큰이 없습니다.');
                   return;
