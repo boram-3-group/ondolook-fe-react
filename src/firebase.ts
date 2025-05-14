@@ -41,6 +41,7 @@ export const onMessageListener = () =>
   new Promise(resolve => {
     onMessage(messaging, payload => {
       console.log('포그라운드 메시지 수신:', payload);
+      alert('포그라운드 메시지 수신' + JSON.stringify(payload));
       useNotificationStore.getState().setNotification(payload);
       resolve(payload);
     });
