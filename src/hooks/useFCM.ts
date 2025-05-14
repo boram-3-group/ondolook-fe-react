@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { getFcmToken, onMessageListener } from '../firebase';
 import { useSystem } from '../store/useSystem';
 
-interface FirebaseMessage {
+export interface FirebaseMessage {
   notification?: {
     title?: string;
     body?: string;
