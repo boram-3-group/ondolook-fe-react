@@ -1,9 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useFCM } from '../hooks/useFCM';
+import { api } from '../core/axios';
+import { useNotificationStore } from '../store/useNotificationStore';
 
 export const NotificationTest = () => {
-  const { token, notification } = useFCM();
+  const { token } = useFCM();
+  const notification = useNotificationStore(state => state.notification);
   const [isVisible, setIsVisible] = useState(true);
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [sendStatus, setSendStatus] = useState<string | null>(null);
 
   useEffect(() => {
     if (token) {
@@ -58,6 +64,58 @@ export const NotificationTest = () => {
                 <p className="bg-gray-100 p-2 rounded">알림이 없습니다.</p>
               )}
             </div>
+            <form
+              className="space-y-2"
+              onSubmit={async e => {
+                e.preventDefault();
+                if (!token) {
+                  setSendStatus('FCM 토큰이 없습니다.');
+                  return;
+                }
+                setSendStatus('전송 중...');
+                try {
+                  const res = await api.service.post('/api/v1/noti-test', {
+                    title,
+                    content,
+                    targetToken: token,
+                  });
+                  if (res.status === 200) {
+                    setSendStatus('알림 전송 성공!');
+                  } else {
+                    setSendStatus('알림 전송 실패');
+                  }
+                } catch {
+                  setSendStatus('에러 발생');
+                }
+              }}
+            >
+              <div>
+                <label className="block font-semibold mb-1">알림 제목</label>
+                <input
+                  className="w-full border rounded px-2 py-1"
+                  value={title}
+                  onChange={e => setTitle(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label className="block font-semibold mb-1">알림 내용</label>
+                <input
+                  className="w-full border rounded px-2 py-1"
+                  value={content}
+                  onChange={e => setContent(e.target.value)}
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors mt-2"
+                disabled={!token}
+              >
+                테스트 알림 보내기
+              </button>
+              {sendStatus && <div className="mt-2 text-sm">{sendStatus}</div>}
+            </form>
           </div>
         </div>
       )}

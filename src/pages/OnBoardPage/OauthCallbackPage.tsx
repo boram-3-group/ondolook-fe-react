@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useUserStore } from '../../store/useUserStore';
+import { getFcmToken } from '../../firebase';
+import { saveFcmToken } from '../MyPage/apis';
 
 export const OauthCallbackPage = () => {
   const [params] = useSearchParams();
@@ -19,6 +21,14 @@ export const OauthCallbackPage = () => {
           const { profile, access } = response.data;
           setUser(profile);
           setAccessToken(access);
+
+          // Get new FCM token and save to server
+          try {
+            const fcmToken = await getFcmToken();
+            await saveFcmToken(fcmToken);
+          } catch (error) {
+            console.error('FCM 토큰 저장 실패:', error);
+          }
 
           if (profile.gender && profile.birthDate && profile.nickname) {
             navigate('/home');

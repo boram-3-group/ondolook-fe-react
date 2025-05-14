@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { getFCMToken, onMessageListener } from '../firebase';
+import { getFcmToken, onMessageListener } from '../firebase';
 import { useSystem } from '../store/useSystem';
 
-interface FirebaseMessage {
+export interface FirebaseMessage {
   notification?: {
     title?: string;
     body?: string;
@@ -38,7 +38,7 @@ export const useFCM = () => {
               console.log('iOS PWA Service Worker registered:', registration);
             }
 
-            const token = await getFCMToken();
+            const token = await getFcmToken();
             if (token) {
               setToken(token);
               setFcmToken(token);
@@ -67,7 +67,7 @@ export const useFCM = () => {
                 console.log('Safari Service Worker registered:', registration);
               }
 
-              const token = await getFCMToken();
+              const token = await getFcmToken();
               setToken(token);
               setFcmToken(token);
             } catch (error) {
@@ -82,7 +82,7 @@ export const useFCM = () => {
         // 일반 브라우저 처리
         const permission = await Notification.requestPermission();
         if (permission === 'granted') {
-          const token = await getFCMToken();
+          const token = await getFcmToken();
           setToken(token);
           setFcmToken(token);
         }

@@ -180,7 +180,7 @@ function App() {
               },
             }}
           />
-          {/* <NotificationTest /> */}
+          <NotificationTest />
         </div>
         <NotificationPermissionModal
           isOpen={showNotificationModal}

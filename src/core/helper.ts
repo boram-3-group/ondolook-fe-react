@@ -85,3 +85,13 @@ export async function requestNotificationPermission(): Promise<boolean> {
 export function checkNotificationPermission(): boolean {
   return Notification.permission === 'granted';
 }
+
+const FCM_TOKEN_KEY = 'FCM_TOKEN';
+
+export function saveFcmTokenToStorage(token: string): void {
+  localStorage.setItem(FCM_TOKEN_KEY, token);
+}
+
+export function getFcmTokenFromStorage(): string | null {
+  return localStorage.getItem(FCM_TOKEN_KEY);
+}

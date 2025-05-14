@@ -18,6 +18,28 @@ export interface SecessionReasonItem {
   description: 'string';
 }
 
+export interface NotificationSettingItem {
+  hour: number;
+  minute: number;
+  dayOfWeek: string;
+  enabled: boolean;
+  latitude: number;
+  longitude: number;
+  eventTypeId: number;
+  gender: string;
+}
+
+export interface NotificationSettingDto {
+  hour: number;
+  minute: number;
+  dayOfWeek: string;
+  enabled: boolean;
+  latitude?: number;
+  longitude?: number;
+  eventTypeId?: number;
+  gender?: string;
+}
+
 export const getBookmarks = async (): Promise<BookmarkItem[]> => {
   try {
     const { data } = await api.service.get('/api/v1/bookmark');
@@ -85,5 +107,47 @@ export const getSecessionReason = async (): Promise<SecessionReasonItem[]> => {
       throw new Error('탈퇴 사유 조회에 실패했습니다.');
     }
     return [];
+  }
+};
+
+export const setNotificationSetting = async (dto: NotificationSettingDto) => {
+  try {
+    const queryParams = new URLSearchParams({
+      hour: dto.hour.toString(),
+      minute: dto.minute.toString(),
+      dayOfWeek: dto.dayOfWeek,
+      enabled: dto.enabled.toString(),
+      ...(dto.latitude && { latitude: dto.latitude.toString() }),
+      ...(dto.longitude && { longitude: dto.longitude.toString() }),
+      ...(dto.eventTypeId && { eventTypeId: dto.eventTypeId.toString() }),
+      ...(dto.gender && { gender: dto.gender }),
+    });
+
+    const res = await api.service.post(`/api/v1/notification-setting?${queryParams.toString()}`);
+    return res && res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      throw new Error('알림 설정 저장에 실패했습니다.');
+    }
+  }
+};
+
+export const deleteNotificationSetting = async () => {
+  try {
+    const res = await api.service.delete('/api/v1/notification-setting');
+    return res && res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      throw new Error('알림 설정 삭제에 실패했습니다.');
+    }
+  }
+};
+
+export const saveFcmToken = async (fcmToken: string) => {
+  try {
+    const res = await api.service.post('/api/v1/fcm-token', { fcmToken });
+    return res && res.data;
+  } catch (error) {
+    console.error('FCM 토큰 저장 실패:', error);
   }
 };

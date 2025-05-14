@@ -8,6 +8,8 @@ import { LoginFormValues } from './type';
 import { useUserStore } from '../../store/useUserStore';
 import { getUserProfile } from './apis';
 import { useState } from 'react';
+import { getFcmToken } from '../../firebase';
+import { saveFcmToken } from '../MyPage/apis';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -31,6 +33,15 @@ const LoginPage = () => {
             setUser({
               ...userInfo,
             });
+
+            // Get new FCM token and save to server
+            try {
+              const fcmToken = await getFcmToken();
+              await saveFcmToken(fcmToken);
+            } catch (error) {
+              console.error('FCM 토큰 저장 실패:', error);
+            }
+
             navigate('/home');
           } catch (err) {
             console.error('사용자 정보 요청 실패', err);

@@ -10,6 +10,10 @@ import {
   checkNotificationPermission,
 } from '../../../core/helper';
 import toast from 'react-hot-toast';
+import { useSetAlram } from '../fetches/useFetchAlram';
+import { useLocationStore } from '../../../store/useLocationStore';
+import { useUserStore } from '../../../store/useUserStore';
+import { useFetchCategory } from '../../HomePage/fetches/useFetchCategory';
 
 interface Option {
   value: string;
@@ -37,6 +41,18 @@ const AlramSettings = () => {
     minutes: '59',
     selectedSchedule: 'daily',
   });
+
+  const { mutate: setAlram } = useSetAlram();
+  const { lat, lon } = useLocationStore();
+  const user = useUserStore(state => state.user);
+  const { data: Categories } = useFetchCategory();
+
+  // eventTypeId 매핑
+  const selectCategoryData = Categories?.content.find(
+    cat => cat.categoryName.toLowerCase() === selectedSchedule.toLowerCase()
+  );
+  const eventTypeId = selectCategoryData?.id || 1;
+  const gender = user?.gender || 'MALE';
 
   useEffect(() => {
     const settings = getAlarmSettings();
@@ -122,6 +138,17 @@ const AlramSettings = () => {
     };
     saveAlarmSettings(settings);
     updateSystemStorageNotificationPermission(isAlarmEnabled);
+
+    setAlram({
+      hour: Number(hours),
+      minute: Number(minutes),
+      dayOfWeek: 'EVERYDAY',
+      enabled: isAlarmEnabled,
+      latitude: lat,
+      longitude: lon,
+      eventTypeId,
+      gender,
+    });
 
     // Update initial state after saving
     setInitialState(settings);
