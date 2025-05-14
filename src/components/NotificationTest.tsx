@@ -68,7 +68,6 @@ export const NotificationTest = () => {
               className="space-y-2"
               onSubmit={async e => {
                 e.preventDefault();
-                console.log('onSubmit');
                 if (!token) {
                   setSendStatus('FCM 토큰이 없습니다.');
                   return;
@@ -80,13 +79,15 @@ export const NotificationTest = () => {
                     content,
                     targetToken: token,
                   });
+                  console.log('res', res);
                   if (res.status === 200) {
                     setSendStatus('알림 전송 성공!');
                   } else {
                     setSendStatus('알림 전송 실패');
                   }
-                } catch {
-                  setSendStatus('에러 발생');
+                } catch (error) {
+                  console.log('error', error);
+                  setSendStatus('에러 발생' + JSON.stringify(error));
                 }
               }}
             >
