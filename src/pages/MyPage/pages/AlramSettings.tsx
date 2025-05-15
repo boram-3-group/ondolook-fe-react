@@ -14,6 +14,7 @@ import { useSetAlram } from '../fetches/useFetchAlram';
 import { useLocationStore } from '../../../store/useLocationStore';
 import { useUserStore } from '../../../store/useUserStore';
 import { useFetchCategory } from '../../HomePage/fetches/useFetchCategory';
+import { trackAlarmSetting } from '../../../utils/analytics';
 
 interface Option {
   value: string;
@@ -153,7 +154,13 @@ const AlramSettings = () => {
     // Update initial state after saving
     setInitialState(settings);
     setHasChanges(false);
+    const userId = JSON.parse(localStorage.getItem('user-storage') || '{}')?.state?.user?.id;
 
+    trackAlarmSetting({
+      userId: userId,
+      is_enabled: true,
+      set_time: String(hours) + ':' + String(minutes),
+    });
     toast.success('알림 설정이 저장되었습니다.', {
       position: 'top-center',
       duration: 2000,

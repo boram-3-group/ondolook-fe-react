@@ -17,12 +17,20 @@ import { toast } from 'react-hot-toast';
 import { useAddBookmarkById, useDeleteBookmarkById } from '../MyPage/fetches/useFetchBookmark';
 import { Modal } from '../../components/common/Modal';
 import { useModalStore } from '../../store/useModalStore';
+import { trackSelectSchedule } from '../../utils/analytics';
 
 export function HomePage() {
   const [selectCategory, setSelectCategory] = useState('데일리');
   const navigate = useNavigate();
   const onSelectChip = useCallback((Category: string) => {
     setSelectCategory(Category);
+    const userId = JSON.parse(localStorage.getItem('user-storage') || '{}')?.state?.user?.id;
+    if (userId) {
+      trackSelectSchedule({
+        userId,
+        type: Category,
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -190,6 +198,8 @@ export function HomePage() {
       </div>
       {fileMetadata && (
         <MainCarousel
+          temp={currentForecast?.temperature}
+          type={selectCategory}
           slides={fileMetadata.map(item => (
             <div key={item.id} className="relative">
               <img

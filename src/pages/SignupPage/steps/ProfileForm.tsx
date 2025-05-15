@@ -9,6 +9,7 @@ import { z } from 'zod';
 import { FormLayout } from '../../../components/common/FormLayout';
 import { useUserStore } from '../../../store/useUserStore';
 import { useSearchParams } from 'react-router-dom';
+import { trackSignUp } from '../../../utils/analytics';
 const ProfileForm = ({ onNext }: moveNextProps) => {
   const [params] = useSearchParams();
   const socialType = params.get('socialType');
@@ -80,11 +81,14 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
       loginType: socialType || 'PC',
       ...profileData,
     };
-
     if (socialType) {
       updateUserInfo(signUpData, {
         onSuccess: () => {
           setUser(signUpData);
+          trackSignUp({
+            userId: user?.id,
+            login_type: socialType,
+          });
           onNext();
         },
         onError: error => {
@@ -97,6 +101,10 @@ const ProfileForm = ({ onNext }: moveNextProps) => {
         onSuccess: () => {
           setSignupForm(data);
           setUser(signUpData);
+          trackSignUp({
+            userId: user?.id,
+            login_type: 'form',
+          });
           onNext();
         },
         onError: error => {

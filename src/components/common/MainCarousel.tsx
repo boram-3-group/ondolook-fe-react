@@ -4,12 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { Modal } from './Modal';
 import { useModalStore } from '../../store/useModalStore';
+import { trackViewCoordi } from '../../utils/analytics';
 
 type MainCarouselProps = {
   slides: React.ReactNode[];
+  temp: number | undefined;
+  type: string;
 };
-
-const MainCarousel = ({ slides }: MainCarouselProps) => {
+const MainCarousel = ({ slides, temp, type }: MainCarouselProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(0);
   const [current, setCurrent] = useState(0);
@@ -36,6 +38,12 @@ const MainCarousel = ({ slides }: MainCarouselProps) => {
 
   const goTo = (index: number) => {
     const clamped = Math.max(0, Math.min(index, slides.length - 1));
+    const userId = JSON.parse(localStorage.getItem('user-storage') || '{}')?.state?.user?.id;
+    trackViewCoordi({
+      userId,
+      type: type,
+      temp: temp,
+    });
     if (clamped > current && !isAuth()) {
       pushModal({
         type: 'carousel',

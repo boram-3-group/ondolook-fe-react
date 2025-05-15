@@ -15,6 +15,7 @@ import { toast, Toaster } from 'react-hot-toast';
 import ModalProvider from './core/modalProvider';
 import { modalManager } from './core/modal.tsx';
 import { useFCM } from './hooks/useFCM';
+import { initGA } from './utils/analytics.ts';
 
 function App() {
   const queryClient = new QueryClient();
@@ -114,6 +115,7 @@ function App() {
   };
 
   useEffect(() => {
+    initGA();
     setTimeout(async () => {
       const isLoggedIn = await checkLogin();
       if (!isLoggedIn) {
