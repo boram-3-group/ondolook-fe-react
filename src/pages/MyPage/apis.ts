@@ -112,18 +112,18 @@ export const getSecessionReason = async (): Promise<SecessionReasonItem[]> => {
 
 export const setNotificationSetting = async (dto: NotificationSettingDto) => {
   try {
-    const queryParams = new URLSearchParams({
-      hour: dto.hour.toString(),
-      minute: dto.minute.toString(),
+    const body = {
+      hour: dto.hour,
+      minute: dto.minute,
       dayOfWeek: dto.dayOfWeek,
-      enabled: dto.enabled.toString(),
-      ...(dto.latitude && { latitude: dto.latitude.toString() }),
-      ...(dto.longitude && { longitude: dto.longitude.toString() }),
-      ...(dto.eventTypeId && { eventTypeId: dto.eventTypeId.toString() }),
+      enabled: dto.enabled,
+      ...(dto.latitude && { latitude: dto.latitude }),
+      ...(dto.longitude && { longitude: dto.longitude }),
+      ...(dto.eventTypeId && { eventTypeId: dto.eventTypeId }),
       ...(dto.gender && { gender: dto.gender }),
-    });
+    };
 
-    const res = await api.service.post(`/api/v1/notification-setting?${queryParams.toString()}`);
+    const res = await api.service.post(`/api/v1/notification-setting`, body);
     return res && res.data;
   } catch (error) {
     if (error instanceof AxiosError) {

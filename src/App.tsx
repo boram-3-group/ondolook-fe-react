@@ -16,6 +16,7 @@ import ModalProvider from './core/modalProvider';
 import { modalManager } from './core/modal.tsx';
 import { useFCM } from './hooks/useFCM';
 import { initGA } from './utils/analytics.ts';
+import { AlarmPopup } from './components/common/AlarmPopup.tsx';
 
 function App() {
   const queryClient = new QueryClient();
@@ -182,7 +183,8 @@ function App() {
               },
             }}
           />
-          <NotificationTest />
+          {/* <NotificationTest /> */}
+          <AlarmPopup />
         </div>
         <NotificationPermissionModal
           isOpen={showNotificationModal}

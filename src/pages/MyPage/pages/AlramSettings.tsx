@@ -22,17 +22,17 @@ interface Option {
 }
 
 const scheduleOptions: Option[] = [
-  { value: 'daily', label: '데일리' },
-  { value: 'business', label: '비즈니스' },
-  { value: 'date', label: '데이트' },
-  { value: 'activity', label: '엑티비티' },
+  { value: '2', label: '데일리' },
+  { value: '1', label: '비즈니스' },
+  { value: '4', label: '데이트' },
+  { value: '3', label: '액티비티' },
 ];
 
 const AlramSettings = () => {
   const [isAlarmEnabled, setIsAlarmEnabled] = useState<boolean>(false);
   const [hours, setHours] = useState<string>('23');
   const [minutes, setMinutes] = useState<string>('59');
-  const [selectedSchedule, setSelectedSchedule] = useState<string>('daily');
+  const [selectedSchedule, setSelectedSchedule] = useState<string>('2');
   const [hasChanges, setHasChanges] = useState<boolean>(false);
 
   // Add initial state tracking
@@ -40,7 +40,7 @@ const AlramSettings = () => {
     isAlarmEnabled: false,
     hours: '23',
     minutes: '59',
-    selectedSchedule: 'daily',
+    selectedSchedule: '2',
   });
 
   const { mutate: setAlram } = useSetAlram();
@@ -50,7 +50,7 @@ const AlramSettings = () => {
 
   // eventTypeId 매핑
   const selectCategoryData = Categories?.content.find(
-    cat => cat.categoryName.toLowerCase() === selectedSchedule.toLowerCase()
+    cat => cat.id.toString() === selectedSchedule
   );
   const eventTypeId = selectCategoryData?.id || 1;
   const gender = user?.gender || 'MALE';
