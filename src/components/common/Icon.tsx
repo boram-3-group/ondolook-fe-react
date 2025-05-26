@@ -15,6 +15,7 @@ import icon_google_logo from '../../assets/icons/icon-google-logo.svg';
 import icon_kakao_logo from '../../assets/icons/icon-kakao-logo.svg';
 import settings from '../../assets/icons/settings.svg';
 import location from '../../assets/icons/location.svg';
+import location_gray from '../../assets/icons/location-gray.svg';
 import home from '../../assets/icons/home.svg';
 import mypage from '../../assets/icons/mypage.svg';
 import blue_check from '../../assets/icons/blue-check.svg';
@@ -26,6 +27,7 @@ import air from '../../assets/icons/air.svg';
 import rainfall from '../../assets/icons/rainfall.svg';
 import uv from '../../assets/icons/uv.svg';
 import calendar from '../../assets/icons/calendar.svg';
+import waterdrop from '../../assets/icons/waterdrop.svg';
 
 import bit_cloudy_lightning from '../../assets/icons/bit-cloudy-lightning.png';
 import bit_cloudy_moon from '../../assets/icons/bit-cloudy-moon.png';
@@ -66,6 +68,7 @@ type IconName =
   | 'icon-kakao-logo'
   | 'settings'
   | 'location'
+  | 'location-gray'
   | 'home'
   | 'mypage'
   | 'mypage-selected'
@@ -76,6 +79,7 @@ type IconName =
   | 'max-temparrow'
   | 'air'
   | 'rainfall'
+  | 'waterdrop'
   | 'uv'
   | 'calendar'
   | 'bit-cloudy-lightning'
@@ -116,6 +120,7 @@ const iconMap: Record<IconName, any> = {
   'icon-kakao-logo': icon_kakao_logo,
   settings: settings,
   location: location,
+  'location-gray': location_gray,
   home: home,
   mypage: mypage,
   'blue-check': blue_check,
@@ -125,6 +130,7 @@ const iconMap: Record<IconName, any> = {
   'max-temparrow': max_temparrow,
   air: air,
   rainfall: rainfall,
+  waterdrop: waterdrop,
   uv: uv,
   calendar: calendar,
   'bit-cloudy-lightning': bit_cloudy_lightning,

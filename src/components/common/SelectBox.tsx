@@ -19,7 +19,7 @@ const SelectBox: React.FC<SelectBoxProps> = ({ value, onChange, options }) => {
     setIsOpen(false);
   };
 
-  const selectedOption = options.find(option => option.value === value);
+  const selectedOption = options.find(option => option.value === value) ?? options[0];
 
   return (
     <div className="relative">

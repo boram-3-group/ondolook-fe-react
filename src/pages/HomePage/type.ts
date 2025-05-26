@@ -60,6 +60,7 @@ export interface WeatherPayload {
 }
 
 export interface Forecast {
+  date: string;
   time: string;
   temperature: number;
   sky: number;

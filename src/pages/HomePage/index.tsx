@@ -162,7 +162,7 @@ export function HomePage() {
         />
       </div>
       <div className="mx-5">
-        <div className="mb-[20px]">
+        <div className="mb-[20px]" onClick={() => navigate('/weather')}>
           {WeatherData && currentForecast && maxTodayTemp && minTodayTemp && (
             <WeatherBox
               forecast={currentForecast}
